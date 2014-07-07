@@ -1,0 +1,60 @@
+/* ****************************************************************************
+ *
+ * Copyright (c) Microsoft Corporation. 
+ *
+ * This source code is subject to terms and conditions of the Microsoft Public License. A 
+ * copy of the license can be found in the License.html file at the root of this distribution. If 
+ * you cannot locate the  Microsoft Public License, please send an email to 
+ * dlr@microsoft.com. By using this source code in any fashion, you are agreeing to be bound 
+ * by the terms of the Microsoft Public License.
+ *
+ * You must not remove this notice, or any other, from this software.
+ *
+ *
+ * ***************************************************************************/
+
+using System;
+using System.Linq.Expressions;
+using System.Runtime.InteropServices;
+
+namespace Microsoft.Scripting.ComInterop
+{
+	class UnknownArgBuilder : SimpleArgBuilder
+	{
+		readonly bool _isWrapper;
+
+		internal UnknownArgBuilder(Type parameterType) : base(parameterType) { _isWrapper = parameterType == typeof(UnknownWrapper); }
+
+		internal override Expression Marshal(Expression parameter)
+		{
+			parameter = base.Marshal(parameter);
+			// parameter.WrappedObject
+			if (_isWrapper)
+				parameter = Expression.Property(Ast.Utils.Convert(parameter, typeof(UnknownWrapper)), typeof(UnknownWrapper).GetProperty("WrappedObject"));
+			return Ast.Utils.Convert(parameter, typeof(object));
+		}
+
+		internal override Expression MarshalToRef(Expression parameter)
+		{
+			parameter = Marshal(parameter);
+			// parameter == null ? IntPtr.Zero : Marshal.GetIUnknownForObject(parameter);
+			return Expression.Condition(Expression.Equal(parameter, Expression.Constant(null)),
+				Expression.Constant(IntPtr.Zero),
+				Expression.Call(new Func<object, IntPtr>(System.Runtime.InteropServices.Marshal.GetIUnknownForObject).Method, parameter)
+			);
+		}
+
+		internal override Expression UnmarshalFromRef(Expression value)
+		{
+			// value == IntPtr.Zero ? null : Marshal.GetObjectForIUnknown(value);
+			Expression unmarshal = Expression.Condition(
+				Expression.Equal(value, Expression.Constant(IntPtr.Zero)),
+				Expression.Constant(null),
+				Expression.Call(new Func<IntPtr, object>(System.Runtime.InteropServices.Marshal.GetObjectForIUnknown).Method, value)
+			);
+			if (_isWrapper)
+				unmarshal = Expression.New(typeof(UnknownWrapper).GetConstructor(new[] { typeof(object) }), unmarshal);
+			return base.UnmarshalFromRef(unmarshal);
+		}
+	}
+}

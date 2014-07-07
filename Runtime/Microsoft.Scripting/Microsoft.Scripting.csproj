@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{02FF0909-F5AD-48CF-A86A-345E721B7E40}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Scripting</RootNamespace>
+    <AssemblyName>Microsoft.Scripting</AssemblyName>
+    <DocumentationFile>$(OutputPath)\Microsoft.Dynamic.xml</DocumentationFile>
+    <WarningsNotAsErrors>1685,649</WarningsNotAsErrors>
+    <NoWarn>1591</NoWarn>
+    <AssemblyOriginatorKeyFile>$(SolutionDir)Runtime\MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly Condition="'$(SignAssembly)' == '' And Exists('$(AssemblyOriginatorKeyFile)')">true</SignAssembly>
+    <SignedSym Condition="'$(SignAssembly)' == 'true'">SIGNED</SignedSym>
+    <DelaySign>true</DelaySign>
+    <BaseAddress>857735168</BaseAddress>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <Silverlight3Path>$(ProgramFiles)\Microsoft Silverlight\3.0.50106.0</Silverlight3Path>
+    <Silverlight4Path>..\..\Utilities\Silverlight\v4-x86fre</Silverlight4Path>
+    <!-- The following two lines prevent csc.rsp and Microsoft.NETFramework.props from adding additional assembly references -->
+    <NoConfig>true</NoConfig>
+    <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Bin\Debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DefineConstants>DEBUG;TRACE;CLR4;$(SignedSym)</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Bin\Release\</OutputPath>
+    <DocumentationFile>..\..\Bin\Release\Microsoft.Scripting.xml</DocumentationFile>
+    <DefineConstants>TRACE;CLR4;$(SignedSym)</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Hosts\Silverlight\SilverlightVersion.cs" Condition=" '$(SilverlightBuild)' == 'true' ">
+      <Link>Properties\SilverlightVersion.cs</Link>
+    </Compile>
+    <Compile Include="ArgumentTypeException.cs" />
+    <Compile Include="Hosting\DocumentationOperations.cs" />
+    <Compile Include="Hosting\MemberDoc.cs" />
+    <Compile Include="Hosting\MemberKind.cs" />
+    <Compile Include="Hosting\OverloadDoc.cs" />
+    <Compile Include="Hosting\ParameterDoc.cs" />
+    <Compile Include="Hosting\ParameterFlags.cs" />
+    <Compile Include="Runtime\DocumentationProvider.cs" />
+    <Compile Include="Runtime\DynamicStackFrame.cs" />
+    <Compile Include="CompilerOptions.cs" />
+    <Compile Include="ErrorSink.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Hosting\CompiledCode.cs" />
+    <Compile Include="Hosting\Configuration\LanguageElement.cs" />
+    <Compile Include="Hosting\Configuration\LanguageElementCollection.cs" />
+    <Compile Include="Hosting\Configuration\OptionElement.cs" />
+    <Compile Include="Hosting\Configuration\OptionElementCollection.cs" />
+    <Compile Include="Hosting\Configuration\Section.cs" />
+    <Compile Include="Hosting\ErrorListener.cs" />
+    <Compile Include="Hosting\ErrorListenerProxy.cs" />
+    <Compile Include="Hosting\ErrorSinkProxyListener.cs" />
+    <Compile Include="Hosting\ExceptionOperations.cs" />
+    <Compile Include="Hosting\LanguageSetup.cs" />
+    <Compile Include="Hosting\ObjectOperations.cs" />
+    <Compile Include="IAttributesCollection.cs" />
+    <Compile Include="InvalidImplementationException.cs" />
+    <Compile Include="LanguageOptions.cs" />
+    <Compile Include="PlatformAdaptationLayer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Hosting\Providers\HostingHelpers.cs" />
+    <Compile Include="Hosting\ScriptEngine.cs" />
+    <Compile Include="Hosting\ScriptHost.cs" />
+    <Compile Include="Hosting\ScriptHostProxy.cs" />
+    <Compile Include="Hosting\ScriptIO.cs" />
+    <Compile Include="Hosting\ScriptRuntime.cs" />
+    <Compile Include="Hosting\ScriptRuntimeSetup.cs" />
+    <Compile Include="Hosting\ScriptScope.cs" />
+    <Compile Include="Hosting\ScriptSource.cs" />
+    <Compile Include="Hosting\TokenCategorizer.cs" />
+    <Compile Include="Runtime\ContextId.cs" />
+    <Compile Include="Runtime\DlrConfiguration.cs" />
+    <Compile Include="Runtime\DynamicOperations.cs" />
+    <Compile Include="Runtime\DynamicRuntimeHostingProvider.cs" />
+    <Compile Include="Runtime\InvariantContext.cs" />
+    <Compile Include="Runtime\LanguageBoundTextContentProvider.cs" />
+    <Compile Include="Runtime\LanguageContext.cs" />
+    <Compile Include="Runtime\NotNullAttribute.cs" />
+    <Compile Include="ParamDictionaryAttribute.cs" />
+    <Compile Include="Runtime\ParserSink.cs" />
+    <Compile Include="Runtime\Scope.cs" />
+    <Compile Include="Runtime\ScopeExtension.cs" />
+    <Compile Include="ScopeStorage.cs" />
+    <Compile Include="ScriptCode.cs" />
+    <Compile Include="Runtime\ScriptDomainManager.cs" />
+    <Compile Include="Runtime\SharedIO.cs" />
+    <Compile Include="SourceStringContentProvider.cs" />
+    <Compile Include="StreamContentProvider.cs" />
+    <Compile Include="TokenInfo.cs" />
+    <Compile Include="Runtime\TokenizerService.cs" />
+    <Compile Include="TokenTriggers.cs" />
+    <Compile Include="ScriptCodeParseResult.cs" />
+    <Compile Include="Severity.cs" />
+    <Compile Include="SourceCodeKind.cs" />
+    <Compile Include="SourceCodeReader.cs" />
+    <Compile Include="SourceFileContentProvider.cs" />
+    <Compile Include="SourceLocation.cs" />
+    <Compile Include="SourceSpan.cs" />
+    <Compile Include="SourceUnit.cs" />
+    <Compile Include="SpecSharp.cs" />
+    <Compile Include="SymbolId.cs" />
+    <Compile Include="SymbolTable.cs" />
+    <Compile Include="SyntaxErrorException.cs" />
+    <Compile Include="TextContentProvider.cs" />
+    <Compile Include="TokenCategory.cs" />
+    <Compile Include="Utils\ArrayUtils.cs" />
+    <Compile Include="Utils\AssemblyQualifiedTypeName.cs" />
+    <Compile Include="Utils\Assert.cs" />
+    <Compile Include="Utils\ConsoleInputStream.cs" />
+    <Compile Include="Utils\ConsoleStreamType.cs" />
+    <Compile Include="Utils\ContractUtils.cs" />
+    <Compile Include="Utils\ExceptionFactory.Generated.cs" />
+    <Compile Include="Utils\ExceptionUtils.cs" />
+    <Compile Include="Utils\ExpressionUtils.cs" />
+    <Compile Include="Utils\NativeMethods.cs" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(SilverlightBuild)' != 'true' ">
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" Condition=" '$(SilverlightTreeBuild)' != 'true' " />
+</Project>
