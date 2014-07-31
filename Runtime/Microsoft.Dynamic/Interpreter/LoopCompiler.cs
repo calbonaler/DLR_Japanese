@@ -243,11 +243,11 @@ namespace Microsoft.Scripting.Interpreter
 			ParameterExpression box;
 			LoopVariable existing;
 			LocalVariable loc;
-			if (_loopLocals.Contains(node))
+			if (_loopLocals != null && _loopLocals.Contains(node))
 				return node; // local to the loop - not propagated in or out
 			else if (_loopVariables.TryGetValue(node, out existing))
 				_loopVariables[node] = new LoopVariable(existing.Access | access, box = existing.BoxStorage); // existing outer variable that we are already tracking
-			else if (_outerVariables.TryGetValue(node, out loc) || (_closureVariables != null && _closureVariables.TryGetValue(node, out loc)))
+			else if (_outerVariables != null && _outerVariables.TryGetValue(node, out loc) || (_closureVariables != null && _closureVariables.TryGetValue(node, out loc)))
 				// not tracking this variable yet, but defined in outer scope and seen for the 1st time
 				_loopVariables[node] = new LoopVariable(access, box = loc.InClosureOrBoxed ? Expression.Parameter(typeof(StrongBox<object>), node.Name) : null);
 			else

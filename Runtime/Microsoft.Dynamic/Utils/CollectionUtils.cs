@@ -30,7 +30,7 @@ namespace Microsoft.Scripting.Utils
 		/// </summary>
 		/// <param name="enumerable">読み取り専用のコレクションに変換するシーケンスを指定します。</param>
 		/// <returns>変更されない読み取り専用のコレクション。</returns>
-		internal static ReadOnlyCollection<T> ToReadOnly<T>(this IEnumerable<T> enumerable)
+		public static ReadOnlyCollection<T> ToReadOnly<T>(this IEnumerable<T> enumerable)
 		{
 			var roCollection = enumerable as ReadOnlyCollection<T>;
 			if (roCollection != null)
