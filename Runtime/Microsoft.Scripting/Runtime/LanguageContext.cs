@@ -83,7 +83,7 @@ namespace Microsoft.Scripting.Runtime
 		/// <param name="name">値を格納する変数の名前を指定します。</param>
 		/// <param name="value">変数に格納する値を指定します。</param>
 		/// <remarks>
-		/// 既定ではこのメソッドはかなり低速な <see cref="Microsoft.Scripting.Hosting.ObjectOperations"/> を利用します。.
+		/// 既定ではこのメソッドはかなり低速な <see cref="Microsoft.Scripting.Hosting.ObjectOperations"/> を利用します。
 		/// 言語は <see cref="Microsoft.Scripting.Hosting.ObjectOperations"/> を避け高速にするために、このメソッドをオーバーライドできます。
 		/// 言語は言語で共通に使用されているスコープ型への高速なアクセスを提供できます。
 		/// 通常このメソッドは言語自体がスコープの実装として利用している <see cref="ScopeStorage"/> や他の型も含みます。
@@ -95,7 +95,7 @@ namespace Microsoft.Scripting.Runtime
 		/// <param name="name">値を取得する変数の名前を指定します。</param>
 		/// <param name="value">取得した値を格納する変数を指定します。</param>
 		/// <remarks>
-		/// 既定ではこのメソッドはかなり低速な <see cref="Microsoft.Scripting.Hosting.ObjectOperations"/> を利用します。.
+		/// 既定ではこのメソッドはかなり低速な <see cref="Microsoft.Scripting.Hosting.ObjectOperations"/> を利用します。
 		/// 言語は <see cref="Microsoft.Scripting.Hosting.ObjectOperations"/> を避け高速にするために、このメソッドをオーバーライドできます。
 		/// 言語は言語で共通に使用されているスコープ型への高速なアクセスを提供できます。
 		/// 通常このメソッドは言語自体がスコープの実装として利用している <see cref="ScopeStorage"/> や他の型も含みます。
@@ -106,7 +106,7 @@ namespace Microsoft.Scripting.Runtime
 		/// <param name="scope">変数を格納しているスコープを指定します。</param>
 		/// <param name="name">値を取得する変数の名前を指定します。</param>
 		/// <remarks>
-		/// 既定ではこのメソッドはかなり低速な <see cref="Microsoft.Scripting.Hosting.ObjectOperations"/> を利用します。.
+		/// 既定ではこのメソッドはかなり低速な <see cref="Microsoft.Scripting.Hosting.ObjectOperations"/> を利用します。
 		/// 言語は <see cref="Microsoft.Scripting.Hosting.ObjectOperations"/> を避け高速にするために、このメソッドをオーバーライドできます。
 		/// 言語は言語で共通に使用されているスコープ型への高速なアクセスを提供できます。
 		/// 通常このメソッドは言語自体がスコープの実装として利用している <see cref="ScopeStorage"/> や他の型も含みます。
@@ -117,7 +117,7 @@ namespace Microsoft.Scripting.Runtime
 		/// <param name="scope">変数を格納しているスコープを指定します。</param>
 		/// <param name="name">値を取得する変数の名前を指定します。</param>
 		/// <remarks>
-		/// 既定ではこのメソッドはかなり低速な <see cref="Microsoft.Scripting.Hosting.ObjectOperations"/> を利用します。.
+		/// 既定ではこのメソッドはかなり低速な <see cref="Microsoft.Scripting.Hosting.ObjectOperations"/> を利用します。
 		/// 言語は <see cref="Microsoft.Scripting.Hosting.ObjectOperations"/> を避け高速にするために、このメソッドをオーバーライドできます。
 		/// 言語は言語で共通に使用されているスコープ型への高速なアクセスを提供できます。
 		/// 通常このメソッドは言語自体がスコープの実装として利用している <see cref="ScopeStorage"/> や他の型も含みます。

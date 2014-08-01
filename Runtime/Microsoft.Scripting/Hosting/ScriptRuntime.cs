@@ -293,7 +293,7 @@ namespace Microsoft.Scripting.Hosting
 
 		/// <summary>
 		/// グローバルオブジェクトまたは <see cref="Microsoft.Scripting.Hosting.ScriptScope"/>
-		/// としての <see cref="Microsoft.Scripting.Hosting.ScriptRuntime"/> の名前束縛を取得または設定します。
+		/// としての <see cref="Microsoft.Scripting.Hosting.ScriptRuntime"/> の名前束縛を取得します。
 		/// </summary>
 		public ScriptScope Globals
 		{
@@ -307,15 +307,6 @@ namespace Microsoft.Scripting.Hosting
 						// make sure no one has changed the globals behind our back
 						_globals = new ScriptScope(InvariantEngine, _scopeGlobals = Manager.Globals); // TODO: Should get LC from Scope when it's there
 					return _globals;
-				}
-			}
-			set
-			{
-				ContractUtils.RequiresNotNull(value, "value");
-				lock (_lock)
-				{
-					_globals = value;
-					Manager.Globals = value.Scope;
 				}
 			}
 		}

@@ -129,7 +129,7 @@ namespace Microsoft.Scripting.Runtime
 		#endregion
 
 		/// <summary>環境変数のコレクションを取得します。</summary>
-		public Scope Globals { get; set; }
+		public Scope Globals { get; private set; }
 
 		/// <summary>ホストが <see cref="LoadAssembly"/> を呼び出したときに発生します。</summary>
 		public event AssemblyLoadEventHandler AssemblyLoad;
