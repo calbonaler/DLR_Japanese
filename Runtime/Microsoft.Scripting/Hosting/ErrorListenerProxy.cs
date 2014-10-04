@@ -49,5 +49,23 @@ namespace Microsoft.Scripting.Hosting
 			else if (severity == Severity.FatalError || severity == Severity.Error)
 				throw new SyntaxErrorException(message, sourceUnit, span, errorCode, severity);
 		}
+
+		/// <summary>
+		/// この <see cref="Microsoft.Scripting.ErrorSink"/> オブジェクトにエラーを追加します。
+		/// このオーバーロードは <see cref="Microsoft.Scripting.SourceUnit"/> オブジェクトが使用できない場合に呼び出されます。</summary>
+		/// <param name="message">エラーに対するメッセージを指定します。</param>
+		/// <param name="path">エラーが発生したソースコードのパスを指定します。</param>
+		/// <param name="code">エラーが発生したソースコードを指定します。</param>
+		/// <param name="line">エラーが発生した行を指定します。</param>
+		/// <param name="span">エラーが発生したソースコード上の場所を示す <see cref="Microsoft.Scripting.SourceSpan"/> を指定します。</param>
+		/// <param name="errorCode">エラーコードを表す数値を指定します。</param>
+		/// <param name="severity">エラーの深刻さを示す値を指定します。</param>
+		public override void Add(string message, string path, string code, string line, SourceSpan span, int errorCode, Severity severity)
+		{
+			if (_listener != null)
+				_listener.ErrorReported(_source, message, span, errorCode, severity);
+			else if (severity == Severity.FatalError || severity == Severity.Error)
+				throw new SyntaxErrorException(message, path, code, line, span, errorCode, severity);
+		}
 	}
 }
