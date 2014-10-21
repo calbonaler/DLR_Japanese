@@ -362,7 +362,7 @@ namespace Microsoft.Scripting.Actions
 					args[2] = new DynamicMetaObject(Ast.Assign(arg2, args[2].Expression), args[2].Restrictions);
 				}
 				var restrictions = BindingRestrictions.Combine(args);
-				var resolver = resolverFactory.CreateOverloadResolver(args, new CallSignature(args.Length), CallTypes.ImplicitInstance);
+				var resolver = resolverFactory.CreateOverloadResolver(args, new CallSignature(args.Length), CallTypes.None);
 				var target = resolver.ResolveOverload(oper == IndexType.Get ? "get_Item" : "set_Item", defaults, NarrowingLevel.None, NarrowingLevel.All);
 				if (target.Success)
 					return oper == IndexType.Get ?
