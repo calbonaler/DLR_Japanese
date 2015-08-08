@@ -14,7 +14,6 @@
  * ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Dynamic;
 using System.Linq;
@@ -32,7 +31,6 @@ namespace Microsoft.Scripting.Actions
 
 	public partial class DefaultBinder : ActionBinder
 	{
-		// TODO: Rename Call to Invoke, obsolete Call
 		// TODO: Invoke overloads should also take CallInfo objects to simplify use for languages which don't need CallSignature features.
 
 		/// <summary>指定された <see cref="DynamicMetaObject"/> に対する呼び出しを実行する既定のバインディングを提供します。</summary>
@@ -62,99 +60,96 @@ namespace Microsoft.Scripting.Actions
 			ContractUtils.RequiresNotNullItems(args, "args");
 			ContractUtils.RequiresNotNull(resolverFactory, "resolverFactory");
 			ContractUtils.Requires(target.HasValue, "target", "target is needed to have value");
-			var targetInfo = TryGetDelegateTargets(target, args, target.Value as Delegate) ??
-				TryGetMemberGroupTargets(target, args, target.Value as MemberGroup) ??
-				TryGetMethodGroupTargets(target, args, target.Value as MethodGroup) ??
-				TryGetBoundMemberTargets(target, args, target.Value as BoundMemberTracker) ??
-				TryGetOperatorTargets(target, args, target.Value);
-			if (targetInfo != null)
-			{
-				// we're calling a well-known MethodBase
-				var res = CallMethod(
-					resolverFactory.CreateOverloadResolver(
-						targetInfo.Instance != null ? ArrayUtils.Insert(targetInfo.Instance, targetInfo.Arguments) : targetInfo.Arguments,
-						signature,
-						targetInfo.Instance != null ? CallTypes.ImplicitInstance : CallTypes.None
-					),
-					targetInfo.Targets,
-					targetInfo.Instance != null ?
-						targetInfo.Instance.Restrictions.Merge(BindingRestrictions.Combine(targetInfo.Arguments).Merge(targetInfo.Restrictions)) :
-						BindingRestrictions.Combine(targetInfo.Arguments).Merge(targetInfo.Restrictions)
-				);
-				if (res.Expression.Type.IsValueType)
-					res = new DynamicMetaObject(AstUtils.Convert(res.Expression, typeof(object)), res.Restrictions);
-				return res;
-			}
-			else
+			var targetInfo = TryGetDelegateTargets(target, args) ??
+				TryGetMemberGroupTargets(target, args) ??
+				TryGetMethodGroupTargets(target, args) ??
+				TryGetBoundMemberTargets(target, args) ??
+				TryGetOperatorTargets(target, args);
+			if (targetInfo == null)
 				return errorSuggestion ?? MakeCannotCallRule(target, target.GetLimitType()); // we can't call this object
+			// we're calling a well-known MethodBase
+			var res = CallMethod(
+				resolverFactory.CreateOverloadResolver(targetInfo.Arguments, signature, targetInfo.CallType),
+				targetInfo.Targets,
+				targetInfo.Restrictions
+			);
+			if (res.Expression.Type.IsValueType)
+				res = new DynamicMetaObject(AstUtils.Convert(res.Expression, typeof(object)), res.Restrictions);
+			return res;
 		}
 
 		#region Target acquisition
 
 		/// <summary>メソッドグループ内のメソッドに束縛します。</summary>
-		static TargetInfo TryGetMethodGroupTargets(DynamicMetaObject target, DynamicMetaObject[] args, MethodGroup mthgrp)
+		static TargetInfo TryGetMethodGroupTargets(DynamicMetaObject target, DynamicMetaObject[] args)
 		{
-			return mthgrp != null ? new TargetInfo(null, ArrayUtils.Insert(target, args), BindingRestrictions.GetInstanceRestriction(target.Expression, mthgrp), mthgrp.Methods.Select(x => x.Method).ToArray()) : null;
+			var mg = target.Value as MethodGroup;
+			if (mg == null)
+				return null;
+			return new TargetInfo(null, args, BindingRestrictions.GetInstanceRestriction(target.Expression, mg), mg.GetMethodBases());
 		}
 
 		/// <summary>メンバグループ内のメソッドに束縛します。</summary>
-		static TargetInfo TryGetMemberGroupTargets(DynamicMetaObject target, DynamicMetaObject[] args, MemberGroup mg)
+		static TargetInfo TryGetMemberGroupTargets(DynamicMetaObject target, DynamicMetaObject[] args)
 		{
-			return mg != null ? new TargetInfo(null, ArrayUtils.Insert(target, args), mg.Where(x => x.MemberType == TrackerTypes.Method).Select(x => ((MethodTracker)x).Method).ToArray()) : null;
+			var mg = target.Value as MemberGroup;
+			if (mg == null)
+				return null;
+			return new TargetInfo(null, args, BindingRestrictions.GetInstanceRestriction(target.Expression, mg), mg.Where(x => x.MemberType == TrackerTypes.Method).Select(x => ((MethodTracker)x).Method).ToArray());
 		}
 
 		/// <summary>トラッカー内のインスタンスを使用して、オブジェクトインスタンスの型に基づいて制約することで、<see cref="BoundMemberTracker"/> に束縛します。</summary>
-		TargetInfo TryGetBoundMemberTargets(DynamicMetaObject self, DynamicMetaObject[] args, BoundMemberTracker bmt)
+		static TargetInfo TryGetBoundMemberTargets(DynamicMetaObject target, DynamicMetaObject[] args)
 		{
-			if (bmt != null)
-			{
-				Debug.Assert(bmt.Instance == null); // ユーザーコードに漏れたトラッカーに対しては null にする
-				// インスタンスは BoundMemberTracker から取り出され、適切な型に制約されます。
-				var instance = new DynamicMetaObject(
-					AstUtils.Convert(
-						Ast.Property(
-							Ast.Convert(self.Expression, typeof(BoundMemberTracker)),
-							typeof(BoundMemberTracker).GetProperty("ObjectInstance")
-						),
-						bmt.BoundTo.DeclaringType
+			var bmt = target.Value as BoundMemberTracker;
+			if (bmt == null)
+				return null;
+			Debug.Assert(bmt.Instance == null); // ユーザーコードに漏れたトラッカーに対しては null にする
+			// インスタンスは BoundMemberTracker から取り出され、適切な型に制約されます。
+			var instance = new DynamicMetaObject(
+				AstUtils.Convert(
+					Ast.Property(
+						Ast.Convert(target.Expression, typeof(BoundMemberTracker)),
+						typeof(BoundMemberTracker).GetProperty("ObjectInstance")
 					),
-					self.Restrictions
-				).Restrict(CompilerHelpers.GetType(bmt.ObjectInstance));
-				// 同じ BoundMemberTracker に対して実行することを保証するため、制約も追加する。
-				var restrictions = BindingRestrictions.GetExpressionRestriction(
-					Ast.Equal(
-						Ast.Property(
-							Ast.Convert(self.Expression, typeof(BoundMemberTracker)),
-							typeof(BoundMemberTracker).GetProperty("BoundTo")
-						),
-						AstUtils.Constant(bmt.BoundTo)
-					)
-				);
-				MethodBase[] targets;
-				switch (bmt.BoundTo.MemberType)
-				{
-					case TrackerTypes.MethodGroup:
-						targets = ((MethodGroup)bmt.BoundTo).GetMethodBases();
-						break;
-					case TrackerTypes.Method:
-						targets = new MethodBase[] { ((MethodTracker)bmt.BoundTo).Method };
-						break;
-					default:
-						throw new InvalidOperationException(); // まだ何も束縛していない
-				}
-				return new TargetInfo(instance, args, restrictions, targets);
+					bmt.BoundTo.DeclaringType
+				),
+				target.Restrictions
+			).Restrict(CompilerHelpers.GetType(bmt.ObjectInstance));
+			// 同じ BoundMemberTracker に対して実行することを保証するため、制約も追加する。
+			var restrictions = BindingRestrictions.GetExpressionRestriction(
+				Ast.Equal(
+					Ast.Property(
+						Ast.Convert(target.Expression, typeof(BoundMemberTracker)),
+						typeof(BoundMemberTracker).GetProperty("BoundTo")
+					),
+					AstUtils.Constant(bmt.BoundTo)
+				)
+			);
+			switch (bmt.BoundTo.MemberType)
+			{
+				case TrackerTypes.MethodGroup:
+					return new TargetInfo(instance, args, restrictions, ((MethodGroup)bmt.BoundTo).GetMethodBases());
+				case TrackerTypes.Method:
+					return new TargetInfo(instance, args, restrictions, ((MethodTracker)bmt.BoundTo).Method);
+				default:
+					throw new InvalidOperationException(); // まだ何も束縛していない
 			}
-			return null;
 		}
 
 		/// <summary>デリゲート型であれば Invoke メソッドに束縛します。</summary>
-		static TargetInfo TryGetDelegateTargets(DynamicMetaObject target, DynamicMetaObject[] args, Delegate d) { return d != null ? new TargetInfo(target, args, d.GetType().GetMethod("Invoke")) : null; }
+		static TargetInfo TryGetDelegateTargets(DynamicMetaObject target, DynamicMetaObject[] args)
+		{
+			if (!(target.Value is Delegate))
+				return null;
+			return new TargetInfo(target, args, target.Value.GetType().GetMethod("Invoke"));
+		}
 
 		/// <summary>演算子である Call メソッドへの束縛を試みます。</summary>
-		TargetInfo TryGetOperatorTargets(DynamicMetaObject self, DynamicMetaObject[] args, object target)
+		TargetInfo TryGetOperatorTargets(DynamicMetaObject target, DynamicMetaObject[] args)
 		{
-			var res = GetMember(MemberRequestKind.Invoke, CompilerHelpers.GetType(target), "Call").Where(x => x.MemberType == TrackerTypes.Method).Select(x => ((MethodTracker)x).Method).Where(x => x.IsSpecialName);
-			return res.Any() ? new TargetInfo(null, ArrayUtils.Insert(self, args), res.ToArray()) : null;
+			var res = GetMember(MemberRequestKind.Invoke, CompilerHelpers.GetType(target.Value), "Call").Where(x => x.MemberType == TrackerTypes.Method).Select(x => ((MethodTracker)x).Method).Where(x => x.IsSpecialName);
+			return res.Any() ? new TargetInfo(null, ArrayUtils.Insert(target, args), res.ToArray()) : null;
 		}
 
 		#endregion
@@ -179,19 +174,19 @@ namespace Microsoft.Scripting.Actions
 		/// </summary>
 		class TargetInfo
 		{
-			public readonly DynamicMetaObject Instance;
+			public readonly CallTypes CallType;
 			public readonly DynamicMetaObject[] Arguments;
 			public readonly MethodBase[] Targets;
 			public readonly BindingRestrictions Restrictions;
-			public TargetInfo(DynamicMetaObject instance, DynamicMetaObject[] arguments, params MethodBase[] args) : this(instance, arguments, BindingRestrictions.Empty, args) { }
-			public TargetInfo(DynamicMetaObject instance, DynamicMetaObject[] arguments, BindingRestrictions restrictions, params MethodBase[] targets)
+			public TargetInfo(DynamicMetaObject instance, DynamicMetaObject[] arguments, params MethodBase[] targets) : this(instance, arguments, BindingRestrictions.Empty, targets) { }
+			public TargetInfo(DynamicMetaObject instance, DynamicMetaObject[] arguments, BindingRestrictions additionalRestrictions, params MethodBase[] targets)
 			{
 				Assert.NotNullItems(targets);
-				Assert.NotNull(restrictions);
-				Instance = instance;
-				Arguments = arguments;
+				Assert.NotNull(additionalRestrictions);
+				CallType = instance != null ? CallTypes.ImplicitInstance : CallTypes.None;
 				Targets = targets;
-				Restrictions = restrictions;
+				Restrictions = BindingRestrictions.Combine(arguments).Merge(additionalRestrictions).Merge(instance != null ? instance.Restrictions : BindingRestrictions.Empty);
+				Arguments = instance != null ? ArrayUtils.Insert(instance, arguments) : arguments;
 			}
 		}
 	}
