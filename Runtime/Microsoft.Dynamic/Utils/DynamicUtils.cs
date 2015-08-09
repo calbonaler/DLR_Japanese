@@ -75,7 +75,7 @@ namespace Microsoft.Scripting.Utils
 			var returnLabel = LambdaSignature<TDelegate>.Instance.ReturnLabel.Type == typeof(object) && binder.ReturnType != typeof(void) && binder.ReturnType != typeof(object) ? Expression.Label(binder.ReturnType) : LambdaSignature<TDelegate>.Instance.ReturnLabel;
 			var binding = binder.Bind(args, LambdaSignature<TDelegate>.Instance.Parameters, returnLabel);
 			if (binding == null)
-				throw new InvalidOperationException("CallSiteBinder.Bind must return non-null meta-object");
+				throw new InvalidOperationException("CallSiteBinder.Bind ‚Í null ‚Å‚È‚¢®‚ğ•Ô‚·•K—v‚ª‚ ‚è‚Ü‚·B");
 			return Stitch<TDelegate>(binding, returnLabel);
 		}
 

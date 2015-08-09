@@ -105,13 +105,13 @@ namespace Microsoft.Scripting.Ast
 		public static YieldExpression MakeYield(LabelTarget target, Expression value, int yieldMarker)
 		{
 			ContractUtils.RequiresNotNull(target, "target");
-			ContractUtils.Requires(target.Type != typeof(void), "target", "generator label must have a non-void type");
+			ContractUtils.Requires(target.Type != typeof(void), "target", "ジェネレータのラベルは非 void 型である必要があります。");
 			if (value != null && !TypeUtils.AreReferenceAssignable(target.Type, value.Type))
 			{
 				// C# は自動的にジェネレータの戻り値を引用します
 				if (target.Type.IsSubclassOf(typeof(Expression)) && TypeUtils.AreAssignable(target.Type, value.GetType()))
 					value = Expression.Quote(value);
-				throw new ArgumentException(string.Format("Expression of type '{0}' cannot be yielded to a generator label of type '{1}'", value.Type, target.Type));
+				throw new ArgumentException(string.Format("型 '{0}' の式を型 '{1}' のジェネレータラベルに譲ることはできません。", value.Type, target.Type));
 			}
 			return new YieldExpression(target, value, yieldMarker);
 		}

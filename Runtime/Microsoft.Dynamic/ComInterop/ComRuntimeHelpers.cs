@@ -325,7 +325,6 @@ namespace Microsoft.Scripting.ComInterop
 		}
 
 		[SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference")]
-		[Obsolete("do not use this method", true)]
 		public static int IDispatchInvoke(IntPtr dispatchPointer, int memberDispId, ComTypes.INVOKEKIND flags, ref ComTypes.DISPPARAMS dispParams, out Variant result, out ExcepInfo excepInfo, out uint argErr)
 		{
 			var hresult = _IDispatchInvoke(dispatchPointer, memberDispId, flags, ref dispParams, out result, out excepInfo, out argErr);
@@ -335,7 +334,6 @@ namespace Microsoft.Scripting.ComInterop
 			return hresult;
 		}
 
-		[Obsolete("do not use this method", true)]
 		public static IntPtr GetIdsOfNamedParameters(IDispatch dispatch, string[] names, int methodDispId, out GCHandle pinningHandle)
 		{
 			pinningHandle = GCHandle.Alloc(null, GCHandleType.Pinned);

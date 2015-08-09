@@ -33,7 +33,7 @@ namespace Microsoft.Scripting.Ast
 			ContractUtils.RequiresNotNull(constructor, "constructor");
 			ContractUtils.RequiresNotNullItems(arguments, "arguments");
 			ParameterInfo[] parameters = constructor.GetParameters();
-			ContractUtils.Requires(arguments.Length == parameters.Length, "arguments", "Incorrect number of arguments");
+			ContractUtils.Requires(arguments.Length == parameters.Length, "arguments", "Àˆø”‚Ì”‚ª³‚µ‚­‚ ‚è‚Ü‚¹‚ñB");
 			return Expression.New(constructor, ArgumentConvertHelper(arguments, parameters));
 		}
 	}

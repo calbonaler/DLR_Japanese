@@ -87,7 +87,7 @@ namespace Microsoft.Scripting.Runtime
 			{
 				if (_state < _yieldMarkers.Length)
 					return _yieldMarkers[_state];
-				throw new InvalidOperationException("unknown yield marker");
+				throw new InvalidOperationException("不明な yield マーカーです。");
 			}
 			set
 			{
@@ -99,23 +99,19 @@ namespace Microsoft.Scripting.Runtime
 						return;
 					}
 				}
-				throw new InvalidOperationException("unknown yield marker");
+				throw new InvalidOperationException("不明な yield マーカーです。");
 			}
 		}
 	}
 
 	public partial class ScriptingRuntimeHelpers
 	{
-		[Obsolete("do not call this method", true)]
 		internal static IEnumerable<T> MakeGenerator<T>(Func<GeneratorNext<T>> next) { return new GeneratorEnumerable<T>(next); }
 
-		[Obsolete("do not call this method", true)]
 		internal static IEnumerator<T> MakeGenerator<T>(GeneratorNext<T> next) { return new GeneratorEnumerator<T>(next); }
 
-		[Obsolete("do not call this method", true)]
 		internal static IEnumerable<T> MakeGenerator<T>(Func<GeneratorNext<T>> next, int[] yieldMarkers) { return new DebugGeneratorEnumerable<T>(next, yieldMarkers); }
 
-		[Obsolete("do not call this method", true)]
 		internal static IEnumerator<T> MakeGenerator<T>(GeneratorNext<T> next, int[] yieldMarkers) { return new DebugGeneratorEnumerator<T>(next, yieldMarkers); }
 	}
 }

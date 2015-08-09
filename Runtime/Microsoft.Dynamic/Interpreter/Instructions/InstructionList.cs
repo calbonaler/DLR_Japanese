@@ -192,7 +192,7 @@ namespace Microsoft.Scripting.Interpreter
 			AppDomain.CurrentDomain.ProcessExit += new EventHandler((_, __) =>
 			{
 				PerfTrack.DumpHistogram(_executedInstructions);
-				Console.WriteLine("-- Total executed: {0}", _executedInstructions.Values.Aggregate(0, (sum, value) => sum + value));
+				Console.WriteLine("-- 全実行回数: {0}", _executedInstructions.Values.Aggregate(0, (sum, value) => sum + value));
 				Console.WriteLine("-----");
 				var referenced = new Dictionary<string, int>();
 				int total = 0;
@@ -202,7 +202,7 @@ namespace Microsoft.Scripting.Interpreter
 					total += entry.Value.Count;
 				}
 				PerfTrack.DumpHistogram(referenced);
-				Console.WriteLine("-- Total referenced: {0}", total);
+				Console.WriteLine("-- 全参照回数: {0}", total);
 				Console.WriteLine("-----");
 			});
 		}

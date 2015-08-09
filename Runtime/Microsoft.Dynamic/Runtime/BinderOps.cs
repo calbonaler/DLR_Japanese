@@ -57,7 +57,7 @@ namespace Microsoft.Scripting.Runtime
 		/// <param name="op">失敗した操作を指定します。</param>
 		/// <param name="args">操作の引数を指定します。</param>
 		/// <returns>操作がオペランドの型が不正であるために失敗したことを示す <see cref="ArgumentTypeException"/>。</returns>
-		public static ArgumentTypeException BadArgumentsForOperation(ExpressionType op, params object[] args) { throw new ArgumentTypeException("unsupported operand type(s) for operation " + op.ToString() + ": " + string.Join(", ", args.Select(x => CompilerHelpers.GetType(x)))); }
+		public static ArgumentTypeException BadArgumentsForOperation(ExpressionType op, params object[] args) { throw new ArgumentTypeException("演算 " + op.ToString() + " でサポートされていないオペランド型: " + string.Join(", ", args.Select(x => CompilerHelpers.GetType(x)))); }
 
 		/// <summary>引数の数が正しくないために失敗したことを示す例外を返します。</summary>
 		/// <param name="methodName">不正な数の引数が渡されたメソッドの名前を指定します。</param>
@@ -82,28 +82,28 @@ namespace Microsoft.Scripting.Runtime
 		{
 			int formalCount;
 			string formalCountQualifier;
-			var nonKeyword = keywordArgumentsProvided ? "non-keyword " : "";
+			var nonKeyword = keywordArgumentsProvided ? "非キーワード " : "";
 			if (defaultArgumentCount > 0 || hasArgList || minFormalNormalArgumentCount != maxFormalNormalArgumentCount)
 			{
 				if (providedArgumentCount < minFormalNormalArgumentCount || maxFormalNormalArgumentCount == int.MaxValue)
 				{
-					formalCountQualifier = "at least";
+					formalCountQualifier = "最小";
 					formalCount = minFormalNormalArgumentCount - defaultArgumentCount;
 				}
 				else
 				{
-					formalCountQualifier = "at most";
+					formalCountQualifier = "最大";
 					formalCount = maxFormalNormalArgumentCount;
 				}
 			}
 			else if (minFormalNormalArgumentCount == 0)
-				return ScriptingRuntimeHelpers.SimpleTypeError(string.Format("{0}() takes no arguments ({1} given)", methodName, providedArgumentCount));
+				return ScriptingRuntimeHelpers.SimpleTypeError(string.Format("{0}() は引数をとりません ({1} 個が指定されました)", methodName, providedArgumentCount));
 			else
 			{
-				formalCountQualifier = "exactly";
+				formalCountQualifier = "";
 				formalCount = minFormalNormalArgumentCount;
 			}
-			return new ArgumentTypeException(string.Format("{0}() takes {1} {2} {3}argument{4} ({5} given)", methodName, formalCountQualifier, formalCount, nonKeyword, formalCount == 1 ? "" : "s", providedArgumentCount));
+			return new ArgumentTypeException(string.Format("{0}() は{1} {2} 個の{3}引数をとります ({4} 個が指定されました)", methodName, formalCountQualifier, formalCount, nonKeyword, providedArgumentCount));
 		}
 
 		/// <summary>引数の数が正しくないために失敗したことを示す例外を返します。</summary>
@@ -125,18 +125,18 @@ namespace Microsoft.Scripting.Runtime
 		/// <param name="methodName">予期しないキーワード引数が渡されたメソッドの名前を指定します。</param>
 		/// <param name="argumentName">渡されたキーワード引数の名前を指定します。</param>
 		/// <returns>予期しないキーワード引数が渡されたために失敗したことを示す <see cref="ArgumentTypeException"/>。</returns>
-		public static ArgumentTypeException TypeErrorForExtraKeywordArgument(string methodName, string argumentName) { return new ArgumentTypeException(string.Format("{0}() got an unexpected keyword argument '{1}'", methodName, argumentName)); }
+		public static ArgumentTypeException TypeErrorForExtraKeywordArgument(string methodName, string argumentName) { return new ArgumentTypeException(string.Format("{0}() には予期しないキーワード引数 '{1}' が指定されました。", methodName, argumentName)); }
 
 		/// <summary>重複したキーワード引数が渡されたために失敗したことを示す例外を返します。</summary>
 		/// <param name="methodName">重複したキーワード引数が渡されたメソッドの名前を指定します。</param>
 		/// <param name="argumentName">重複のあるキーワード引数の名前を指定します。</param>
 		/// <returns>重複したキーワード引数が渡されたために失敗したことを示す <see cref="ArgumentTypeException"/>。</returns>
-		public static ArgumentTypeException TypeErrorForDuplicateKeywordArgument(string methodName, string argumentName) { return new ArgumentTypeException(string.Format("{0}() got multiple values for keyword argument '{1}'", methodName, argumentName)); }
+		public static ArgumentTypeException TypeErrorForDuplicateKeywordArgument(string methodName, string argumentName) { return new ArgumentTypeException(string.Format("{0}() にはキーワード引数 '{1}' に複数の値が指定されました。", methodName, argumentName)); }
 
 		/// <summary>メソッドの型引数を推論できないため失敗したことを示す例外を返します。</summary>
 		/// <param name="methodName">推論できない型引数をもつメソッドの名前を指定します。</param>
 		/// <returns>メソッドの型引数を推論できないため失敗したことを示す <see cref="ArgumentTypeException"/>。</returns>
-		public static ArgumentTypeException TypeErrorForNonInferrableMethod(string methodName) { return new ArgumentTypeException(string.Format("The type arguments for method '{0}' cannot be inferred from the usage. Try specifying the type arguments explicitly.", methodName)); }
+		public static ArgumentTypeException TypeErrorForNonInferrableMethod(string methodName) { return new ArgumentTypeException(string.Format("メソッド '{0}' に対する型引数を使用法から推論できません。明示的な型引数の指定を試みてください。", methodName)); }
 
 		/// <summary>指定されたメッセージを使用して、新しい <see cref="ArgumentTypeException"/> を作成します。</summary>
 		/// <param name="message">メッセージを指定します。</param>
@@ -147,7 +147,7 @@ namespace Microsoft.Scripting.Runtime
 		/// <param name="methodName">シーケンス以外の型のオブジェクトが散開引数に渡されたメソッドの名前を指定します。</param>
 		/// <param name="typeName">散開引数に渡されたオブジェクトの型の名前を指定します。</param>
 		/// <returns>散開される引数に渡される実引数の型がシーケンスでないため失敗したことを示す <see cref="ArgumentTypeException"/>。</returns>
-		public static ArgumentTypeException InvalidSplatteeError(string methodName, string typeName) { return new ArgumentTypeException(string.Format("{0}() argument after * must be a sequence, not {1}", methodName, typeName)); }
+		public static ArgumentTypeException InvalidSplatteeError(string methodName, string typeName) { return new ArgumentTypeException(string.Format("* 以降の {0}() の引数はシーケンスである必要がありますが、{1} が指定されました。", methodName, typeName)); }
 
 		/// <summary>指定されたオブジェクトに対するメソッドをリフレクションを使用して呼び出します。</summary>
 		/// <param name="mb">呼び出すメソッドを指定します。</param>
@@ -190,7 +190,7 @@ namespace Microsoft.Scripting.Runtime
 		/// <returns>指定されたディクショナリに指定された名前が存在して、名前に対する値が指定された型である場合は <c>true</c>。それ以外の場合は <c>false</c>。</returns>
 		public static bool CheckDictionaryMembers(IDictionary dict, string[] names, Type[] types) { return dict.Count == names.Length && names.Select((x, i) => dict.Contains(x) && (types == null || CompilerHelpers.GetType(dict[x]) == types[i])).All(x => x); }
 
-		/// <summary>指定された <see cref="EventTracker"/> に指定された値を関連付けられているかどうかを判断します。</summary>
+		/// <summary>指定された <see cref="EventTracker"/> に指定された値が関連付けられているかどうかを判断します。</summary>
 		/// <param name="eventTracker">値が関連付けられている <see cref="EventTracker"/> を指定します。</param>
 		/// <param name="value">関連付けられている値を指定します。</param>
 		/// <exception cref="ArgumentException">イベントが指定された値に関連付けられていません。</exception>
@@ -202,16 +202,16 @@ namespace Microsoft.Scripting.Runtime
 			if (et != null)
 			{
 				if (et != eventTracker)
-					throw new ArgumentException(string.Format("expected event from {0}.{1}, got event from {2}.{3}", eventTracker.DeclaringType.Name, eventTracker.Name, et.DeclaringType.Name, et.Name));
+					throw new ArgumentException(string.Format("{0}.{1} からのイベントが予期されましたが、{2}.{3} からのイベントが指定されました。", eventTracker.DeclaringType.Name, eventTracker.Name, et.DeclaringType.Name, et.Name));
 				return;
 			}
 			var bmt = value as BoundMemberTracker;
 			if (bmt == null)
-				throw new ArgumentTypeException("expected bound event, got " + CompilerHelpers.GetType(value).Name);
+				throw new ArgumentTypeException(string.Format("束縛されたイベントが予期されましたが、{0} が指定されました。", CompilerHelpers.GetType(value).Name));
 			if (bmt.BoundTo.MemberType != TrackerTypes.Event)
-				throw new ArgumentTypeException("expected bound event, got " + bmt.BoundTo.MemberType.ToString());
+				throw new ArgumentTypeException(string.Format("束縛されたイベントが予期されましたが、{0} が指定されました。", bmt.BoundTo.MemberType.ToString()));
 			if (bmt.BoundTo != eventTracker)
-				throw new ArgumentException(string.Format("expected event from {0}.{1}, got event from {2}.{3}", eventTracker.DeclaringType.Name, eventTracker.Name, bmt.BoundTo.DeclaringType.Name, bmt.BoundTo.Name));
+				throw new ArgumentException(string.Format("{0}.{1} からのイベントが予期されましたが、{2}.{3} からのイベントが指定されました。", eventTracker.DeclaringType.Name, eventTracker.Name, bmt.BoundTo.DeclaringType.Name, bmt.BoundTo.Name));
 		}
 	}
 }

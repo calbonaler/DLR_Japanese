@@ -65,7 +65,7 @@ namespace Microsoft.Scripting.ComInterop
 				case VarEnum.VT_NULL:
 					return Expression.Call(variant, typeof(Variant).GetMethod("SetAsNull")); // paramVariants._elementN.SetAsNull();
 				default:
-					Debug.Assert(false, "Unexpected VarEnum");
+					Debug.Fail("ó\ä˙ÇµÇ»Ç¢ VarEnum Ç≈Ç∑ÅB");
 					return null;
 			}
 		}
@@ -111,7 +111,7 @@ namespace Microsoft.Scripting.ComInterop
 				case VarEnum.VT_VARIANT:
 					return Expression.Call(_variant, typeof(Variant).GetMethod("Clear")); // paramVariants._elementN.Clear()
 				default:
-					Debug.Assert(Variant.IsPrimitiveType(_targetComType), "Unexpected VarEnum");
+					Debug.Assert(Variant.IsPrimitiveType(_targetComType), "ó\ä˙ÇµÇ»Ç¢ VarEnum Ç≈Ç∑ÅB");
 					return null;
 			}
 		}

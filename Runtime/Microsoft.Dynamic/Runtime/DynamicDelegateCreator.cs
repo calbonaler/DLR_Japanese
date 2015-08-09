@@ -68,7 +68,7 @@ namespace Microsoft.Scripting.Runtime
 			if (result != null)
 			{
 				if (!delegateType.IsAssignableFrom(result.GetType()))
-					throw ScriptingRuntimeHelpers.SimpleTypeError(string.Format("Cannot cast {0} to {1}.", result.GetType(), delegateType));
+					throw ScriptingRuntimeHelpers.SimpleTypeError(string.Format("{0} を {1} にキャストできません。", result.GetType(), delegateType));
 				return result;
 			}
 			var provider = callableObject as IDynamicMetaObjectProvider;
@@ -76,11 +76,11 @@ namespace Microsoft.Scripting.Runtime
 			{
 				MethodInfo invoke;
 				if (!typeof(Delegate).IsAssignableFrom(delegateType) || (invoke = delegateType.GetMethod("Invoke")) == null)
-					throw ScriptingRuntimeHelpers.SimpleTypeError("A specific delegate type is required.");
+					throw ScriptingRuntimeHelpers.SimpleTypeError("特定のデリゲート型が必要です。");
 				if ((result = _cache.GetOrAdd(new SignatureInfo(invoke.ReturnType, invoke.GetParameters()), key => key.CreateDelegateInfo(_languageContext)).CreateDelegate(delegateType, provider)) != null)
 					return result;
 			}
-			throw ScriptingRuntimeHelpers.SimpleTypeError("Object is not callable.");
+			throw ScriptingRuntimeHelpers.SimpleTypeError("オブジェクトは呼び出し可能ではありません。");
 		}
 
 		sealed class SignatureInfo

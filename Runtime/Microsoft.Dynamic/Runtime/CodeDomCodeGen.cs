@@ -80,31 +80,47 @@ namespace Microsoft.Scripting.Runtime
 
 		/// <summary>指定されたステートメントを表す <see cref="CodeStatement"/> からソースコードを生成します。</summary>
 		/// <param name="statement">コードを生成する <see cref="CodeStatement"/> を指定します。</param>
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")] // TODO: fix
 		protected void WriteStatement(CodeStatement statement)
 		{
 			// Save statement source location
 			if (statement.LinePragma != null)
 				Writer.MapLocation(statement.LinePragma);
-			if (statement is CodeExpressionStatement)
-				WriteExpressionStatement((CodeExpressionStatement)statement);
-			else if (statement is CodeSnippetStatement)
-				WriteSnippetStatement((CodeSnippetStatement)statement);
+			var ces = statement as CodeExpressionStatement;
+			if (ces != null)
+			{
+				WriteExpressionStatement(ces);
+				return;
+			}
+			var css = statement as CodeSnippetStatement;
+			if (css != null)
+				WriteSnippetStatement(css);
 		}
 
 		/// <summary>指定された式を表す <see cref="CodeExpression"/> からソースコードを生成します。</summary>
 		/// <param name="expression">コードを生成する <see cref="CodeExpression"/> を指定します。</param>
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")] // TODO: fix
 		protected void WriteExpression(CodeExpression expression)
 		{
-			if (expression is CodeSnippetExpression)
-				WriteSnippetExpression((CodeSnippetExpression)expression);
-			else if (expression is CodePrimitiveExpression)
-				WritePrimitiveExpression((CodePrimitiveExpression)expression);
-			else if (expression is CodeMethodInvokeExpression)
-				WriteCallExpression((CodeMethodInvokeExpression)expression);
-			else if (expression is CodeArgumentReferenceExpression)
-				WriteArgumentReferenceExpression((CodeArgumentReferenceExpression)expression);
+			var cse = expression as CodeSnippetExpression;
+			if (cse != null)
+			{
+				WriteSnippetExpression(cse);
+				return;
+			}
+			var cpe = expression as CodePrimitiveExpression;
+			if (cpe != null)
+			{
+				WritePrimitiveExpression(cpe);
+				return;
+			}
+			var cmie = expression as CodeMethodInvokeExpression;
+			if (cmie != null)
+			{
+				WriteCallExpression(cmie);
+				return;
+			}
+			var care = expression as CodeArgumentReferenceExpression;
+			if (care != null)
+				WriteArgumentReferenceExpression(care);
 		}
 
 		/// <summary>指定されたプリミティブ データ型の値を表す <see cref="CodePrimitiveExpression"/> からソースコードを生成します。</summary>

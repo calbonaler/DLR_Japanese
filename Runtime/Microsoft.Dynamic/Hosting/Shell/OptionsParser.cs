@@ -140,7 +140,7 @@ namespace Microsoft.Scripting.Hosting.Shell
 			if (_current < _args.Length)
 				return _args[_current];
 			else
-				throw new InvalidOptionException(string.Format(CultureInfo.CurrentCulture, "Argument expected for the {0} option.", _current > 0 ? _args[_current - 1] : ""));
+				throw new InvalidOptionException(string.Format(CultureInfo.CurrentCulture, "オプション '{0}' には値が必要です。", _current > 0 ? _args[_current - 1] : ""));
 		}
 
 		/// <summary>次の引数を読み取り、読み取り位置を 1 つ先に進めます。</summary>
@@ -160,7 +160,7 @@ namespace Microsoft.Scripting.Hosting.Shell
 		/// <param name="option">オプション名を指定します。</param>
 		/// <param name="value">オプションの値を指定します。</param>
 		/// <returns>値が無効であることを示す <see cref="InvalidOptionException"/>。</returns>
-		protected static Exception InvalidOptionValue(string option, string value) { return new InvalidOptionException(string.Format("'{0}' is not a valid value for option '{1}'", value, option)); }
+		protected static Exception InvalidOptionValue(string option, string value) { return new InvalidOptionException(string.Format("'{0}' はオプション '{1}' に対する有効な値ではありません。", value, option)); }
 
 		/// <summary>コマンドライン オプションのヘルプを取得します。</summary>
 		/// <returns>ヘルプを格納する <see cref="OptionsHelp"/>。</returns>
@@ -305,31 +305,31 @@ namespace Microsoft.Scripting.Hosting.Shell
 		public override OptionsHelp GetHelp()
 		{
 			var options = new [] {
-				new KeyValuePair<string, string>("-c cmd",                      "Program passed in as string (terminates option list)"),
-				new KeyValuePair<string, string>("-h",                          "Display usage"),
-#if !IRONPYTHON_WINDOW
-				new KeyValuePair<string, string>("-i",                          "Inspect interactively after running script"),
-#endif
-				new KeyValuePair<string, string>("-V",                          "Print the version number and exit"),
-				new KeyValuePair<string, string>("-D",                          "Enable application debugging"),
-				new KeyValuePair<string, string>("-X:AutoIndent",               "Enable auto-indenting in the REPL loop"),
-				new KeyValuePair<string, string>("-X:ExceptionDetail",          "Enable ExceptionDetail mode"),
-				new KeyValuePair<string, string>("-X:NoAdaptiveCompilation",    "Disable adaptive compilation"),
-				new KeyValuePair<string, string>("-X:CompilationThreshold",     "The number of iterations before the interpreter starts compiling"),
-				new KeyValuePair<string, string>("-X:PassExceptions",           "Do not catch exceptions that are unhandled by script code"),
-				new KeyValuePair<string, string>("-X:PrivateBinding",           "Enable binding to private members"),
-				new KeyValuePair<string, string>("-X:ShowClrExceptions",        "Display CLS Exception information"),
-				new KeyValuePair<string, string>("-X:TabCompletion",            "Enable TabCompletion mode"),
-				new KeyValuePair<string, string>("-X:ColorfulConsole",          "Enable ColorfulConsole"),
+				new KeyValuePair<string, string>("-c cmd",                          "プログラムが文字列として渡されます (オプションリストの最後に指定します)。"),
+				new KeyValuePair<string, string>("-h",                              "使用法を表示します。"),
+#if !IRONPYTHON_WINDOW															    
+				new KeyValuePair<string, string>("-i",                              "スクリプト実行後に対話的に検査します。"),
+#endif																			    
+				new KeyValuePair<string, string>("-V",                              "バージョン番号を表示して終了します。"),
+				new KeyValuePair<string, string>("-D",                              "アプリケーションのデバッグを有効にします。"),
+				new KeyValuePair<string, string>("-X:AutoIndent",                   "REPL で自動インデントを有効にします。"),
+				new KeyValuePair<string, string>("-X:ExceptionDetail",              "例外詳細モードを有効にします。"),
+				new KeyValuePair<string, string>("-X:NoAdaptiveCompilation",        "適応的コンパイルを無効にします。"),
+				new KeyValuePair<string, string>("-X:CompilationThreshold",         "インタプリタがコンパイルを開始する前の繰り返し回数です。"),
+				new KeyValuePair<string, string>("-X:PassExceptions",               "スクリプトコードによってハンドルされない例外をキャッチしません。"),
+				new KeyValuePair<string, string>("-X:PrivateBinding",               "プライベートなメンバへのバインディングを有効にします。"),
+				new KeyValuePair<string, string>("-X:ShowClrExceptions",            "CLS 例外情報を表示します。"),
+				new KeyValuePair<string, string>("-X:TabCompletion",                "タブ補完モードを有効にします。"),
+				new KeyValuePair<string, string>("-X:ColorfulConsole",              "色つきのコンソールを有効にします。"),
 #if DEBUG
-				new KeyValuePair<string, string>("-X:AssembliesDir <dir>",      "Set the directory for saving generated assemblies [debug only]"),
-				new KeyValuePair<string, string>("-X:SaveAssemblies",           "Save generated assemblies [debug only]"),
-				new KeyValuePair<string, string>("-X:TrackPerformance",         "Track performance sensitive areas [debug only]"),
-				new KeyValuePair<string, string>("-X:PerfStats",                "Print performance stats when the process exists [debug only]"),
-				new KeyValuePair<string, string>(Remote.RemoteRuntimeServer.RemoteRuntimeArg + " <channel_name>", "Start a remoting server for a remote console session."),
+				new KeyValuePair<string, string>("-X:AssembliesDir <ディレクトリ>", "生成されたアセンブリの保存のためのディレクトリを設定します。[デバッグのみ]"),
+				new KeyValuePair<string, string>("-X:SaveAssemblies",               "生成されたアセンブリを保存します。[デバッグのみ]"),
+				new KeyValuePair<string, string>("-X:TrackPerformance",             "パフォーマンスに敏感な領域を追跡します。[デバッグのみ]"),
+				new KeyValuePair<string, string>("-X:PerfStats",                    "プロセス終了時にパフォーマンス統計を表示します。[デバッグのみ]"),
+				new KeyValuePair<string, string>(Remote.RemoteRuntimeServer.RemoteRuntimeArg + " <チャンネル名>", "遠隔コンソールセッションに対する遠隔サーバを開始します。"),
 #endif
 			};
-			return new OptionsHelp("[options] [file|- [arguments]]", options, null, null);
+			return new OptionsHelp("[オプション] [ファイル|- [引数]]", options, null, null);
 		}
 	}
 }

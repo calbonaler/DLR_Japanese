@@ -194,7 +194,7 @@ namespace Microsoft.Scripting.Actions
 			{
 				var name = entry.Key as string;
 				if (name == null)
-					throw ScriptingRuntimeHelpers.SimpleTypeError(string.Format("expected string for dictionary argument got {0}", entry.Key));
+					throw ScriptingRuntimeHelpers.SimpleTypeError(string.Format("«‘ˆø”‚É‚Í•¶š—ñ‚ª—\Šú‚³‚ê‚Ü‚µ‚½‚ª {0} ‚ª“n‚³‚ê‚Ü‚µ‚½B", entry.Key));
 				names[index] = name;
 				if (types != null)
 					types[index] = CompilerHelpers.GetType(entry.Value);

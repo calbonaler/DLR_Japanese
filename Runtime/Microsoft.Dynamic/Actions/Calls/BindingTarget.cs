@@ -98,9 +98,9 @@ namespace Microsoft.Scripting.Actions.Calls
 		public Expression MakeExpression()
 		{
 			if (MethodCandidate == null)
-				throw new InvalidOperationException("An expression cannot be produced because the method binding was unsuccessful.");
+				throw new InvalidOperationException("メソッドバインディングが成功しなかったため、式を生成できません。");
 			if (RestrictedArguments == null)
-				throw new InvalidOperationException("An expression cannot be produced because the method binding was done with Expressions, not MetaObject's");
+				throw new InvalidOperationException("メソッドバインディングが DynamicMetaObject ではなく Expression で完了したため、式を生成できません。");
 			return MethodCandidate.MakeExpression(RestrictedArguments);
 		}
 
@@ -110,9 +110,9 @@ namespace Microsoft.Scripting.Actions.Calls
 		public OptimizingCallDelegate MakeDelegate()
 		{
 			if (MethodCandidate == null)
-				throw new InvalidOperationException("An expression cannot be produced because the method binding was unsuccessful.");
+				throw new InvalidOperationException("メソッドバインディングが成功しなかったため、式を生成できません。");
 			if (RestrictedArguments == null)
-				throw new InvalidOperationException("An expression cannot be produced because the method binding was done with Expressions, not MetaObject's");
+				throw new InvalidOperationException("メソッドバインディングが DynamicMetaObject ではなく Expression で完了したため、式を生成できません。");
 			return MethodCandidate.MakeDelegate(RestrictedArguments);
 		}
 

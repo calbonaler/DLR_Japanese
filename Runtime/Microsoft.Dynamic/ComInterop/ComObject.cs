@@ -67,7 +67,7 @@ namespace Microsoft.Scripting.ComInterop
 		/// <summary>指定された <see cref="ComObject"/> をラップ解除する <see cref="Expression"/> を返します。</summary>
 		internal static MemberExpression RcwFromComObject(Expression comObject)
 		{
-			Debug.Assert(comObject != null && typeof(ComObject).IsAssignableFrom(comObject.Type), "must be ComObject");
+			Debug.Assert(comObject != null && typeof(ComObject).IsAssignableFrom(comObject.Type), "ComObject である必要があります。");
 			return Expression.Property(
 				Ast.Utils.Convert(comObject, typeof(ComObject)),
 				typeof(ComObject).GetProperty("RuntimeCallableWrapper", BindingFlags.NonPublic | BindingFlags.Instance)

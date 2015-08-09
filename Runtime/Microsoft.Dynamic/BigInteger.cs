@@ -180,7 +180,7 @@ namespace Microsoft.Scripting.Numerics
 		{
 			if (obj is BigInteger)
 				return Compare(this, (BigInteger)obj);
-			throw new ArgumentException("expected integer");
+			throw new ArgumentException("BigInteger å^Ç™ó\ä˙Ç≥ÇÍÇ‹ÇµÇΩÅB");
 		}
 		public static BigInteger Divide(BigInteger dividend, BigInteger divisor) { return dividend / divisor; }
 		public static BigInteger DivRem(BigInteger dividend, BigInteger divisor, out BigInteger remainder)

@@ -286,7 +286,7 @@ namespace Microsoft.Scripting.Interpreter
 				return Locals.AddClosureVariable(expr);
 			}
 			else
-				throw new InvalidOperationException("unbound variable: " + expr);
+				throw new InvalidOperationException("‘©”›‚³‚ê‚Ä‚¢‚È‚¢•Ï”: " + expr);
 		}
 
 		void EnsureVariable(ParameterExpression variable)
@@ -496,7 +496,7 @@ namespace Microsoft.Scripting.Interpreter
 					CompileVariableAssignment(expr, asVoid);
 					break;
 				default:
-					throw new InvalidOperationException("Invalid lvalue for assignment: " + expr.Left.NodeType);
+					throw new InvalidOperationException("‘ã“ü‚Ì–³Œø‚È¶•Ó’l: " + expr.Left.NodeType);
 			}
 		}
 

@@ -92,7 +92,7 @@ namespace Microsoft.Scripting.Ast
 		{
 			ContractUtils.RequiresNotNull(label, "label");
 			ContractUtils.RequiresNotNull(body, "body");
-			ContractUtils.Requires(label.Type != typeof(void), "label", "label must have a non-void type");
+			ContractUtils.Requires(label.Type != typeof(void), "label", "ラベルは非 void 型である必要があります。");
 			return new GeneratorExpression("generator", typeof(IEnumerable<>).MakeGenericType(label.Type), label, body);
 		}
 
@@ -114,8 +114,8 @@ namespace Microsoft.Scripting.Ast
 			ContractUtils.RequiresNotNull(type, "type");
 			ContractUtils.RequiresNotNull(body, "body");
 			ContractUtils.RequiresNotNull(label, "label");
-			ContractUtils.Requires(label.Type != typeof(void), "label", "label must have a non-void type");
-			ContractUtils.Requires(body.Type == typeof(void), "body", "generator body must have a void type");
+			ContractUtils.Requires(label.Type != typeof(void), "label", "ラベルは非 void 型である必要があります。");
+			ContractUtils.Requires(body.Type == typeof(void), "body", "ジェネレータの本体は void 型である必要があります。");
 			// Generator type must be one of: IEnumerable, IEnumerator,
 			// IEnumerable<T>, or IEnumerator<T>, where T is label.Ttpe
 			if (type.IsGenericType)
@@ -129,7 +129,7 @@ namespace Microsoft.Scripting.Ast
 			return new GeneratorExpression(name, type, label, body);
 		}
 
-		static ArgumentException GeneratorTypeMustBeEnumerableOfT(Type type) { return new ArgumentException(string.Format("Generator must be of type IEnumerable<T>, IEnumerator<T>, IEnumerable, or IEnumerator, where T is '{0}'", type)); }
+		static ArgumentException GeneratorTypeMustBeEnumerableOfT(Type type) { return new ArgumentException(string.Format("ジェネレータの型は IEnumerable<{0}>、IEnumerator<{0}>、IEnumerable、または IEnumerator である必要があります。", type)); }
 
 		/// <summary>指定された型が <see cref="IEnumerable"/> か <see cref="IEnumerable&lt;T&gt;"/> であるかどうかを調べます。</summary>
 		/// <param name="type">調べる型を指定します。</param>
@@ -212,7 +212,7 @@ namespace Microsoft.Scripting.Ast
 		public static LambdaExpression GeneratorLambda(Type delegateType, LabelTarget label, Expression body, string name, IEnumerable<ParameterExpression> parameters)
 		{
 			ContractUtils.RequiresNotNull(delegateType, "delegateType");
-			ContractUtils.Requires(typeof(Delegate).IsAssignableFrom(delegateType) && !delegateType.IsAbstract, "Lambda type parameter must be derived from System.Delegate");
+			ContractUtils.Requires(typeof(Delegate).IsAssignableFrom(delegateType) && !delegateType.IsAbstract, "ラムダの型パラメータは System.Delegate から派生している必要があります。");
 			var generatorType = delegateType.GetMethod("Invoke").GetReturnType();
 			if (IsEnumerableType(generatorType))
 				body = TransformEnumerable(body, parameters); // rewrite body

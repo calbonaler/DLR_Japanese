@@ -508,7 +508,7 @@ namespace Microsoft.Scripting.Generation
 		{
 			if (emitDebugSymbols)
 			{
-				ContractUtils.Requires(method.Module is ModuleBuilder, "method", "MethodBuilder does not have a valid ModuleBuilder");
+				ContractUtils.Requires(method.Module is ModuleBuilder, "method", "MethodBuilder ‚Í—LŒø‚È ModuleBuilder ‚ğ•Û‚µ‚Ä‚¢‚Ü‚¹‚ñB");
 				lambda.CompileToMethod(method, DebugInfoGenerator.CreatePdbGenerator());
 			}
 			else

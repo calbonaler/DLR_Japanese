@@ -89,7 +89,7 @@ namespace Microsoft.Scripting
 			ilgen.EmitArray(typeof(Type), langsWithBuilders.Length, i =>
 			{
 				ilgen.Emit(OpCodes.Ldtoken, langsWithBuilders[i].Key);
-				ilgen.EmitCall(typeof(Type).GetMethod("GetTypeFromHandle", new[] { typeof(RuntimeTypeHandle) }));
+				ilgen.EmitCall(new Func<RuntimeTypeHandle, Type>(Type.GetTypeFromHandle).Method);
 			});
 			// builders array of array
 			ilgen.EmitArray(typeof(Delegate[]), langsWithBuilders.Length, i =>

@@ -76,7 +76,7 @@ namespace Microsoft.Scripting.Hosting.Shell.Remote
 			// 起動の出力がいつ完了したかを知るために出力マーカーを待機
 			_remoteOutputReceived.WaitOne();
 			if (process.HasExited)
-				throw new RemoteRuntimeStartupException("Remote runtime terminated during startup with exitcode " + process.ExitCode);
+				throw new RemoteRuntimeStartupException(string.Format("リモートランタイムはスタートアップ中に終了コードで {0} で終了しました。", process.ExitCode));
 		}
 
 		T GetRemoteObject<T>(string uri)
@@ -183,7 +183,7 @@ namespace Microsoft.Scripting.Hosting.Shell.Remote
 			try { ParseHostOptions(args); }
 			catch (InvalidOptionException ex)
 			{
-				Console.Error.WriteLine("Invalid argument: " + ex.Message);
+				Console.Error.WriteLine("無効な引数: " + ex.Message);
 				return ExitCode = 1;
 			}
 			_languageOptionsParser = CreateOptionsParser();

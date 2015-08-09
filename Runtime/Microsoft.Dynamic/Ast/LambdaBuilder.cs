@@ -150,7 +150,7 @@ namespace Microsoft.Scripting.Ast
 		/// <summary>
 		/// 指定された名前と型を使用して、ラムダ式の配列引数を作成します。
 		/// 配列引数はシグネチャに即時に追加されます。
-		/// ラムダが作成される前に、(呼び出し元は明示的にリストを操作することで順序を変更できますが、) ビルダーはこの引数が最後であるかどうかを確認します。
+		/// ラムダが作成される前に、(呼び出し元は明示的にリストを操作することで順序を変更できますが) ビルダーはこの引数が最後であるかどうかを確認します。
 		/// </summary>
 		/// <param name="type">作成される仮引数の型を指定します。</param>
 		/// <param name="name">作成される仮引数の名前を指定します。</param>
@@ -160,7 +160,7 @@ namespace Microsoft.Scripting.Ast
 			ContractUtils.RequiresNotNull(type, "type");
 			ContractUtils.Requires(type.IsArray, "type");
 			ContractUtils.Requires(type.GetArrayRank() == 1, "type");
-			ContractUtils.Requires(ParamsArray == null, "type", "Already have parameter array");
+			ContractUtils.Requires(ParamsArray == null, "type", "すでに配列引数が存在します。");
 			return ParamsArray = Parameter(type, name);
 		}
 
@@ -233,7 +233,7 @@ namespace Microsoft.Scripting.Ast
 		/// <returns>新しく作成された <see cref="LambdaExpression"/>。</returns>
 		public LambdaExpression MakeLambda()
 		{
-			ContractUtils.Requires(ParamsArray == null, "Paramarray lambdas require explicit delegate type");
+			ContractUtils.Requires(ParamsArray == null, "配列引数のラムダには明示的なデリゲート型が必要です。");
 			Validate();
 			var lambda = Expression.Lambda(
 				GetLambdaType(_returnType, Parameters),
@@ -266,7 +266,7 @@ namespace Microsoft.Scripting.Ast
 		/// <summary>必要であればラムダ式の本体および指定されたデリゲートのシグネチャに一致する仮引数を構築します。</summary>
 		void EnsureSignature(Type delegateType)
 		{
-			System.Diagnostics.Debug.Assert(Parameters != null, "must have parameter list here");
+			System.Diagnostics.Debug.Assert(Parameters != null, "ここでは仮引数リストが必要です。");
 			// paramMapping はキーが引数、値はリダイレクトされるべき式で、どのように引数を割り当てるかを格納するディクショナリです。
 			// 現在、引数は (どのような変更も必要ないことを示す) それ自身か、
 			// 元の引数がデリゲートシグネチャに対応する直接引数を持たない場合に、ラムダ式に追加される合成変数にリダイレクトされます。
@@ -278,12 +278,12 @@ namespace Microsoft.Scripting.Ast
 			var delegateParams = delegateType.GetMethod("Invoke").GetParameters();
 			var delegateHasParamarray = delegateParams.Any() && delegateParams.Last().IsDefined(typeof(ParamArrayAttribute), false);
 			if (ParamsArray != null && !delegateHasParamarray)
-				throw new ArgumentException("paramarray lambdas must have paramarray delegate type");
+				throw new ArgumentException("配列引数のラムダには配列引数のデリゲート型が必要です。");
 			var copy = delegateHasParamarray ? delegateParams.Length - 1 : delegateParams.Length;
 			var unwrap = Parameters.Count - copy - (ParamsArray != null ? 1 : 0);
 			// ラムダ式には配列引数を除いて少なくともデリゲートと同数の仮引数がなくてはなりません。
 			if (unwrap < 0)
-				throw new ArgumentException("lambda does not have enough parameters");
+				throw new ArgumentException("ラムダに十分な仮引数がありません。");
 			// リライトが必要なければ短絡する
 			if (!delegateHasParamarray && Enumerable.Range(0, copy).All(x => Parameters[x].Type == delegateParams[x].ParameterType))
 				return;
@@ -353,15 +353,15 @@ namespace Microsoft.Scripting.Ast
 		void Validate()
 		{
 			if (_completed)
-				throw new InvalidOperationException("The builder is closed");
+				throw new InvalidOperationException("ビルダーはクローズされています。");
 			if (_returnType == null)
-				throw new InvalidOperationException("Return type is missing");
+				throw new InvalidOperationException("戻り値の型が指定されていません。");
 			if (_name == null)
-				throw new InvalidOperationException("Name is missing");
+				throw new InvalidOperationException("名前が指定されていません。");
 			if (_body == null)
-				throw new InvalidOperationException("Body is missing");
+				throw new InvalidOperationException("本体が指定されていません。");
 			if (ParamsArray != null && (Parameters.Count == 0 || Parameters[Parameters.Count - 1] != ParamsArray))
-				throw new InvalidOperationException("The params array parameter is not last in the parameter list");
+				throw new InvalidOperationException("配列引数の仮引数が仮引数リストの最後にありません。");
 		}
 
 		// 必要であればスコープをラップします。

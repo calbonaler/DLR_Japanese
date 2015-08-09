@@ -69,7 +69,7 @@ namespace Microsoft.Scripting.Hosting.Shell
 						OptionValueRequired(name, value);
 						var provider = RuntimeSetup.LanguageSetups.Where(x => x.Names.Any(n => DlrConfiguration.LanguageNameComparer.Equals(n, value))).Select(x => x.TypeName).FirstOrDefault();
 						if (provider == null)
-							throw new InvalidOptionException(string.Format("Unknown language id '{0}'.", value));
+							throw new InvalidOptionException(string.Format("不明な言語ID '{0}'.", value));
 						Options.LanguageProvider = provider;
 						Options.HasLanguageProvider = true;
 						break;
@@ -137,10 +137,10 @@ namespace Microsoft.Scripting.Hosting.Shell
 		protected void OptionValueRequired(string optionName, string value)
 		{
 			if (value == null)
-				throw new InvalidOptionException(String.Format(CultureInfo.CurrentCulture, "Argument expected for the {0} option.", optionName));
+				throw new InvalidOptionException(String.Format(CultureInfo.CurrentCulture, "オプション '{0}' には値が必要です。", optionName));
 		}
 
 		[Conditional("SILVERLIGHT")]
-		void OptionNotAvailableOnSilverlight(string optionName) { throw new InvalidOptionException(string.Format("Option '{0}' is not available on Silverlight.", optionName)); }
+		void OptionNotAvailableOnSilverlight(string optionName) { throw new InvalidOptionException(string.Format("オプション '{0}' は Silverlight では利用できません。", optionName)); }
 	}
 }

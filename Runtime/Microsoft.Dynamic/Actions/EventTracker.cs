@@ -98,7 +98,7 @@ namespace Microsoft.Scripting.Actions
 					((m = Event.GetAddMethod(true)) == null || m.IsStatic == mi.IsStatic) &&
 					((m = Event.GetRaiseMethod(true)) == null || m.IsStatic == mi.IsStatic) &&
 					((m = Event.GetRaiseMethod(true)) == null || m.IsStatic == mi.IsStatic),
-					"Methods are either all static or all instance."
+					"メソッドはすべて静的かすべてインスタンスかのいずれかでなければなりません。"
 				);
 				return mi.IsStatic;
 			}
@@ -200,7 +200,7 @@ namespace Microsoft.Scripting.Actions
 					{
 						hl = new ComHandlerList();
 						if (!Marshal.SetComObjectData(instance, this, hl))
-							throw new COMException("Failed to set COM Object Data");
+							throw new COMException("COM Object Data への設定に失敗しました。");
 					}
 				}
 			}

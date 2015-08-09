@@ -38,9 +38,9 @@ namespace Microsoft.Scripting.Runtime
 		public static readonly object False = false;
 
 		/// <summary><see cref="BooleanToObject"/> メソッドを示します。</summary>
-		internal static readonly MethodInfo BooleanToObjectMethod = typeof(ScriptingRuntimeHelpers).GetMethod("BooleanToObject");
+		internal static readonly MethodInfo BooleanToObjectMethod = new Func<bool, object>(BooleanToObject).Method;
 		/// <summary><see cref="Int32ToObject"/> メソッドを示します。</summary>
-		internal static readonly MethodInfo Int32ToObjectMethod = typeof(ScriptingRuntimeHelpers).GetMethod("Int32ToObject");
+		internal static readonly MethodInfo Int32ToObjectMethod = new Func<int, object>(Int32ToObject).Method;
 
 		static object[] MakeCache()
 		{
@@ -123,7 +123,7 @@ namespace Microsoft.Scripting.Runtime
 		/// <param name="value">変換を試みた値を指定します。</param>
 		/// <returns>変換が失敗したことを示す <see cref="ArgumentTypeException"/>。</returns>
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")] // TODO: fix
-		public static ArgumentTypeException CannotConvertError(Type toType, object value) { return SimpleTypeError(string.Format("Cannot convert {0}({1}) to {2}", CompilerHelpers.GetType(value).Name, value, toType.Name)); }
+		public static ArgumentTypeException CannotConvertError(Type toType, object value) { return SimpleTypeError(string.Format("{0}({1}) を {2} に変換できません。", CompilerHelpers.GetType(value).Name, value, toType.Name)); }
 
 		/// <summary>指定された属性が見つからないことを示す例外を返します。</summary>
 		/// <param name="message">例外を説明するメッセージを指定します。</param>
@@ -158,7 +158,7 @@ namespace Microsoft.Scripting.Runtime
 		/// <param name="type">予期していた <see cref="System.Runtime.CompilerServices.StrongBox&lt;T&gt;"/> の型引数を指定します。</param>
 		/// <param name="received">実際に受け取った値を指定します。</param>
 		/// <returns><see cref="System.Runtime.CompilerServices.StrongBox&lt;T&gt;"/> が予期されたにもかかわらず別の型を受け取ったことを示す <see cref="ArgumentTypeException"/>。</returns>
-		public static Exception MakeIncorrectBoxTypeError(Type type, object received) { return Error.UnexpectedType("StrongBox<" + type.Name + ">", CompilerHelpers.GetType(received).Name); }
+		public static Exception MakeIncorrectBoxTypeError(Type type, object received) { return Error.UnexpectedType(typeof(System.Runtime.CompilerServices.StrongBox<>).MakeGenericType(type).Name, CompilerHelpers.GetType(received).Name); }
 
 		/// <summary>指定された型の <see cref="SymbolId"/> 型の静的フィールドにそのフィールドの名前を表す <see cref="SymbolId"/> を設定します。</summary>
 		/// <param name="t"><see cref="SymbolId"/> 型の静的フィールドを名前で初期化する型を指定します。</param>

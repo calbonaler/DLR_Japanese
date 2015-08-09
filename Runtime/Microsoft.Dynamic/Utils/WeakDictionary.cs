@@ -287,7 +287,7 @@ namespace Microsoft.Scripting.Utils
 		public HybridMapping(int minimum)
 		{
 			if (minimum < 0 || (SIZE - minimum) < MIN_RANGE)
-				throw new ArgumentOutOfRangeException("offset", "invalid offset value");
+				throw new ArgumentOutOfRangeException("offset", "無効なオフセット値です。");
 			_minimum = minimum;
 			_current = minimum;
 		}
@@ -302,7 +302,7 @@ namespace Microsoft.Scripting.Utils
 					if (++_current >= SIZE)
 						_current = _minimum;
 					if (_current == saved)
-						throw new InvalidOperationException("HybridMapping is full");
+						throw new InvalidOperationException("HybridMapping に空き領域がありません。");
 				}
 				_dict.Add(_current, value);
 				return _current;

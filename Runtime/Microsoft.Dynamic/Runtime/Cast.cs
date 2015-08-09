@@ -38,7 +38,7 @@ namespace Microsoft.Scripting.Runtime
 					else if (to == typeof(void))
 						return null;
 					else
-						throw new InvalidCastException(string.Format("Cannot cast null to a value type {0}", to.Name));
+						throw new InvalidCastException(string.Format("null を値型 {0} にキャストできません。", to.Name));
 				}
 				else
 					// Explicit cast to reference type is simply null
@@ -52,7 +52,7 @@ namespace Microsoft.Scripting.Runtime
 				if (to.IsInstanceOfType(o) || to.IsAssignableFrom(type))
 					return o;
 				else
-					throw new InvalidCastException(string.Format("Cannot cast {0} to {1}", type.Name, to.Name));
+					throw new InvalidCastException(string.Format("{0} を {1} にキャストできません。", type.Name, to.Name));
 			}
 		}
 
@@ -100,6 +100,6 @@ namespace Microsoft.Scripting.Runtime
 
 		static object NewNullableInstanceSlow(Type type) { return Activator.CreateInstance(NullableType.MakeGenericType(type)); }
 
-		static InvalidCastException InvalidCast(object o, string typeName) { return new InvalidCastException(string.Format("Cannot cast {0} to {1}", o == null ? "(null)" : o.GetType().Name, typeName)); }
+		static InvalidCastException InvalidCast(object o, string typeName) { return new InvalidCastException(string.Format("{0} を {1} にキャストできません。", o == null ? "(null)" : o.GetType().Name, typeName)); }
 	}
 }

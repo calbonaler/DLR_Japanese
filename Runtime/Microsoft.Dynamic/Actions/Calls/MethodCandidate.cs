@@ -329,7 +329,7 @@ namespace Microsoft.Scripting.Actions.Calls
 			var mb = Overload.ReflectionInfo;
 			// TODO: make MakeExpression virtual on OverloadInfo?
 			if (mb == null)
-				throw new InvalidOperationException("Cannot generate an expression for an overload w/o MethodBase");
+				throw new InvalidOperationException("MethodBase のないオーバーロードに対して式を生成できません");
 			var mi = mb as MethodInfo;
 			if (mi != null)
 			{
@@ -337,7 +337,7 @@ namespace Microsoft.Scripting.Actions.Calls
 				if (!mi.IsStatic)
 				{
 					instance = _instanceBuilder.ToExpression(ref mi, Resolver, restrictedArgs, usageMarkers);
-					Debug.Assert(instance != null, "Can't skip instance expression");
+					Debug.Assert(instance != null, "インスタンス式は省略できません");
 				}
 				if (CompilerHelpers.IsVisible(mi))
 					call = AstUtils.SimpleCallHelper(instance, mi, callArgs);

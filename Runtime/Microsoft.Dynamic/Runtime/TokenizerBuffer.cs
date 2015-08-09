@@ -65,7 +65,7 @@ namespace Microsoft.Scripting.Runtime
 			get
 			{
 				if (_tokenEnd == -1)
-					throw new InvalidOperationException("Token end not marked");
+					throw new InvalidOperationException("トークンの終端が記録されていません。");
 				return _tokenEnd - _start;
 			}
 		}
@@ -88,7 +88,7 @@ namespace Microsoft.Scripting.Runtime
 			get
 			{
 				if (_tokenEnd == -1)
-					throw new InvalidOperationException("Token end not marked");
+					throw new InvalidOperationException("トークンの終端が記録されていません。");
 				return _tokenEndLocation;
 			}
 		}
@@ -338,7 +338,7 @@ namespace Microsoft.Scripting.Runtime
 		{
 			CheckInvariants();
 			if (_tokenEnd == -1)
-				throw new InvalidOperationException("Token end not marked");
+				throw new InvalidOperationException("トークンの終端が記録されていません。");
 			return new string(_buffer, _start, _tokenEnd - _start);
 		}
 
@@ -355,7 +355,7 @@ namespace Microsoft.Scripting.Runtime
 		{
 			CheckInvariants();
 			if (_tokenEnd == -1)
-				throw new InvalidOperationException("Token end not marked");
+				throw new InvalidOperationException("トークンの終端が記録されていません。");
 			ContractUtils.RequiresArrayRange(_tokenEnd - _start, offset, length, "offset", "length");
 			return new string(_buffer, _start + offset, length);
 		}
@@ -441,7 +441,6 @@ namespace Microsoft.Scripting.Runtime
 		}
 
 		[Conditional("DEBUG")]
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
 		void CheckInvariants()
 		{
 			Debug.Assert(_buffer.Length >= 1);

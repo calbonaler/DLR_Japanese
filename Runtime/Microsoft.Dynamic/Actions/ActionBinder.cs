@@ -269,7 +269,7 @@ namespace Microsoft.Scripting.Actions
 				Expression.Throw(
 					Expression.New(
 						typeof(ArgumentException).GetConstructor(new Type[] { typeof(string) }),
-						AstUtils.Constant("cannot assign to value types")
+						AstUtils.Constant("’lŒ^‚ÖŠ„‚è“–‚Ä‚é‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñ")
 					),
 					typeof(object)
 				)

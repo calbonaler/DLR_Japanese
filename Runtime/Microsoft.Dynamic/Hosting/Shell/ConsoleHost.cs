@@ -113,7 +113,7 @@ namespace Microsoft.Scripting.Hosting.Shell
 				if (lang != null)
 					return lang.TypeName;
 			}
-			throw new InvalidOptionException("No language specified.");
+			throw new InvalidOptionException("言語が指定されていません。");
 		}
 
 		/// <summary>このホストでコマンドラインをサポートする <see cref="CommandLine"/> を作成します。</summary>
@@ -157,7 +157,7 @@ namespace Microsoft.Scripting.Hosting.Shell
 			try { ParseHostOptions(args); }
 			catch (InvalidOptionException ex)
 			{
-				Console.Error.WriteLine("Invalid argument: " + ex.Message);
+				Console.Error.WriteLine("無効な引数: " + ex.Message);
 				return ExitCode = 1;
 			}
 			SetEnvironment();
@@ -178,7 +178,7 @@ namespace Microsoft.Scripting.Hosting.Shell
 			}
 			if (typeof(DynamicMethod).GetConstructor(new[] { typeof(string), typeof(Type), typeof(Type[]), typeof(bool) }) == null)
 			{
-				Console.WriteLine(string.Format("{0} requires .NET 2.0 SP1 or later to run.", languageSetup.DisplayName));
+				Console.WriteLine(string.Format("{0} には .NET 2.0 SP1 以降が動作する環境が必要です。", languageSetup.DisplayName));
 				Environment.Exit(1);
 			}
 			Runtime = new ScriptRuntime(runtimeSetup);
@@ -225,12 +225,12 @@ namespace Microsoft.Scripting.Hosting.Shell
 		{
 			StringBuilder sb = new StringBuilder();
 			var optionsHelp = Options.GetHelp();
-			sb.AppendLine(string.Format("Usage: {0}.exe [<dlr-options>] [--] [<language-specific-command-line>]", ExeName));
+			sb.AppendLine(string.Format("使用法: {0}.exe [<DLR オプション>] [--] [<言語固有のコマンドライン>]", ExeName));
 			sb.AppendLine();
-			sb.AppendLine("DLR options (both slash or dash could be used to prefix options):");
+			sb.AppendLine("DLR オプション (オプションのプレフィックスにはスラッシュとダッシュの両方が使用できます。):");
 			PrintTable(sb, optionsHelp);
 			sb.AppendLine();
-			sb.AppendLine("Language specific command line:");
+			sb.AppendLine("言語固有のコマンドライン:");
 			PrintLanguageHelp(sb);
 			sb.AppendLine();
 			return sb.ToString();
@@ -252,13 +252,13 @@ namespace Microsoft.Scripting.Hosting.Shell
 				}
 				if (help.Options.Count > 0)
 				{
-					output.AppendLine("Options:");
+					output.AppendLine("オプション:");
 					PrintTable(output, help.Options);
 					output.AppendLine();
 				}
 				if (help.EnvironmentVariables.Count > 0)
 				{
-					output.AppendLine("Environment variables:");
+					output.AppendLine("環境変数:");
 					PrintTable(output, help.EnvironmentVariables);
 					output.AppendLine();
 				}
@@ -380,7 +380,7 @@ namespace Microsoft.Scripting.Hosting.Shell
 		void PrintUsage()
 		{
 			StringBuilder sb = new StringBuilder();
-			sb.AppendFormat("Usage: {0}.exe ", ExeName);
+			sb.AppendFormat("使用法: {0}.exe ", ExeName);
 			PrintLanguageHelp(sb);
 			Console.Write(sb.ToString());
 		}
@@ -399,8 +399,7 @@ namespace Microsoft.Scripting.Hosting.Shell
 		/// <param name="ex">発生した例外を指定します。</param>
 		protected virtual void UnhandledException(ScriptEngine engine, Exception ex)
 		{
-			Console.Error.Write("Unhandled exception");
-			Console.Error.WriteLine(':');
+			Console.Error.WriteLine("ハンドルされていない例外:");
 			Console.Error.WriteLine(engine.GetService<ExceptionOperations>().FormatException(ex));
 		}
 

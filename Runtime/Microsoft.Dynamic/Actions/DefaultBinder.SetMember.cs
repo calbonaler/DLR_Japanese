@@ -231,7 +231,7 @@ namespace Microsoft.Scripting.Actions
 			else if (field.IsPublic && field.DeclaringType.IsVisible)
 				memInfo.Body.FinishCondition(!field.IsStatic && instance == null ?
 					Ast.Throw(
-						Ast.New(typeof(ArgumentException).GetConstructor(new[] { typeof(string) }), AstUtils.Constant("assignment to instance field w/o instance")),
+						Ast.New(typeof(ArgumentException).GetConstructor(new[] { typeof(string) }), AstUtils.Constant("インスタンスのないインスタンスフィールドへの割り当てです。")),
 						typeof(object)
 					) : MakeReturnValue(
 						Ast.Assign(

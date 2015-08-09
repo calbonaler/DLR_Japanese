@@ -165,7 +165,7 @@ namespace Microsoft.Scripting.Utils
 		/// <returns>名前からジェネリック型パラメータの数に関する情報が除かれた名前。</returns>
 		public static string GetNormalizedTypeName(string typeName)
 		{
-			ContractUtils.Requires(typeName.IndexOf(Type.Delimiter) == -1, "typeName", "typeName must be simple name.");
+			ContractUtils.Requires(typeName.IndexOf(Type.Delimiter) == -1, "typeName", "型名は単純名である必要があります。");
 			var backtick = typeName.IndexOf(GenericArityDelimiter);
 			return backtick != -1 ? typeName.Substring(0, backtick) : typeName;
 		}

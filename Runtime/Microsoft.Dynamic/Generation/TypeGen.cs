@@ -67,7 +67,7 @@ namespace Microsoft.Scripting.Generation
 			if (_initGen != null)
 				_initGen.Emit(OpCodes.Ret);
 			var ret = TypeBuilder.CreateType();
-			Debug.WriteLine("finished: " + ret.FullName);
+			Debug.WriteLine("Š®—¹: " + ret.FullName);
 			return ret;
 		}
 

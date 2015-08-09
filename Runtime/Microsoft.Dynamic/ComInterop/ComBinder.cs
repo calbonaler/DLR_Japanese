@@ -182,7 +182,7 @@ namespace Microsoft.Scripting.ComInterop
 				result = new DynamicMetaObject(Expression.Convert(instance.Expression, binder.Type),
 					BindingRestrictions.GetExpressionRestriction(
 						Expression.Call(
-							typeof(ComObject).GetMethod("IsComObject", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic),
+							new System.Func<object, bool>(ComObject.IsComObject).Method,
 							Ast.Utils.Convert(instance.Expression, typeof(object))
 						)
 					)

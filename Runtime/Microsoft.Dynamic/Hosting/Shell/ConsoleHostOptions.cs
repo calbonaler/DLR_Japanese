@@ -51,14 +51,13 @@ namespace Microsoft.Scripting.Hosting.Shell
 
 		/// <summary><see cref="ConsoleHost"/> の起動時オプションに関するヘルプを取得します。</summary>
 		/// <returns>オプション書式と説明が格納された 2 次元配列。</returns>
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional")] // TODO: fix
 		public KeyValuePair<string, string>[] GetHelp()
 		{
 			return new[] {
-                new KeyValuePair<string, string>("/help",                     "Displays this help."),
-                new KeyValuePair<string, string>("/lang:<extension>",         "Specify language by the associated extension (py, js, vb, rb). Determined by an extension of the first file. Defaults to IronPython."),
-                new KeyValuePair<string, string>("/paths:<file-path-list>",   "Semicolon separated list of import paths (/run only)."),
-                new KeyValuePair<string, string>("/setenv:<var1=value1;...>", "Sets specified environment variables for the console process. Not available on Silverlight."),
+                new KeyValuePair<string, string>("/help",                       "このヘルプを表示します。"),
+                new KeyValuePair<string, string>("/lang:<拡張子>",              "関連付けられた拡張子 (py, js, vb, rb) から言語を指定します。最初のファイルの拡張子から判断されます。既定値は IronPython です。"),
+                new KeyValuePair<string, string>("/paths:<ファイルパスリスト>", "インポートパスのセミコロン区切りのリスト (/run のみ)."),
+                new KeyValuePair<string, string>("/setenv:<変数1=値1;...>",   "指定された環境変数をコンソールプロセスに対して設定します。Silverlight では利用できません。"),
             };
 		}
 	}

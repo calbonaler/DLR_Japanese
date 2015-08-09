@@ -109,7 +109,8 @@ namespace Microsoft.Scripting.Ast
 				body = Expression.Lambda(body);
 			// 定数がすでにリライトされた後でツリーを探索するので、ここでは _debugCookies 配列の ConstantExpression を作成できません。
 			// 代わりに、配列を _debugCookies からの内容で配列で初期化する NewArrayExpression を作成します。
-			return Expression.Call(typeof(ScriptingRuntimeHelpers), "MakeGenerator", new[] { _generator.Target.Type },
+			var targetMethodExample = new Func<GeneratorNext<int>, IEnumerator<int>>(ScriptingRuntimeHelpers.MakeGenerator).Method.GetGenericMethodDefinition();
+			return Expression.Call(targetMethodExample.DeclaringType, targetMethodExample.Name, new[] { _generator.Target.Type },
 				_debugCookies != null ? new[] { body, Expression.NewArrayInit(typeof(int), _debugCookies.Select(x => AstUtils.Constant(x))) } : new[] { body }
 			);
 		}
@@ -178,7 +179,7 @@ namespace Microsoft.Scripting.Ast
 			if (startYields == _yields.Count)
 				return Expression.MakeTry(null, @try, @finally, fault, handlers);
 			if (fault != null && finallyYields != catchYields)
-				throw new NotSupportedException("yield in fault block is not supported"); // 誰もこれを必要とせず、fault に戻る方法が明確でない
+				throw new NotSupportedException("fault ブロックにおける yield はサポートされていません。"); // 誰もこれを必要とせず、fault に戻る方法が明確でない
 			// try に yield があれば、yield ラベルを発行する新しい try 本体を構築する必要がある
 			var tryStart = Expression.Label();
 			if (tryYields != startYields)
@@ -319,7 +320,7 @@ namespace Microsoft.Scripting.Ast
 			int yields = _yields.Count;
 			var f = Visit(node.Filter);
 			if (yields != _yields.Count)
-				throw new NotSupportedException("yield in filter is not allowed"); // No one needs this yet, and it's not clear what it should even do
+				throw new NotSupportedException("filter における yield は許可されていません。"); // No one needs this yet, and it's not clear what it should even do
 			var b = Visit(node.Body);
 			if (v == node.Variable && b == node.Body && f == node.Filter)
 				return node;
@@ -356,7 +357,7 @@ namespace Microsoft.Scripting.Ast
 		Expression VisitYield(YieldExpression node)
 		{
 			if (node.Target != _generator.Target)
-				throw new InvalidOperationException("yield and generator must have the same LabelTarget object");
+				throw new InvalidOperationException("yield とジェネレータは同じ LabelTarget オブジェクトを共有している必要があります。");
 			var value = Visit(node.Value);
 			var block = new List<Expression>();
 			if (value == null)

@@ -130,7 +130,7 @@ namespace Microsoft.Scripting.Actions.Calls
 			ContractUtils.RequiresNotNullItems(methods, "methods");
 			ContractUtils.Requires(minLevel <= maxLevel);
 			if (_candidateSets != null)
-				throw new InvalidOperationException("Overload resolver cannot be reused.");
+				throw new InvalidOperationException("オーバーロード解決器は再利用できません");
 			_methodName = methodName;
 			_minLevel = minLevel;
 			_maxLevel = maxLevel;
@@ -269,7 +269,7 @@ namespace Microsoft.Scripting.Actions.Calls
 			get
 			{
 				if (_actualArguments == null)
-					throw new InvalidOperationException("Actual arguments have not been built yet.");
+					throw new InvalidOperationException("実引数セットはまだ構築されていません");
 				return _actualArguments;
 			}
 		}
@@ -623,7 +623,7 @@ namespace Microsoft.Scripting.Actions.Calls
 			{
 				if (levelOne == NarrowingLevel.All)
 				{
-					Debug.Fail("Each argument should be convertible to the corresponding parameter");
+					Debug.Fail("各実引数は対応する仮引数に変換可能である必要があります");
 					break;
 				}
 			}
@@ -632,7 +632,7 @@ namespace Microsoft.Scripting.Actions.Calls
 			{
 				if (levelTwo == NarrowingLevel.All)
 				{
-					Debug.Fail("Each argument should be convertible to the corresponding parameter");
+					Debug.Fail("各実引数は対応する仮引数に変換可能である必要があります");
 					break;
 				}
 			}
@@ -774,15 +774,15 @@ namespace Microsoft.Scripting.Actions.Calls
 					return ErrorInfo.FromException(
 						Ast.Call(
 							new Func<string, ArgumentTypeException>(BinderOps.SimpleTypeError).Method,
-							AstUtils.Constant("Multiple targets could match: " + string.Join(", ", target.AmbiguousMatches.Select(x => string.Concat(target.Name, "(", string.Join(", ", x.GetParameterTypes().Select(y => Binder.GetTypeName(y))), ")"))), typeof(string))
+							AstUtils.Constant("複数のターゲットが一致しました: " + string.Join(", ", target.AmbiguousMatches.Select(x => string.Concat(target.Name, "(", string.Join(", ", x.GetParameterTypes().Select(y => Binder.GetTypeName(y))), ")"))), typeof(string))
 						)
 					);
 				case BindingResult.IncorrectArgumentCount:
 					return MakeIncorrectArgumentCountError(target);
 				case BindingResult.InvalidArguments:
-					return ErrorInfo.FromException(Ast.Call(new Func<string, ArgumentTypeException>(BinderOps.SimpleTypeError).Method, AstUtils.Constant("Invalid arguments.")));
+					return ErrorInfo.FromException(Ast.Call(new Func<string, ArgumentTypeException>(BinderOps.SimpleTypeError).Method, AstUtils.Constant("無効な引数です。")));
 				case BindingResult.NoCallableMethod:
-					return ErrorInfo.FromException(Ast.New(typeof(InvalidOperationException).GetConstructor(new[] { typeof(string) }), AstUtils.Constant("No callable method.")));
+					return ErrorInfo.FromException(Ast.New(typeof(InvalidOperationException).GetConstructor(new[] { typeof(string) }), AstUtils.Constant("呼び出し可能なメソッドがありません。")));
 				default:
 					throw new InvalidOperationException();
 			}
@@ -823,7 +823,7 @@ namespace Microsoft.Scripting.Actions.Calls
 							return ErrorInfo.FromException(
 								Ast.Call(
 									new Func<string, ArgumentTypeException>(BinderOps.SimpleTypeError).Method,
-									AstUtils.Constant(String.Format("expected {0}, got {1}", Binder.GetTypeName(cr.To), cr.GetArgumentTypeName(Binder)))
+									AstUtils.Constant(String.Format("{0} が予期されましたが {1} が渡されました。", Binder.GetTypeName(cr.To), cr.GetArgumentTypeName(Binder)))
 								)
 							);
 						break;

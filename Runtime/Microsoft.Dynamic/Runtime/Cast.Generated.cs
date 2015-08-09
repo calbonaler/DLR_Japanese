@@ -36,7 +36,7 @@ namespace Microsoft.Scripting.Runtime
 				else if (type == NullableBooleanType)
 					return (bool)(Nullable<bool>)o;
 			}
-			throw InvalidCast(o, "Boolean");
+			throw InvalidCast(o, typeof(bool).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを 8 ビット符号なし整数に変換します。</summary>
@@ -99,7 +99,7 @@ namespace Microsoft.Scripting.Runtime
 				else if (type == NullableDecimalType)
 					return (byte)(Nullable<decimal>)o;
 			}
-			throw InvalidCast(o, "Byte");
+			throw InvalidCast(o, typeof(byte).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを <see cref="System.Char"/> に変換します。</summary>
@@ -162,7 +162,7 @@ namespace Microsoft.Scripting.Runtime
 				else if (type == NullableDecimalType)
 					return (char)(Nullable<decimal>)o;
 			}
-			throw InvalidCast(o, "Char");
+			throw InvalidCast(o, typeof(char).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを 10 進数値に変換します。</summary>
@@ -225,7 +225,7 @@ namespace Microsoft.Scripting.Runtime
 				else if (type == NullableDecimalType)
 					return (decimal)(Nullable<decimal>)o;
 			}
-			throw InvalidCast(o, "Decimal");
+			throw InvalidCast(o, typeof(decimal).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを倍精度浮動小数点数に変換します。</summary>
@@ -288,7 +288,7 @@ namespace Microsoft.Scripting.Runtime
 				else if (type == NullableDecimalType)
 					return (double)(Nullable<decimal>)o;
 			}
-			throw InvalidCast(o, "Double");
+			throw InvalidCast(o, typeof(double).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを 16 ビット符号付き整数に変換します。</summary>
@@ -351,7 +351,7 @@ namespace Microsoft.Scripting.Runtime
 				else if (type == NullableDecimalType)
 					return (short)(Nullable<decimal>)o;
 			}
-			throw InvalidCast(o, "Int16");
+			throw InvalidCast(o, typeof(short).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを 32 ビット符号付き整数に変換します。</summary>
@@ -414,7 +414,7 @@ namespace Microsoft.Scripting.Runtime
 				else if (type == NullableDecimalType)
 					return (int)(Nullable<decimal>)o;
 			}
-			throw InvalidCast(o, "Int32");
+			throw InvalidCast(o, typeof(int).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを 64 ビット符号付き整数に変換します。</summary>
@@ -477,7 +477,7 @@ namespace Microsoft.Scripting.Runtime
 				else if (type == NullableDecimalType)
 					return (long)(Nullable<decimal>)o;
 			}
-			throw InvalidCast(o, "Int64");
+			throw InvalidCast(o, typeof(long).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを 8 ビット符号付き整数に変換します。</summary>
@@ -541,7 +541,7 @@ namespace Microsoft.Scripting.Runtime
 				else if (type == NullableDecimalType)
 					return (sbyte)(Nullable<decimal>)o;
 			}
-			throw InvalidCast(o, "SByte");
+			throw InvalidCast(o, typeof(sbyte).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを単精度浮動小数点数に変換します。</summary>
@@ -604,7 +604,7 @@ namespace Microsoft.Scripting.Runtime
 				else if (type == NullableDecimalType)
 					return (float)(Nullable<decimal>)o;
 			}
-			throw InvalidCast(o, "Single");
+			throw InvalidCast(o, typeof(float).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを 16 ビット符号なし整数に変換します。</summary>
@@ -668,7 +668,7 @@ namespace Microsoft.Scripting.Runtime
 				else if (type == NullableDecimalType)
 					return (ushort)(Nullable<decimal>)o;
 			}
-			throw InvalidCast(o, "UInt16");
+			throw InvalidCast(o, typeof(ushort).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを 32 ビット符号なし整数に変換します。</summary>
@@ -732,7 +732,7 @@ namespace Microsoft.Scripting.Runtime
 				else if (type == NullableDecimalType)
 					return (uint)(Nullable<decimal>)o;
 			}
-			throw InvalidCast(o, "UInt32");
+			throw InvalidCast(o, typeof(uint).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを 64 ビット符号なし整数に変換します。</summary>
@@ -796,7 +796,7 @@ namespace Microsoft.Scripting.Runtime
 				else if (type == NullableDecimalType)
 					return (ulong)(Nullable<decimal>)o;
 			}
-			throw InvalidCast(o, "UInt64");
+			throw InvalidCast(o, typeof(ulong).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを <see cref="T:System.Nullable&lt;System.Boolean&gt;"/> に変換します。</summary>
@@ -812,7 +812,7 @@ namespace Microsoft.Scripting.Runtime
 				return (Nullable<bool>)(bool)o;
 			else if (type == NullableBooleanType)
 				return (Nullable<bool>)o;
-			throw InvalidCast(o, "Boolean");
+			throw InvalidCast(o, typeof(bool).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを <see cref="T:System.Nullable&lt;System.Byte&gt;"/> に変換します。</summary>
@@ -874,7 +874,7 @@ namespace Microsoft.Scripting.Runtime
 				return (Nullable<byte>)(Nullable<char>)o;
 			else if (type == NullableDecimalType)
 				return (Nullable<byte>)(Nullable<decimal>)o;
-			throw InvalidCast(o, "Byte");
+			throw InvalidCast(o, typeof(byte).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを <see cref="T:System.Nullable&lt;System.Char&gt;"/> に変換します。</summary>
@@ -936,7 +936,7 @@ namespace Microsoft.Scripting.Runtime
 				return (Nullable<char>)(Nullable<char>)o;
 			else if (type == NullableDecimalType)
 				return (Nullable<char>)(Nullable<decimal>)o;
-			throw InvalidCast(o, "Char");
+			throw InvalidCast(o, typeof(char).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを <see cref="T:System.Nullable&lt;System.Decimal&gt;"/> に変換します。</summary>
@@ -998,7 +998,7 @@ namespace Microsoft.Scripting.Runtime
 				return (Nullable<decimal>)(Nullable<char>)o;
 			else if (type == NullableDecimalType)
 				return (Nullable<decimal>)(Nullable<decimal>)o;
-			throw InvalidCast(o, "Decimal");
+			throw InvalidCast(o, typeof(decimal).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを <see cref="T:System.Nullable&lt;System.Double&gt;"/> に変換します。</summary>
@@ -1060,7 +1060,7 @@ namespace Microsoft.Scripting.Runtime
 				return (Nullable<double>)(Nullable<char>)o;
 			else if (type == NullableDecimalType)
 				return (Nullable<double>)(Nullable<decimal>)o;
-			throw InvalidCast(o, "Double");
+			throw InvalidCast(o, typeof(double).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを <see cref="T:System.Nullable&lt;System.Int16&gt;"/> に変換します。</summary>
@@ -1122,7 +1122,7 @@ namespace Microsoft.Scripting.Runtime
 				return (Nullable<short>)(Nullable<char>)o;
 			else if (type == NullableDecimalType)
 				return (Nullable<short>)(Nullable<decimal>)o;
-			throw InvalidCast(o, "Int16");
+			throw InvalidCast(o, typeof(short).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを <see cref="T:System.Nullable&lt;System.Int32&gt;"/> に変換します。</summary>
@@ -1184,7 +1184,7 @@ namespace Microsoft.Scripting.Runtime
 				return (Nullable<int>)(Nullable<char>)o;
 			else if (type == NullableDecimalType)
 				return (Nullable<int>)(Nullable<decimal>)o;
-			throw InvalidCast(o, "Int32");
+			throw InvalidCast(o, typeof(int).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを <see cref="T:System.Nullable&lt;System.Int64&gt;"/> に変換します。</summary>
@@ -1246,7 +1246,7 @@ namespace Microsoft.Scripting.Runtime
 				return (Nullable<long>)(Nullable<char>)o;
 			else if (type == NullableDecimalType)
 				return (Nullable<long>)(Nullable<decimal>)o;
-			throw InvalidCast(o, "Int64");
+			throw InvalidCast(o, typeof(long).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを <see cref="T:System.Nullable&lt;System.SByte&gt;"/> に変換します。</summary>
@@ -1309,7 +1309,7 @@ namespace Microsoft.Scripting.Runtime
 				return (Nullable<sbyte>)(Nullable<char>)o;
 			else if (type == NullableDecimalType)
 				return (Nullable<sbyte>)(Nullable<decimal>)o;
-			throw InvalidCast(o, "SByte");
+			throw InvalidCast(o, typeof(sbyte).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを <see cref="T:System.Nullable&lt;System.Single&gt;"/> に変換します。</summary>
@@ -1371,7 +1371,7 @@ namespace Microsoft.Scripting.Runtime
 				return (Nullable<float>)(Nullable<char>)o;
 			else if (type == NullableDecimalType)
 				return (Nullable<float>)(Nullable<decimal>)o;
-			throw InvalidCast(o, "Single");
+			throw InvalidCast(o, typeof(float).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを <see cref="T:System.Nullable&lt;System.UInt16&gt;"/> に変換します。</summary>
@@ -1434,7 +1434,7 @@ namespace Microsoft.Scripting.Runtime
 				return (Nullable<ushort>)(Nullable<char>)o;
 			else if (type == NullableDecimalType)
 				return (Nullable<ushort>)(Nullable<decimal>)o;
-			throw InvalidCast(o, "UInt16");
+			throw InvalidCast(o, typeof(ushort).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを <see cref="T:System.Nullable&lt;System.UInt32&gt;"/> に変換します。</summary>
@@ -1497,7 +1497,7 @@ namespace Microsoft.Scripting.Runtime
 				return (Nullable<uint>)(Nullable<char>)o;
 			else if (type == NullableDecimalType)
 				return (Nullable<uint>)(Nullable<decimal>)o;
-			throw InvalidCast(o, "UInt32");
+			throw InvalidCast(o, typeof(uint).Name);
 		}
 
 		/// <summary>指定されたオブジェクトを <see cref="T:System.Nullable&lt;System.UInt64&gt;"/> に変換します。</summary>
@@ -1560,7 +1560,7 @@ namespace Microsoft.Scripting.Runtime
 				return (Nullable<ulong>)(Nullable<char>)o;
 			else if (type == NullableDecimalType)
 				return (Nullable<ulong>)(Nullable<decimal>)o;
-			throw InvalidCast(o, "UInt64");
+			throw InvalidCast(o, typeof(ulong).Name);
 		}
 
 		/// <summary>指定された型を基にする <see cref="System.Nullable&lt;T&gt;"/> を作成します。</summary>
@@ -1612,7 +1612,7 @@ namespace Microsoft.Scripting.Runtime
 				case TypeCode.Int64: return (byte)(long)o;
 				case TypeCode.UInt64: return (byte)(ulong)o;
 			}
-			throw new InvalidOperationException("Invalid enum");
+			throw new InvalidOperationException("無効な列挙体型です。");
 		}
 
 		static sbyte ExplicitCastEnumToSByte(object o)
@@ -1629,7 +1629,7 @@ namespace Microsoft.Scripting.Runtime
 				case TypeCode.Int64: return (sbyte)(long)o;
 				case TypeCode.UInt64: return (sbyte)(ulong)o;
 			}
-			throw new InvalidOperationException("Invalid enum");
+			throw new InvalidOperationException("無効な列挙体型です。");
 		}
 
 		static short ExplicitCastEnumToInt16(object o)
@@ -1646,7 +1646,7 @@ namespace Microsoft.Scripting.Runtime
 				case TypeCode.Int64: return (short)(long)o;
 				case TypeCode.UInt64: return (short)(ulong)o;
 			}
-			throw new InvalidOperationException("Invalid enum");
+			throw new InvalidOperationException("無効な列挙体型です。");
 		}
 
 		static ushort ExplicitCastEnumToUInt16(object o)
@@ -1663,7 +1663,7 @@ namespace Microsoft.Scripting.Runtime
 				case TypeCode.Int64: return (ushort)(long)o;
 				case TypeCode.UInt64: return (ushort)(ulong)o;
 			}
-			throw new InvalidOperationException("Invalid enum");
+			throw new InvalidOperationException("無効な列挙体型です。");
 		}
 
 		static int ExplicitCastEnumToInt32(object o)
@@ -1680,7 +1680,7 @@ namespace Microsoft.Scripting.Runtime
 				case TypeCode.Int64: return (int)(long)o;
 				case TypeCode.UInt64: return (int)(ulong)o;
 			}
-			throw new InvalidOperationException("Invalid enum");
+			throw new InvalidOperationException("無効な列挙体型です。");
 		}
 
 		static uint ExplicitCastEnumToUInt32(object o)
@@ -1697,7 +1697,7 @@ namespace Microsoft.Scripting.Runtime
 				case TypeCode.Int64: return (uint)(long)o;
 				case TypeCode.UInt64: return (uint)(ulong)o;
 			}
-			throw new InvalidOperationException("Invalid enum");
+			throw new InvalidOperationException("無効な列挙体型です。");
 		}
 
 		static long ExplicitCastEnumToInt64(object o)
@@ -1714,7 +1714,7 @@ namespace Microsoft.Scripting.Runtime
 				case TypeCode.Int64: return (long)o;
 				case TypeCode.UInt64: return (long)(ulong)o;
 			}
-			throw new InvalidOperationException("Invalid enum");
+			throw new InvalidOperationException("無効な列挙体型です。");
 		}
 
 		static ulong ExplicitCastEnumToUInt64(object o)
@@ -1731,7 +1731,7 @@ namespace Microsoft.Scripting.Runtime
 				case TypeCode.Int64: return (ulong)(long)o;
 				case TypeCode.UInt64: return (ulong)o;
 			}
-			throw new InvalidOperationException("Invalid enum");
+			throw new InvalidOperationException("無効な列挙体型です。");
 		}
 
 		static readonly Type BooleanType = typeof(bool);

@@ -108,7 +108,7 @@ namespace Microsoft.Scripting.Actions.Calls
 				}
 			}
 			if (func == null)
-				throw new InvalidOperationException(string.Format("Unsupported param dictionary type: {0}", dictType.FullName));
+				throw new InvalidOperationException(string.Format("サポートされていない辞書引数型: {0}", dictType.FullName));
 			return func;
 		}
 	}

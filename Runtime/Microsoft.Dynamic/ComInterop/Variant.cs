@@ -756,7 +756,7 @@ namespace Microsoft.Scripting.ComInterop
 		public void SetAsByrefVariantIndirect(ref Variant value)
 		{
 			Debug.Assert(IsEmpty); // VariantClear はこれ以外の場合でも必要になる可能性がありますが、セッターは 1 回だけ呼び出すことができます。
-			Debug.Assert((value.VariantType & VarEnum.VT_BYREF) == 0, "double indirection");
+			Debug.Assert((value.VariantType & VarEnum.VT_BYREF) == 0, "二重間接です。");
 			switch (value.VariantType)
 			{
 				case VarEnum.VT_EMPTY:

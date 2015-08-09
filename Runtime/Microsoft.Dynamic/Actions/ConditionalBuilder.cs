@@ -97,7 +97,7 @@ namespace Microsoft.Scripting.Actions
 		public DynamicMetaObject GetMetaObject(params DynamicMetaObject[] types)
 		{
 			if (_body == null)
-				throw new InvalidOperationException("FinishCondition should have been called");
+				throw new InvalidOperationException("FinishCondition が呼び出されている必要があります。");
 			return new DynamicMetaObject(_body, BindingRestrictions.Combine(types).Merge(_restrictions));
 		}
 

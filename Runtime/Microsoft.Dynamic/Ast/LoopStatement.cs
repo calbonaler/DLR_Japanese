@@ -79,7 +79,7 @@ namespace Microsoft.Scripting.Ast
 			ContractUtils.RequiresNotNull(body, "body");
 			if (test != null)
 			{
-				ContractUtils.Requires(test.Type == typeof(bool), "test", "Test must be boolean");
+				ContractUtils.Requires(test.Type == typeof(bool), "test", "条件は真偽値である必要があります。");
 				@break = @break ?? Expression.Label();
 				body = Expression.IfThenElse(test,
 					body,

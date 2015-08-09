@@ -46,7 +46,7 @@ namespace Microsoft.Scripting.ComInterop
 			else if (typeAttr.typekind == ComTypes.TYPEKIND.TKIND_DISPATCH || typeAttr.typekind == ComTypes.TYPEKIND.TKIND_INTERFACE)
 				return new ComTypeDesc(typeInfo, ComType.Interface, null);
 			else
-				throw new InvalidOperationException("Attempting to wrap an unsupported enum type.");
+				throw new InvalidOperationException("サポートされていない列挙体型をラップしようとしました。");
 		}
 
 		internal static ComTypeDesc CreateEmptyTypeDesc()

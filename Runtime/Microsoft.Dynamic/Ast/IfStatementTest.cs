@@ -47,7 +47,7 @@ namespace Microsoft.Scripting.Ast
 		{
 			ContractUtils.RequiresNotNull(test, "test");
 			ContractUtils.RequiresNotNull(body, "body");
-			ContractUtils.Requires(test.Type == typeof(bool), "test", "Test must be boolean");
+			ContractUtils.Requires(test.Type == typeof(bool), "test", "条件は真偽値である必要があります。");
 			return new IfStatementTest(test, body);
 		}
 	}

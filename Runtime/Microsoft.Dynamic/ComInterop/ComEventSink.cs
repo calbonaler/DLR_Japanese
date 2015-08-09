@@ -57,7 +57,7 @@ namespace Microsoft.Scripting.ComInterop
 		{
 			_sourceIid = sourceIid;
 			_adviseCookie = -1;
-			Debug.Assert(_connectionPoint == null, "re-initializing event sink w/o unadvising from connection point");
+			Debug.Assert(_connectionPoint == null, "アドバイザリ コネクションを終了せずにイベント シンクを再初期化しました。");
 			var cpc = rcw as ComTypes.IConnectionPointContainer;
 			if (cpc == null)
 				throw Error.COMObjectDoesNotSupportEvents();
@@ -195,7 +195,7 @@ namespace Microsoft.Scripting.ComInterop
 				COMException exCOM = ex as COMException;
 				if (exCOM != null && exCOM.ErrorCode == ComHresults.CONNECT_E_NOCONNECTION)
 				{
-					Debug.Assert(false, "IConnectionPoint::Unadvise returned CONNECT_E_NOCONNECTION.");
+					Debug.Fail("IConnectionPoint::Unadvise が CONNECT_E_NOCONNECTION を返しました。");
 					throw;
 				}
 			}

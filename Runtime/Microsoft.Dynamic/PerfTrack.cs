@@ -134,19 +134,19 @@ namespace Microsoft.Scripting
 			const double THROW_TIME = 0.000025365656;
 			const double FIELD_TIME = 0.0000018080093;
 			output.WriteLine();
-			output.WriteLine("---- Performance Details ----");
+			output.WriteLine("---- 性能の詳細 ----");
 			output.WriteLine();
 			foreach (var kvp in _events)
 			{
 				if (kvp.Value.Count > 0)
 				{
-					output.WriteLine("Category : " + kvp.Key);
+					output.WriteLine("カテゴリ : " + kvp.Key);
 					DumpHistogram(kvp.Value, output);
 					output.WriteLine();
 				}
 			}
 			output.WriteLine();
-			output.WriteLine("---- Performance Summary ----");
+			output.WriteLine("---- 性能の概要 ----");
 			output.WriteLine();
 			double knownTimes = 0;
 			foreach (var kvp in summaryStats)
@@ -154,25 +154,25 @@ namespace Microsoft.Scripting
 				switch (kvp.Key)
 				{
 					case Category.Exceptions:
-						output.WriteLine("Total Exception ({0}) = {1}  (throwtime = ~{2} secs)", kvp.Key, kvp.Value, kvp.Value * THROW_TIME);
+						output.WriteLine("全例外 ({0}) = {1}  (スロー時間 = ~{2} secs)", kvp.Key, kvp.Value, kvp.Value * THROW_TIME);
 						knownTimes += kvp.Value * THROW_TIME;
 						break;
 					case Category.Fields:
-						output.WriteLine("Total field = {0} (time = ~{1} secs)", kvp.Value, kvp.Value * FIELD_TIME);
+						output.WriteLine("全フィールド = {0} (時間 = ~{1} secs)", kvp.Value, kvp.Value * FIELD_TIME);
 						knownTimes += kvp.Value * FIELD_TIME;
 						break;
 					case Category.Methods:
-						output.WriteLine("Total calls = {0} (calltime = ~{1} secs)", kvp.Value, kvp.Value * CALL_TIME);
+						output.WriteLine("全呼び出し = {0} (呼び出し時間 = ~{1} secs)", kvp.Value, kvp.Value * CALL_TIME);
 						knownTimes += kvp.Value * CALL_TIME;
 						break;
 					//case Categories.Properties:
 					default:
-						output.WriteLine("Total {1} = {0}", kvp.Value, kvp.Key);
+						output.WriteLine("全体 {1} = {0}", kvp.Value, kvp.Key);
 						break;
 				}
 			}
 			output.WriteLine();
-			output.WriteLine("Total Known Times: {0}", knownTimes);
+			output.WriteLine("全体の既知の時間: {0}", knownTimes);
 		}
 
 		/// <summary>指定されたカテゴリのイベントの発生を記録します。</summary>

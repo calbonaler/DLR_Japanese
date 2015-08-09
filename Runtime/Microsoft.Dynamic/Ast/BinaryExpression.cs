@@ -67,21 +67,21 @@ namespace Microsoft.Scripting.Ast
 			ContractUtils.RequiresNotNull(left, "left");
 			ContractUtils.RequiresNotNull(right, "right");
 			// A bit too strict, but on a safe side.
-			ContractUtils.Requires(left.Type == right.Type, "Expression types must match");
+			ContractUtils.Requires(left.Type == right.Type, "式の型は一致する必要があります。");
 			temp = Expression.Variable(left.Type, "tmp_left");
 			Expression condition;
 			if (isTrue != null)
 			{
-				ContractUtils.Requires(isTrue.ReturnType == typeof(bool), "isTrue", "Predicate must return bool.");
+				ContractUtils.Requires(isTrue.ReturnType == typeof(bool), "isTrue", "述語は真偽値を返す必要があります。");
 				ParameterInfo[] parameters = isTrue.GetParameters();
-				ContractUtils.Requires(parameters.Length == 1, "isTrue", "Predicate must take one parameter.");
-				ContractUtils.Requires(isTrue.IsStatic && isTrue.IsPublic, "isTrue", "Predicate must be public and static.");
-				ContractUtils.Requires(TypeUtils.CanAssign(parameters[0].ParameterType, left.Type), "left", "Incorrect left expression type");
+				ContractUtils.Requires(parameters.Length == 1, "isTrue", "述語は 1 つの引数をとる必要があります。");
+				ContractUtils.Requires(isTrue.IsStatic && isTrue.IsPublic, "isTrue", "述語は公開されている静的メソッドである必要があります。");
+				ContractUtils.Requires(TypeUtils.CanAssign(parameters[0].ParameterType, left.Type), "left", "左辺の型が正しくありません。");
 				condition = Expression.Call(isTrue, Expression.Assign(temp, left));
 			}
 			else
 			{
-				ContractUtils.Requires(!left.Type.IsValueType, "left", "Incorrect left expression type");
+				ContractUtils.Requires(!left.Type.IsValueType, "left", "左辺の型が正しくありません。");
 				condition = Expression.Equal(Expression.Assign(temp, left), AstUtils.Constant(null, left.Type));
 			}
 			if (isReverse)

@@ -129,7 +129,7 @@ namespace Microsoft.Scripting.Actions
 				MemberTracker value;
 				if (!TryGetValue(SymbolTable.StringToId(typeName), out value))
 				{
-					Debug.Assert(false, "We should never get here as TryGetMember should raise a TypeLoadException");
+					Debug.Fail("TryGetMember ‚Í TypeLoadException ‚ğ”­¶‚³‚¹‚é‚Í‚¸‚È‚Ì‚ÅA‚±‚±‚É“’B‚·‚é‚Ì‚Í‚ ‚è“¾‚È‚¢B");
 					throw new TypeLoadException(typeName);
 				}
 			}

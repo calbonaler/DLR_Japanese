@@ -163,7 +163,7 @@ namespace Microsoft.Scripting.Interpreter
 			}
 			LocalVariable loc;
 			if (!_closureVars.TryGetValue(variable, out loc))
-				throw new InvalidOperationException("unbound variable: " + variable.Name);
+				throw new InvalidOperationException("‘©”›‚³‚ê‚Ä‚¢‚È‚¢•Ï”: " + variable.Name);
 			var result = loc.LoadFromArray(null, _closureArray);
 			return unbox ? LightCompiler.Unbox(result) : result;
 		}

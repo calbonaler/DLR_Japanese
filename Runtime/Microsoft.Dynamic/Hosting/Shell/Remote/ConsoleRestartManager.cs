@@ -89,7 +89,7 @@ namespace Microsoft.Scripting.Hosting.Shell.Remote
 		{
 			Debug.Assert(Thread.CurrentThread != ConsoleThread);
 			if (ConsoleThread.IsAlive)
-				throw new InvalidOperationException("Console thread is already running.");
+				throw new InvalidOperationException("コンソールスレッドは既に実行されています");
 			ConsoleThread.Start();
 		}
 
@@ -97,7 +97,7 @@ namespace Microsoft.Scripting.Hosting.Shell.Remote
 		{
 #if DEBUG
 			try { RunWorker(); }
-			catch (Exception e) { Debug.Fail("Unhandled exception on console thread:\n\n" + e.ToString()); }
+			catch (Exception e) { Debug.Fail("コンソールスレッドでハンドルされない例外:\n\n" + e.ToString()); }
 #else
             RunWorker();
 #endif

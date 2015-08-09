@@ -47,7 +47,7 @@ namespace Microsoft.Scripting
 		/// <param name="secondPath">あいまいである 2 番目のパスを指定します。</param>
 		/// <param name="message">例外を説明するメッセージを指定します。</param>
 		/// <param name="innerException">この例外の原因となった例外を指定します。</param>
-		public AmbiguousFileNameException(string firstPath, string secondPath, string message, Exception innerException) : base(message ?? string.Format("File name is ambiguous; more files are matching the same name (including '{0}' and '{1}')", firstPath, secondPath), innerException)
+		public AmbiguousFileNameException(string firstPath, string secondPath, string message, Exception innerException) : base(message ?? string.Format("ファイル名があいまいです。2 つ以上のファイルが同じ名前にマッチしました ('{0}', '{1}')", firstPath, secondPath), innerException)
 		{
 			ContractUtils.RequiresNotNull(firstPath, "firstPath");
 			ContractUtils.RequiresNotNull(secondPath, "secondPath");

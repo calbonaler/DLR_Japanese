@@ -34,7 +34,7 @@ namespace Microsoft.Scripting.Ast
 		{
 			ContractUtils.RequiresNotNull(type, "type");
 			ContractUtils.RequiresNotNullItems(initializers, "initializers");
-			ContractUtils.Requires(type != typeof(void), "type", "Argument type cannot be System.Void.");
+			ContractUtils.Requires(type != typeof(void), "type", "Œ^‚ð void ‚É‚·‚é‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB");
 			return Expression.NewArrayInit(
 				type,
 				initializers.Select(x => !TypeUtils.AreReferenceAssignable(type, x.Type) ?

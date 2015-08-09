@@ -74,7 +74,7 @@ namespace Microsoft.Scripting.Interpreter
 
 		/// <summary>このオブジェクトの文字列表現を取得します。</summary>
 		/// <returns>オブジェクトの文字列表現。</returns>
-		public override string ToString() { return string.Format("{0}: {1} {2}", Index, IsBoxed ? "boxed" : null, InClosure ? "in closure" : null); }
+		public override string ToString() { return string.Format("{0}: {1} {2}", Index, IsBoxed ? "ボックス化" : null, InClosure ? "クロージャ内" : null); }
 	}
 
 	/// <summary>ローカル変数のデータ配列上での場所と関連付けられた <see cref="ParameterExpression"/> を格納します。</summary>

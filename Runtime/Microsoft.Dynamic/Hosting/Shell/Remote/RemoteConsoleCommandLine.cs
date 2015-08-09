@@ -49,7 +49,7 @@ namespace Microsoft.Scripting.Hosting.Shell.Remote
 				// リモートランタイムのアクセス中に白紙に戻るので、すべての例外を捕捉します。
 				// しかし、多くの場合、ここでは RemotingException が得られることを予測しています。
 				if (!(exceptionDuringHandling is RemotingException))
-					Console.WriteLine(string.Format("({0} thrown while trying to display unhandled exception)", exceptionDuringHandling.GetType()), Style.Error);
+					Console.WriteLine(string.Format("(ハンドルされない例外の表示中に {0} がスローされました)", exceptionDuringHandling.GetType()), Style.Error);
 				// リモートサーバーがシャットダウンしている可能性があります。そのため、単純に行います。
 				Console.WriteLine(ex.ToString(), Style.Error);
 			}

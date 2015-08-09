@@ -49,7 +49,7 @@ namespace Microsoft.Scripting.Ast
 			ContractUtils.Requires(instance != null ^ method.IsStatic, "instance");
 			ContractUtils.RequiresNotNullItems(arguments, "arguments");
 			var parameters = method.GetParameters();
-			ContractUtils.Requires(arguments.Length == parameters.Length, "arguments", "Incorrect number of arguments");
+			ContractUtils.Requires(arguments.Length == parameters.Length, "arguments", "実引数の数が正しくありません。");
 			return Expression.Call(instance != null ? Convert(instance, method.DeclaringType) : null, method, ArgumentConvertHelper(arguments, parameters));
 		}
 
@@ -70,7 +70,7 @@ namespace Microsoft.Scripting.Ast
 		public static MethodCallExpression ComplexCallHelper(MethodInfo method, params Expression[] arguments)
 		{
 			ContractUtils.RequiresNotNull(method, "method");
-			ContractUtils.Requires(method.IsStatic, "method", "Method must be static");
+			ContractUtils.Requires(method.IsStatic, "method", "メソッドは静的である必要があります。");
 			return ComplexCallHelper(null, method, arguments);
 		}
 
@@ -117,7 +117,7 @@ namespace Microsoft.Scripting.Ast
 				else
 				{
 					// 存在しない引数のため、既定値を試す。
-					ContractUtils.Requires(!parameters[current].IsMandatory(), "arguments", "Argument not provided for a mandatory parameter");
+					ContractUtils.Requires(!parameters[current].IsMandatory(), "arguments", "必須の仮引数に実引数が存在しません。");
 					argument = CreateDefaultValueExpression(parameters[current]);
 				}
 				// 必要であれば変換を追加
@@ -132,7 +132,7 @@ namespace Microsoft.Scripting.Ast
 				if (clone != null)
 					clone[current] = argument;
 			}
-			ContractUtils.Requires(consumed == arguments.Length, "arguments", "Incorrect number of arguments");
+			ContractUtils.Requires(consumed == arguments.Length, "arguments", "実引数の数が正しくありません。");
 			return Expression.Call(instance != null ? Convert(instance, method.DeclaringType) : null, method, clone != null ? clone : arguments);
 		}
 
@@ -140,7 +140,7 @@ namespace Microsoft.Scripting.Ast
 		{
 			if (parameter.HasDefaultValue())
 				return AstUtils.Constant(parameter.DefaultValue, parameter.ParameterType);
-			throw new NotSupportedException("missing parameter value not supported");
+			throw new NotSupportedException("仮引数に値が存在しないようにすることはできません。");
 		}
 	}
 }

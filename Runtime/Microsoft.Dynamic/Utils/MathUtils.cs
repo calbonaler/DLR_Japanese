@@ -388,7 +388,7 @@ namespace Microsoft.Scripting.Utils
 		public static string ToString(this BigInt value, int radix)
 		{
 			if (radix < 2 || radix > 36)
-				throw ExceptionUtils.MakeArgumentOutOfRangeException("radix", radix, "radix must be [2, 36]");
+				throw ExceptionUtils.MakeArgumentOutOfRangeException("radix", radix, "Šî”‚Í [2, 36] ‚Ì”ÍˆÍ“à‚Å‚ ‚é•K—v‚ª‚ ‚è‚Ü‚·B");
 			if (value.IsZero)
 				return "0";
 			var words = value.GetWords();

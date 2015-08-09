@@ -149,7 +149,7 @@ namespace Microsoft.Scripting.Ast
 			) : x);
             if (_faultBodies.Count > 0) {
 				if (!catches.Any())
-					throw new InvalidOperationException("fault cannot be used with catch or finally clauses");
+					throw new InvalidOperationException("fault ‚Í catch ‚Ü‚½‚Í finally ‹å‚Æ‡‚í‚¹‚Äg—p‚·‚é‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB");
 				catches = Enumerable.Repeat(
 					Expression.Catch(typeof(Exception),
 						Expression.Block(_faultBodies.Concat(Enumerable.Repeat(Expression.Rethrow(_body.Type), 1)))

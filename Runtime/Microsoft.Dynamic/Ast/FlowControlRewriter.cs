@@ -159,7 +159,7 @@ namespace Microsoft.Scripting.Ast
 			if (!block.HasFlow)
 				return Expression.MakeTry(null, @try, @finally, fault, handlers);
 			if (node.Type != typeof(void)) // 原理的にサポートはそれほど難しくないが、まだ誰にも必要とされていないので
-				throw new NotSupportedException("FinallyFlowControlExpression does not support TryExpressions of non-void type.");
+				throw new NotSupportedException("FinallyFlowControlExpression は非 void 型の TryExpressions をサポートしていません。");
 			//  もし finally 内に制御フローがあれば、外側を発行:
 			//  try {
 			//      // try ブロック本体とすべての catch ハンドル

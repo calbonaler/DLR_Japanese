@@ -95,7 +95,7 @@ namespace Microsoft.Scripting.ComInterop
 				case VarEnum.VT_EMPTY:
 				case VarEnum.VT_NULL:
 				case VarEnum.VT_RECORD:
-					throw new InvalidOperationException(string.Format("Unexpected VarEnum {0}.", vt));
+					throw new InvalidOperationException(string.Format("予期されない VarEnum {0} です。", vt));
 				// VARIANT で使用されない VarEnum ですが、TYPEDESC には現れます
 				case VarEnum.VT_VOID:
 					type = null;

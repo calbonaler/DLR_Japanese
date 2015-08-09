@@ -145,13 +145,13 @@ namespace Microsoft.Scripting.Generation
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
 		internal static void PeVerifyAssemblyFile(string fileLocation)
 		{
-			Debug.WriteLine("Verifying generated IL: " + fileLocation);
+			Console.WriteLine("生成された IL を検証しています: " + fileLocation);
 			var outDir = Path.GetDirectoryName(fileLocation);
 			var outFileName = Path.GetFileName(fileLocation);
 			var peverifyPath = Environment.GetEnvironmentVariable("PATH").Split(';').Select(x => Path.Combine(x, peverify_exe)).FirstOrDefault(x => File.Exists(x));
 			if (peverifyPath == null)
 			{
-				Debug.WriteLine("PEVerify not available");
+				Console.WriteLine("PEVerify は利用できません。");
 				return;
 			}
 			var exitCode = 0;
@@ -186,9 +186,7 @@ namespace Microsoft.Scripting.Generation
 				var thread = new Thread(() =>
 				{
 					using (StreamReader sr = proc.StandardOutput)
-					{
 						strOut = sr.ReadToEnd();
-					}
 				});
 				thread.Start();
 				proc.WaitForExit();
@@ -198,12 +196,12 @@ namespace Microsoft.Scripting.Generation
 			}
 			catch (Exception ex)
 			{
-				strOut = "Unexpected exception: " + ex.ToString();
+				strOut = "予期しない例外: " + ex.ToString();
 				exitCode = 1;
 			}
 			if (exitCode != 0)
 			{
-				Console.WriteLine("Verification failed w/ exit code {0}: {1}", exitCode, strOut);
+				Console.WriteLine("検証は終了コード {0} で失敗しました: {1}", exitCode, strOut);
 				throw Error.VerificationException(outFileName, verifyFile, strOut ?? "");
 			}
 			if (verifyFile != null)
@@ -220,7 +218,7 @@ namespace Microsoft.Scripting.Generation
 				if (fi.Name != outFileName && fi.LastWriteTime - start >= TimeSpan.Zero)
 				{
 					try { File.Copy(filename, Path.Combine(pythonPath, fi.Name), true); }
-					catch (Exception ex) { Console.WriteLine("Error copying {0}: {1}", filename, ex.Message); }
+					catch (Exception ex) { Console.WriteLine("{0} のコピー中にエラーが発生しました: {1}", filename, ex.Message); }
 				}
 			}
 		}
@@ -235,7 +233,7 @@ namespace Microsoft.Scripting.Generation
 				if ((fi.Extension.ToLowerInvariant() == ".dll" || fi.Extension.ToLowerInvariant() == ".exe") && (!toInfo.Exists || toInfo.CreationTime != fi.CreationTime))
 				{
 					try { fi.CopyTo(toInfo.FullName, true); }
-					catch (Exception e) { Console.WriteLine("Error copying {0}: {1}", filename, e.Message); }
+					catch (Exception e) { Console.WriteLine("{0} のコピー中にエラーが発生しました: {1}", filename, e.Message); }
 				}
 			}
 		}

@@ -63,8 +63,8 @@ namespace Microsoft.Scripting.ComInterop
 		/// <returns>タイプライブラリに関する情報が格納された <see cref="ComTypeLibInfo"/> オブジェクト。</returns>
 		public static ComTypeLibInfo CreateFromObject(object rcw)
 		{
-			if (Marshal.IsComObject(rcw) == false)
-				throw new ArgumentException("COM object is expected.");
+			if (!Marshal.IsComObject(rcw))
+				throw new ArgumentException("COM object である必要があります。");
 			ComTypes.ITypeLib typeLib;
 			int typeInfoIndex;
 			ComRuntimeHelpers.GetITypeInfoFromIDispatch(rcw as IDispatch, true).GetContainingTypeLib(out typeLib, out typeInfoIndex);

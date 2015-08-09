@@ -68,7 +68,7 @@ namespace Microsoft.Scripting.Actions
 			{
 				Type res;
 				if (!tg.TryGetNonGenericType(out res))
-					throw ScriptingRuntimeHelpers.SimpleTypeError("expected non-generic type, got generic-only type");
+					throw ScriptingRuntimeHelpers.SimpleTypeError("非ジェネリック型が予期されましたが、ジェネリック型のみが渡されました。");
 				return res;
 			}
 			return tracker.Type;

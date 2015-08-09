@@ -160,7 +160,7 @@ namespace Microsoft.Scripting.Actions
 			return new DynamicMetaObject(
 				Ast.Throw(
 					AstUtils.ComplexCallHelper(
-						typeof(BinderOps).GetMethod("BadArgumentsForOperation"),
+						new Func<ExpressionType, object[], ArgumentTypeException>(BinderOps.BadArgumentsForOperation).Method,
 						ArrayUtils.Insert((Expression)AstUtils.Constant(info.Operator), args.Select(x => x != null ? x.Expression : null).ToArray())
 					)
 				),

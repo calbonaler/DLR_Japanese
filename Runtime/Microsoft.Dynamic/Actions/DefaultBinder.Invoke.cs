@@ -59,7 +59,7 @@ namespace Microsoft.Scripting.Actions
 		{
 			ContractUtils.RequiresNotNullItems(args, "args");
 			ContractUtils.RequiresNotNull(resolverFactory, "resolverFactory");
-			ContractUtils.Requires(target.HasValue, "target", "target is needed to have value");
+			ContractUtils.Requires(target.HasValue, "target", "ターゲットには値が存在する必要があります。");
 			var targetInfo = TryGetDelegateTargets(target, args) ??
 				TryGetMemberGroupTargets(target, args) ??
 				TryGetMethodGroupTargets(target, args) ??
@@ -160,7 +160,7 @@ namespace Microsoft.Scripting.Actions
 				ErrorInfo.FromException(
 					Ast.New(
 						typeof(ArgumentTypeException).GetConstructor(new[] { typeof(string) }),
-						AstUtils.Constant(GetTypeName(type) + " is not callable")
+						AstUtils.Constant(GetTypeName(type) + " は呼び出し可能ではありません。")
 					)
 				),
 				self.Restrictions.Merge(BindingRestrictionsHelpers.GetRuntimeTypeRestriction(self.Expression, type)),

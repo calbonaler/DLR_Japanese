@@ -186,7 +186,7 @@ namespace Microsoft.Scripting.Generation
 				throw Error.GenNonSerializableBinder();
 			EnsureConstantPool();
 			var siteType = site.GetType();
-			_constants.Add(Expression.Call(siteType.GetMethod("Create"), serializer.CreateExpression()));
+			_constants.Add(Expression.Call(siteType, new Func<CallSiteBinder, CallSite>(CallSite<Action>.Create).Method.Name, null, serializer.CreateExpression()));
 			// ノードをリライト
 			return Visit(AstUtils.Convert(Expression.ArrayAccess(_constantPool, AstUtils.Constant(_constants.Count - 1)), siteType));
 		}

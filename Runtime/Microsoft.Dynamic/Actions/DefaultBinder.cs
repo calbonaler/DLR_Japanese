@@ -227,6 +227,6 @@ namespace Microsoft.Scripting.Actions
 			return res;
 		}
 
-		static Exception AmbiguousMatch(Type type, string name) { throw new AmbiguousMatchException(string.Format("Found multiple SpecialName methods for {0} on type {1}", name, type)); }
+		static Exception AmbiguousMatch(Type type, string name) { throw new AmbiguousMatchException(string.Format("型 {1} で {0} に対する複数の SpecialName メソッドが見つかりました。", name, type)); }
 	}
 }
