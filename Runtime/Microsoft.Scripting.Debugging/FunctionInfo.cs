@@ -1,4 +1,4 @@
-/* ****************************************************************************
+﻿/* ****************************************************************************
  *
  * Copyright (c) Microsoft Corporation. 
  *
@@ -16,102 +16,43 @@
 using System;
 using System.Collections.Generic;
 
-namespace Microsoft.Scripting.Debugging {
-    public sealed class FunctionInfo {
-        private readonly Delegate _generatorFactory;
-        private readonly string _name;
-        private int _version;
-        private FunctionInfo _prevVersion;
-        private FunctionInfo _nextVersion;
-        private readonly DebugSourceSpan[] _sequencePoints;
-        private readonly IList<VariableInfo>[] _variableScopeMap;
-        private readonly IList<VariableInfo> _variables;
-        private readonly object _customPayload;
-        private readonly bool[] _traceLocations;
+namespace Microsoft.Scripting.Debugging
+{
+	public sealed class FunctionInfo
+	{
+		internal FunctionInfo(Delegate generatorFactory, string name, DebugSourceSpan[] sequencePoints, VariableInfo[][] scopedVariables, IList<VariableInfo> variables, object customPayload)
+		{
+			GeneratorFactory = generatorFactory;
+			Name = name;
+			SequencePoints = sequencePoints;
+			VariableScopeMap = scopedVariables;
+			Variables = variables;
+			CustomPayload = customPayload;
+			TraceLocations = new bool[sequencePoints.Length];
+		}
 
-        internal FunctionInfo(
-            Delegate generatorFactory,
-            string name,
-            DebugSourceSpan[] sequencePoints,
-            IList<VariableInfo>[] scopedVariables,
-            IList<VariableInfo> variables,
-            object customPayload) {
+		internal Delegate GeneratorFactory { get; private set; }
 
-            _generatorFactory = generatorFactory;
-            _name = name;
-            _sequencePoints = sequencePoints;
-            _variableScopeMap = scopedVariables;
-            _variables = variables;
-            _customPayload = customPayload;
-            _traceLocations = new bool[sequencePoints.Length];
-        }
+		internal IList<VariableInfo> Variables { get; private set; }
 
-        internal Delegate GeneratorFactory {
-            get { return _generatorFactory; }
-        }
+		internal VariableInfo[][] VariableScopeMap { get; private set; }
 
-        internal IList<VariableInfo> Variables {
-            get { return _variables; }
-        }
+		internal FunctionInfo PreviousVersion { get; set; }
 
-        internal IList<VariableInfo>[] VariableScopeMap {
-            get { return _variableScopeMap; }
-        }
+		internal FunctionInfo NextVersion { get; set; }
 
-        internal FunctionInfo PreviousVersion {
-            get {
-                return _prevVersion;
-            }
-            set {
-                _prevVersion = value;
-            }
-        }
+		internal int Version { get; set; }
 
-        internal FunctionInfo NextVersion {
-            get {
-                return _nextVersion;
-            }
-            set {
-                _nextVersion = value;
-            }
-        }
+		/// <summary>シーケンスポイントを取得または設定します。</summary>
+		internal DebugSourceSpan[] SequencePoints { get; private set; }
 
-        internal int Version {
-            get {
-                return _version;
-            }
-            set {
-                _version = value;
-            }
-        }
+		/// <summary>名前を取得または設定します。</summary>
+		internal string Name { get; private set; }
 
-        /// <summary>
-        /// SequencePoints
-        /// </summary>
-        internal DebugSourceSpan[] SequencePoints {
-            get { return _sequencePoints; }
-        }
+		/// <summary>カスタムペイロードを取得または設定します。</summary>
+		internal object CustomPayload { get; private set; }
 
-        /// <summary>
-        /// Name
-        /// </summary>
-        internal string Name {
-            get { return _name; }
-        }
-
-        /// <summary>
-        /// CustomPayload
-        /// </summary>
-        internal object CustomPayload {
-            get { return _customPayload; }
-        }
-
-        /// <summary>
-        /// GetTraceLocations
-        /// </summary>
-        /// <returns></returns>
-        internal bool[] GetTraceLocations() {
-            return _traceLocations;
-        }
-    }
+		/// <summary>トレース位置を取得または設定します。</summary>
+		internal bool[] TraceLocations { get; private set; }
+	}
 }

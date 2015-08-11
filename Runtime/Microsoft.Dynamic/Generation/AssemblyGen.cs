@@ -1,4 +1,4 @@
-/* ****************************************************************************
+ï»¿/* ****************************************************************************
  *
  * Copyright (c) Microsoft Corporation. 
  *
@@ -27,7 +27,7 @@ using Microsoft.Scripting.Utils;
 
 namespace Microsoft.Scripting.Generation
 {
-	/// <summary>ƒAƒZƒ“ƒuƒŠ‚Ì\’z‚ğx‰‡‚µ‚Ü‚·B</summary>
+	/// <summary>ã‚¢ã‚»ãƒ³ãƒ–ãƒªã®æ§‹ç¯‰ã‚’æ”¯æ´ã—ã¾ã™ã€‚</summary>
 	public sealed class AssemblyGen
 	{
 		readonly PortableExecutableKinds _peKind;
@@ -38,7 +38,7 @@ namespace Microsoft.Scripting.Generation
 		const string peverify_exe = "peverify.exe";
 		int _index;
 
-		/// <summary>ì¬‚·‚éƒAƒZƒ“ƒuƒŠ‚ªƒfƒoƒbƒO‰Â”\‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚µ‚Ü‚·B</summary>
+		/// <summary>ä½œæˆã™ã‚‹ã‚¢ã‚»ãƒ³ãƒ–ãƒªãŒãƒ‡ãƒãƒƒã‚°å¯èƒ½ã‹ã©ã†ã‹ã‚’ç¤ºã™å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚</summary>
 		internal bool IsDebuggable
 		{
 			get
@@ -48,20 +48,20 @@ namespace Microsoft.Scripting.Generation
 			}
 		}
 
-		/// <summary>–¼‘OAo—ÍƒfƒBƒŒƒNƒgƒŠAƒtƒ@ƒCƒ‹Šg’£qAƒfƒoƒbƒO‰Â”\‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğg—p‚µ‚ÄA<see cref="Microsoft.Scripting.Generation.AssemblyGen"/> ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‰Šú‰»‚µ‚Ü‚·B</summary>
-		/// <param name="name">ƒAƒZƒ“ƒuƒŠ‚ÌˆêˆÓ¯•Êq‚ğ•\‚· <see cref="AssemblyName"/> ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="outDir">ì¬‚³‚ê‚éƒAƒZƒ“ƒuƒŠ‚ªo—Í‚³‚ê‚éƒfƒBƒŒƒNƒgƒŠ‚ğw’è‚µ‚Ü‚·B<c>null</c> ‚ğw’è‚·‚é‚ÆƒAƒZƒ“ƒuƒŠ‚ğƒtƒ@ƒCƒ‹‚Éo—Í‚µ‚Ü‚¹‚ñB</param>
-		/// <param name="outFileExtension">o—Í‚³‚ê‚éƒAƒZƒ“ƒuƒŠ ƒtƒ@ƒCƒ‹‚ÌŠg’£q‚ğw’è‚µ‚Ü‚·BŠù’è‚ÌŠg’£q‚Í dll ‚Å‚·B</param>
-		/// <param name="debuggable">ì¬‚³‚ê‚éƒAƒZƒ“ƒuƒŠ‚ªƒfƒoƒbƒO‰Â”\‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğw’è‚µ‚Ü‚·B</param>
+		/// <summary>åå‰ã€å‡ºåŠ›ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã€ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ã€ãƒ‡ãƒãƒƒã‚°å¯èƒ½ã‹ã©ã†ã‹ã‚’ç¤ºã™å€¤ã‚’ä½¿ç”¨ã—ã¦ã€<see cref="Microsoft.Scripting.Generation.AssemblyGen"/> ã‚¯ãƒ©ã‚¹ã®æ–°ã—ã„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚</summary>
+		/// <param name="name">ã‚¢ã‚»ãƒ³ãƒ–ãƒªã®ä¸€æ„è­˜åˆ¥å­ã‚’è¡¨ã™ <see cref="AssemblyName"/> ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="outDir">ä½œæˆã•ã‚Œã‚‹ã‚¢ã‚»ãƒ³ãƒ–ãƒªãŒå‡ºåŠ›ã•ã‚Œã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’æŒ‡å®šã—ã¾ã™ã€‚<c>null</c> ã‚’æŒ‡å®šã™ã‚‹ã¨ã‚¢ã‚»ãƒ³ãƒ–ãƒªã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«å‡ºåŠ›ã—ã¾ã›ã‚“ã€‚</param>
+		/// <param name="outFileExtension">å‡ºåŠ›ã•ã‚Œã‚‹ã‚¢ã‚»ãƒ³ãƒ–ãƒª ãƒ•ã‚¡ã‚¤ãƒ«ã®æ‹¡å¼µå­ã‚’æŒ‡å®šã—ã¾ã™ã€‚æ—¢å®šã®æ‹¡å¼µå­ã¯ dll ã§ã™ã€‚</param>
+		/// <param name="debuggable">ä½œæˆã•ã‚Œã‚‹ã‚¢ã‚»ãƒ³ãƒ–ãƒªãŒãƒ‡ãƒãƒƒã‚°å¯èƒ½ã‹ã©ã†ã‹ã‚’ç¤ºã™å€¤ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
 		public AssemblyGen(AssemblyName name, string outDir, string outFileExtension, bool debuggable) : this(name, outDir, outFileExtension, debuggable, PortableExecutableKinds.ILOnly, ImageFileMachine.I386) { }
 
-		/// <summary>–¼‘OAo—ÍƒfƒBƒŒƒNƒgƒŠAƒtƒ@ƒCƒ‹Šg’£qAƒfƒoƒbƒO‰Â”\‚©‚Ç‚¤‚©Ao—Í‚³‚ê‚éƒR[ƒh‚Ì«¿‚¨‚æ‚Ñ‘ÎÛ‚Ìƒvƒ‰ƒbƒgƒtƒH[ƒ€‚ğg—p‚µ‚ÄA<see cref="Microsoft.Scripting.Generation.AssemblyGen"/> ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‰Šú‰»‚µ‚Ü‚·B</summary>
-		/// <param name="name">ƒAƒZƒ“ƒuƒŠ‚ÌˆêˆÓ¯•Êq‚ğ•\‚· <see cref="AssemblyName"/> ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="outDir">ì¬‚³‚ê‚éƒAƒZƒ“ƒuƒŠ‚ªo—Í‚³‚ê‚éƒfƒBƒŒƒNƒgƒŠ‚ğw’è‚µ‚Ü‚·B<c>null</c> ‚ğw’è‚·‚é‚ÆƒAƒZƒ“ƒuƒŠ‚ğƒtƒ@ƒCƒ‹‚Éo—Í‚µ‚Ü‚¹‚ñB</param>
-		/// <param name="outFileExtension">o—Í‚³‚ê‚éƒAƒZƒ“ƒuƒŠ ƒtƒ@ƒCƒ‹‚ÌŠg’£q‚ğw’è‚µ‚Ü‚·BŠù’è‚ÌŠg’£q‚Í dll ‚Å‚·B</param>
-		/// <param name="debuggable">ì¬‚³‚ê‚éƒAƒZƒ“ƒuƒŠ‚ªƒfƒoƒbƒO‰Â”\‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="peKind">o—Í‚³‚ê‚éƒAƒZƒ“ƒuƒŠ ƒtƒ@ƒCƒ‹‚ÉŠÜ‚Ü‚ê‚éƒR[ƒh‚Ì«¿‚ğ¦‚·’l‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="machine">o—Í‚³‚ê‚éƒAƒZƒ“ƒuƒŠ ƒtƒ@ƒCƒ‹‚ª‘ÎÛ‚Æ‚·‚éƒvƒ‰ƒbƒgƒtƒH[ƒ€‚ğw’è‚µ‚Ü‚·B</param>
+		/// <summary>åå‰ã€å‡ºåŠ›ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã€ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ã€ãƒ‡ãƒãƒƒã‚°å¯èƒ½ã‹ã©ã†ã‹ã€å‡ºåŠ›ã•ã‚Œã‚‹ã‚³ãƒ¼ãƒ‰ã®æ€§è³ªãŠã‚ˆã³å¯¾è±¡ã®ãƒ—ãƒ©ãƒƒãƒˆãƒ•ã‚©ãƒ¼ãƒ ã‚’ä½¿ç”¨ã—ã¦ã€<see cref="Microsoft.Scripting.Generation.AssemblyGen"/> ã‚¯ãƒ©ã‚¹ã®æ–°ã—ã„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚</summary>
+		/// <param name="name">ã‚¢ã‚»ãƒ³ãƒ–ãƒªã®ä¸€æ„è­˜åˆ¥å­ã‚’è¡¨ã™ <see cref="AssemblyName"/> ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="outDir">ä½œæˆã•ã‚Œã‚‹ã‚¢ã‚»ãƒ³ãƒ–ãƒªãŒå‡ºåŠ›ã•ã‚Œã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’æŒ‡å®šã—ã¾ã™ã€‚<c>null</c> ã‚’æŒ‡å®šã™ã‚‹ã¨ã‚¢ã‚»ãƒ³ãƒ–ãƒªã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«å‡ºåŠ›ã—ã¾ã›ã‚“ã€‚</param>
+		/// <param name="outFileExtension">å‡ºåŠ›ã•ã‚Œã‚‹ã‚¢ã‚»ãƒ³ãƒ–ãƒª ãƒ•ã‚¡ã‚¤ãƒ«ã®æ‹¡å¼µå­ã‚’æŒ‡å®šã—ã¾ã™ã€‚æ—¢å®šã®æ‹¡å¼µå­ã¯ dll ã§ã™ã€‚</param>
+		/// <param name="debuggable">ä½œæˆã•ã‚Œã‚‹ã‚¢ã‚»ãƒ³ãƒ–ãƒªãŒãƒ‡ãƒãƒƒã‚°å¯èƒ½ã‹ã©ã†ã‹ã‚’ç¤ºã™å€¤ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="peKind">å‡ºåŠ›ã•ã‚Œã‚‹ã‚¢ã‚»ãƒ³ãƒ–ãƒª ãƒ•ã‚¡ã‚¤ãƒ«ã«å«ã¾ã‚Œã‚‹ã‚³ãƒ¼ãƒ‰ã®æ€§è³ªã‚’ç¤ºã™å€¤ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="machine">å‡ºåŠ›ã•ã‚Œã‚‹ã‚¢ã‚»ãƒ³ãƒ–ãƒª ãƒ•ã‚¡ã‚¤ãƒ«ãŒå¯¾è±¡ã¨ã™ã‚‹ãƒ—ãƒ©ãƒƒãƒˆãƒ•ã‚©ãƒ¼ãƒ ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
 		internal AssemblyGen(AssemblyName name, string outDir, string outFileExtension, bool debuggable, PortableExecutableKinds peKind, ImageFileMachine machine)
 		{
 			ContractUtils.RequiresNotNull(name, "name");
@@ -99,7 +99,7 @@ namespace Microsoft.Scripting.Generation
 				SetDebuggableAttributes();
 		}
 
-		/// <summary>ì¬‚³‚ê‚éƒAƒZƒ“ƒuƒŠ‚É <see cref="DebuggableAttribute"/> ‘®«‚ğ•t—^‚µ‚Ü‚·B</summary>
+		/// <summary>ä½œæˆã•ã‚Œã‚‹ã‚¢ã‚»ãƒ³ãƒ–ãƒªã« <see cref="DebuggableAttribute"/> å±æ€§ã‚’ä»˜ä¸ã—ã¾ã™ã€‚</summary>
 		internal void SetDebuggableAttributes()
 		{
 			var ctor = typeof(DebuggableAttribute).GetConstructor(new[] { typeof(DebuggableAttribute.DebuggingModes) });
@@ -108,10 +108,10 @@ namespace Microsoft.Scripting.Generation
 			ModuleBuilder.SetCustomAttribute(new CustomAttributeBuilder(ctor, argValues));
 		}
 
-		/// <summary>ì¬‚³‚ê‚éƒAƒZƒ“ƒuƒŠ‚ÉƒŠƒ\[ƒX‚ğ’Ç‰Á‚µ‚Ü‚·B</summary>
-		/// <param name="name">ƒŠƒ\[ƒX‚Ì–¼‘O‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="file">ƒŠƒ\[ƒX‚Æ‚µ‚Ä’Ç‰Á‚·‚éƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="attribute">’Ç‰Á‚·‚éƒŠƒ\[ƒX‚Ì‘®«‚ğw’è‚µ‚Ü‚·B</param>
+		/// <summary>ä½œæˆã•ã‚Œã‚‹ã‚¢ã‚»ãƒ³ãƒ–ãƒªã«ãƒªã‚½ãƒ¼ã‚¹ã‚’è¿½åŠ ã—ã¾ã™ã€‚</summary>
+		/// <param name="name">ãƒªã‚½ãƒ¼ã‚¹ã®åå‰ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="file">ãƒªã‚½ãƒ¼ã‚¹ã¨ã—ã¦è¿½åŠ ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã®åå‰ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="attribute">è¿½åŠ ã™ã‚‹ãƒªã‚½ãƒ¼ã‚¹ã®å±æ€§ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
 		internal void AddResourceFile(string name, string file, ResourceAttributes attribute)
 		{
 			var rw = ModuleBuilder.DefineResource(Path.GetFileName(file), name, attribute);
@@ -129,29 +129,29 @@ namespace Microsoft.Scripting.Generation
 
 		#region Dump and Verify
 
-		/// <summary>ƒAƒZƒ“ƒuƒŠ‚ğƒtƒ@ƒCƒ‹‚Éo—Í‚µ‚Ü‚·B</summary>
-		/// <returns>o—Í‚³‚ê‚½ƒAƒZƒ“ƒuƒŠƒtƒ@ƒCƒ‹‚Ìƒtƒ‹ƒpƒXB</returns>
+		/// <summary>ã‚¢ã‚»ãƒ³ãƒ–ãƒªã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«å‡ºåŠ›ã—ã¾ã™ã€‚</summary>
+		/// <returns>å‡ºåŠ›ã•ã‚ŒãŸã‚¢ã‚»ãƒ³ãƒ–ãƒªãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ•ãƒ«ãƒ‘ã‚¹ã€‚</returns>
 		public string SaveAssembly()
 		{
 			AssemblyBuilder.Save(_outFileName, _peKind, _machine);
 			return Path.Combine(_outDir, _outFileName);
 		}
 
-		/// <summary>ƒAƒZƒ“ƒuƒŠ‚ğ PEVerify ƒc[ƒ‹‚ğg—p‚µ‚ÄŒŸØ‚µ‚Ü‚·B</summary>
+		/// <summary>ã‚¢ã‚»ãƒ³ãƒ–ãƒªã‚’ PEVerify ãƒ„ãƒ¼ãƒ«ã‚’ä½¿ç”¨ã—ã¦æ¤œè¨¼ã—ã¾ã™ã€‚</summary>
 		internal void Verify() { PeVerifyAssemblyFile(Path.Combine(_outDir, _outFileName)); }
 
-		/// <summary>w’è‚³‚ê‚½ƒpƒX‚É‚ ‚éƒAƒZƒ“ƒuƒŠ‚ğ PEVerify ƒc[ƒ‹‚ğg—p‚µ‚ÄŒŸØ‚µ‚Ü‚·B</summary>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸãƒ‘ã‚¹ã«ã‚ã‚‹ã‚¢ã‚»ãƒ³ãƒ–ãƒªã‚’ PEVerify ãƒ„ãƒ¼ãƒ«ã‚’ä½¿ç”¨ã—ã¦æ¤œè¨¼ã—ã¾ã™ã€‚</summary>
 		/// <param name="fileLocation"></param>
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
 		internal static void PeVerifyAssemblyFile(string fileLocation)
 		{
-			Console.WriteLine("¶¬‚³‚ê‚½ IL ‚ğŒŸØ‚µ‚Ä‚¢‚Ü‚·: " + fileLocation);
+			Console.WriteLine("ç”Ÿæˆã•ã‚ŒãŸ IL ã‚’æ¤œè¨¼ã—ã¦ã„ã¾ã™: " + fileLocation);
 			var outDir = Path.GetDirectoryName(fileLocation);
 			var outFileName = Path.GetFileName(fileLocation);
 			var peverifyPath = Environment.GetEnvironmentVariable("PATH").Split(';').Select(x => Path.Combine(x, peverify_exe)).FirstOrDefault(x => File.Exists(x));
 			if (peverifyPath == null)
 			{
-				Console.WriteLine("PEVerify ‚Í—˜—p‚Å‚«‚Ü‚¹‚ñB");
+				Console.WriteLine("PEVerify ã¯åˆ©ç”¨ã§ãã¾ã›ã‚“ã€‚");
 				return;
 			}
 			var exitCode = 0;
@@ -196,12 +196,12 @@ namespace Microsoft.Scripting.Generation
 			}
 			catch (Exception ex)
 			{
-				strOut = "—\Šú‚µ‚È‚¢—áŠO: " + ex.ToString();
+				strOut = "äºˆæœŸã—ãªã„ä¾‹å¤–: " + ex.ToString();
 				exitCode = 1;
 			}
 			if (exitCode != 0)
 			{
-				Console.WriteLine("ŒŸØ‚ÍI—¹ƒR[ƒh {0} ‚Å¸”s‚µ‚Ü‚µ‚½: {1}", exitCode, strOut);
+				Console.WriteLine("æ¤œè¨¼ã¯çµ‚äº†ã‚³ãƒ¼ãƒ‰ {0} ã§å¤±æ•—ã—ã¾ã—ãŸ: {1}", exitCode, strOut);
 				throw Error.VerificationException(outFileName, verifyFile, strOut ?? "");
 			}
 			if (verifyFile != null)
@@ -218,7 +218,7 @@ namespace Microsoft.Scripting.Generation
 				if (fi.Name != outFileName && fi.LastWriteTime - start >= TimeSpan.Zero)
 				{
 					try { File.Copy(filename, Path.Combine(pythonPath, fi.Name), true); }
-					catch (Exception ex) { Console.WriteLine("{0} ‚ÌƒRƒs[’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½: {1}", filename, ex.Message); }
+					catch (Exception ex) { Console.WriteLine("{0} ã®ã‚³ãƒ”ãƒ¼ä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸ: {1}", filename, ex.Message); }
 				}
 			}
 		}
@@ -233,26 +233,26 @@ namespace Microsoft.Scripting.Generation
 				if ((fi.Extension.ToLowerInvariant() == ".dll" || fi.Extension.ToLowerInvariant() == ".exe") && (!toInfo.Exists || toInfo.CreationTime != fi.CreationTime))
 				{
 					try { fi.CopyTo(toInfo.FullName, true); }
-					catch (Exception e) { Console.WriteLine("{0} ‚ÌƒRƒs[’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½: {1}", filename, e.Message); }
+					catch (Exception e) { Console.WriteLine("{0} ã®ã‚³ãƒ”ãƒ¼ä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸ: {1}", filename, e.Message); }
 				}
 			}
 		}
 
 		#endregion
 
-		/// <summary>ƒAƒZƒ“ƒuƒŠ‚Éw’è‚³‚ê‚½–¼‘O‚ğ‚à‚ÂV‚µ‚¢ƒpƒuƒŠƒbƒNŒ^‚ğ’è‹`‚µ‚ÄAŒ^‚ğ\’z‚·‚é <see cref="TypeBuilder"/> ‚ğ•Ô‚µ‚Ü‚·B</summary>
-		/// <param name="name">ƒAƒZƒ“ƒuƒŠ‚É’è‹`‚·‚éŒ^‚Ì–¼‘O‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="parent">‚±‚ê‚©‚ç’è‹`‚³‚ê‚éŒ^‚É‚æ‚Á‚ÄŠg’£‚³‚ê‚éŒ^‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="preserveName">w’è‚³‚ê‚½–¼‘O‚ğ•Û‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>’è‹`‚³‚ê‚½Œ^‚ğ\’z‚·‚é <see cref="TypeBuilder"/>B</returns>
+		/// <summary>ã‚¢ã‚»ãƒ³ãƒ–ãƒªã«æŒ‡å®šã•ã‚ŒãŸåå‰ã‚’ã‚‚ã¤æ–°ã—ã„ãƒ‘ãƒ–ãƒªãƒƒã‚¯å‹ã‚’å®šç¾©ã—ã¦ã€å‹ã‚’æ§‹ç¯‰ã™ã‚‹ <see cref="TypeBuilder"/> ã‚’è¿”ã—ã¾ã™ã€‚</summary>
+		/// <param name="name">ã‚¢ã‚»ãƒ³ãƒ–ãƒªã«å®šç¾©ã™ã‚‹å‹ã®åå‰ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="parent">ã“ã‚Œã‹ã‚‰å®šç¾©ã•ã‚Œã‚‹å‹ã«ã‚ˆã£ã¦æ‹¡å¼µã•ã‚Œã‚‹å‹ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="preserveName">æŒ‡å®šã•ã‚ŒãŸåå‰ã‚’ä¿æŒã™ã‚‹ã‹ã©ã†ã‹ã‚’ç¤ºã™å€¤ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å®šç¾©ã•ã‚ŒãŸå‹ã‚’æ§‹ç¯‰ã™ã‚‹ <see cref="TypeBuilder"/>ã€‚</returns>
 		public TypeBuilder DefinePublicType(string name, Type parent, bool preserveName) { return DefineType(name, parent, TypeAttributes.Public, preserveName); }
 
-		/// <summary>ƒAƒZƒ“ƒuƒŠ‚Éw’è‚³‚ê‚½–¼‘O‚ğ‚à‚ÂV‚µ‚¢Œ^‚ğ’è‹`‚µ‚ÄAŒ^‚ğ\’z‚·‚é <see cref="TypeBuilder"/> ‚ğ•Ô‚µ‚Ü‚·B</summary>
-		/// <param name="name">ƒAƒZƒ“ƒuƒŠ‚É’è‹`‚·‚éŒ^‚Ì–¼‘O‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="parent">‚±‚ê‚©‚ç’è‹`‚³‚ê‚éŒ^‚É‚æ‚Á‚ÄŠg’£‚³‚ê‚éŒ^‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="attr">’è‹`‚³‚ê‚éŒ^‚Ì‘®«‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="preserveName">w’è‚³‚ê‚½–¼‘O‚ğ•Û‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>’è‹`‚³‚ê‚½Œ^‚ğ\’z‚·‚é <see cref="TypeBuilder"/>B</returns>
+		/// <summary>ã‚¢ã‚»ãƒ³ãƒ–ãƒªã«æŒ‡å®šã•ã‚ŒãŸåå‰ã‚’ã‚‚ã¤æ–°ã—ã„å‹ã‚’å®šç¾©ã—ã¦ã€å‹ã‚’æ§‹ç¯‰ã™ã‚‹ <see cref="TypeBuilder"/> ã‚’è¿”ã—ã¾ã™ã€‚</summary>
+		/// <param name="name">ã‚¢ã‚»ãƒ³ãƒ–ãƒªã«å®šç¾©ã™ã‚‹å‹ã®åå‰ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="parent">ã“ã‚Œã‹ã‚‰å®šç¾©ã•ã‚Œã‚‹å‹ã«ã‚ˆã£ã¦æ‹¡å¼µã•ã‚Œã‚‹å‹ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="attr">å®šç¾©ã•ã‚Œã‚‹å‹ã®å±æ€§ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="preserveName">æŒ‡å®šã•ã‚ŒãŸåå‰ã‚’ä¿æŒã™ã‚‹ã‹ã©ã†ã‹ã‚’ç¤ºã™å€¤ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å®šç¾©ã•ã‚ŒãŸå‹ã‚’æ§‹ç¯‰ã™ã‚‹ <see cref="TypeBuilder"/>ã€‚</returns>
 		internal TypeBuilder DefineType(string name, Type parent, TypeAttributes attr, bool preserveName)
 		{
 			ContractUtils.RequiresNotNull(name, "name");
@@ -265,30 +265,30 @@ namespace Microsoft.Scripting.Generation
 			return ModuleBuilder.DefineType(string.Concat(name.Select(x => @"+[]*&,\".IndexOf(x) >= 0 ? '_' : x)), attr, parent);
 		}
 
-		/// <summary>ƒAƒZƒ“ƒuƒŠ‚ÌƒGƒ“ƒgƒŠƒ|ƒCƒ“ƒg‚ğİ’è‚µA\’z‚·‚éƒ|[ƒ^ƒuƒ‹Às‰Â”\ (PE) ƒtƒ@ƒCƒ‹‚ÌŒ^‚ğ’è‹`‚µ‚Ü‚·B</summary>
-		/// <param name="mi">ƒAƒZƒ“ƒuƒŠ‚ÌƒGƒ“ƒgƒŠƒ|ƒCƒ“ƒg‚Æ‚È‚éƒƒ\ƒbƒh‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="kind">\’z‚·‚éƒAƒZƒ“ƒuƒŠÀsƒtƒ@ƒCƒ‹‚ÌŒ^‚ğw’è‚µ‚Ü‚·B</param>
+		/// <summary>ã‚¢ã‚»ãƒ³ãƒ–ãƒªã®ã‚¨ãƒ³ãƒˆãƒªãƒã‚¤ãƒ³ãƒˆã‚’è¨­å®šã—ã€æ§‹ç¯‰ã™ã‚‹ãƒãƒ¼ã‚¿ãƒ–ãƒ«å®Ÿè¡Œå¯èƒ½ (PE) ãƒ•ã‚¡ã‚¤ãƒ«ã®å‹ã‚’å®šç¾©ã—ã¾ã™ã€‚</summary>
+		/// <param name="mi">ã‚¢ã‚»ãƒ³ãƒ–ãƒªã®ã‚¨ãƒ³ãƒˆãƒªãƒã‚¤ãƒ³ãƒˆã¨ãªã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="kind">æ§‹ç¯‰ã™ã‚‹ã‚¢ã‚»ãƒ³ãƒ–ãƒªå®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«ã®å‹ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
 		internal void SetEntryPoint(MethodInfo mi, PEFileKinds kind) { AssemblyBuilder.SetEntryPoint(mi, kind); }
 
-		/// <summary>ƒAƒZƒ“ƒuƒŠ‚ğÚ×‚É’è‹`‚Å‚«‚é <see cref="AssemblyBuilder"/> ‚ğæ“¾‚µ‚Ü‚·B</summary>
+		/// <summary>ã‚¢ã‚»ãƒ³ãƒ–ãƒªã‚’è©³ç´°ã«å®šç¾©ã§ãã‚‹ <see cref="AssemblyBuilder"/> ã‚’å–å¾—ã—ã¾ã™ã€‚</summary>
 		public AssemblyBuilder AssemblyBuilder { get; private set; }
 
-		/// <summary>“®“IƒAƒZƒ“ƒuƒŠ“à‚Ìƒ‚ƒWƒ…[ƒ‹‚ğ’è‹`‚·‚é <see cref="ModuleBuilder"/> ‚ğæ“¾‚µ‚Ü‚·B</summary>
+		/// <summary>å‹•çš„ã‚¢ã‚»ãƒ³ãƒ–ãƒªå†…ã®ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’å®šç¾©ã™ã‚‹ <see cref="ModuleBuilder"/> ã‚’å–å¾—ã—ã¾ã™ã€‚</summary>
 		public ModuleBuilder ModuleBuilder { get; private set; }
 
 		const MethodImplAttributes ImplAttributes = MethodImplAttributes.Runtime | MethodImplAttributes.Managed;
 
-		/// <summary>w’è‚³‚ê‚½–¼‘OAƒpƒ‰ƒ[ƒ^Œ^A–ß‚è’l‚ÌŒ^‚ğg—p‚µ‚ÄAƒAƒZƒ“ƒuƒŠ‚ÉƒfƒŠƒQ[ƒg‚ğì¬‚µ‚Ü‚·B</summary>
-		/// <param name="name">ì¬‚·‚éƒfƒŠƒQ[ƒg‚Ì–¼‘O‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="parameters">ì¬‚·‚éƒfƒŠƒQ[ƒg‚Ìƒpƒ‰ƒ[ƒ^Œ^‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="returnType">ì¬‚·‚éƒfƒŠƒQ[ƒg‚Ì–ß‚è’l‚ÌŒ^‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>ì¬‚³‚ê‚½ƒfƒŠƒQ[ƒg‚ğ•\‚· <see cref="Type"/>B</returns>
-		public Type MakeDelegateType(string name, Type[] parameters, Type returnType)
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸåå‰ã€ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å‹ã€æˆ»ã‚Šå€¤ã®å‹ã‚’ã‚‚ã¤æ–°ã—ã„ãƒ‡ãƒªã‚²ãƒ¼ãƒˆå‹ã‚’å®šç¾©ã—ã¦ã€å‹ã‚’æ§‹ç¯‰ã‚’ã™ã‚‹ <see cref="TypeBuilder"/> ã‚’è¿”ã—ã¾ã™ã€‚</summary>
+		/// <param name="name">ã‚¢ã‚»ãƒ³ãƒ–ãƒªã«å®šç¾©ã™ã‚‹å‹ã®åå‰ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="parameters">ä½œæˆã™ã‚‹ãƒ‡ãƒªã‚²ãƒ¼ãƒˆå‹ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å‹ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="returnType">ä½œæˆã™ã‚‹ãƒ‡ãƒªã‚²ãƒ¼ãƒˆå‹ã®æˆ»ã‚Šå€¤ã®å‹ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å®šç¾©ã•ã‚ŒãŸå‹ã‚’æ§‹ç¯‰ã™ã‚‹ <see cref="Type"/>ã€‚</returns>
+		public TypeBuilder DefineDelegateType(string name, Type[] parameters, Type returnType)
 		{
 			var builder = DefineType(name, typeof(MulticastDelegate), TypeAttributes.Class | TypeAttributes.Public | TypeAttributes.Sealed | TypeAttributes.AnsiClass | TypeAttributes.AutoClass, false);
 			builder.DefineConstructor(MethodAttributes.RTSpecialName | MethodAttributes.HideBySig | MethodAttributes.Public, CallingConventions.Standard, new[] { typeof(object), typeof(IntPtr) }).SetImplementationFlags(ImplAttributes);
 			builder.DefineMethod("Invoke", MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual, returnType, parameters).SetImplementationFlags(ImplAttributes);
-			return builder.CreateType();
+			return builder;
 		}
 	}
 

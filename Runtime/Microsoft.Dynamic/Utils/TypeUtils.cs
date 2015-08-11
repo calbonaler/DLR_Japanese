@@ -35,19 +35,13 @@ namespace Microsoft.Scripting.Utils
 
 		internal static bool IsNumeric(TypeCode typeCode)
 		{
+			if (IsArithmetic(typeCode))
+				return true;
 			switch (typeCode)
 			{
 				case TypeCode.Char:
 				case TypeCode.SByte:
 				case TypeCode.Byte:
-				case TypeCode.Int16:
-				case TypeCode.Int32:
-				case TypeCode.Int64:
-				case TypeCode.Double:
-				case TypeCode.Single:
-				case TypeCode.UInt16:
-				case TypeCode.UInt32:
-				case TypeCode.UInt64:
 					return true;
 			}
 			return false;
@@ -57,20 +51,22 @@ namespace Microsoft.Scripting.Utils
 		internal static bool IsArithmetic(Type type)
 		{
 			type = GetNonNullableType(type);
-			if (!type.IsEnum)
+			return !type.IsEnum && IsArithmetic(Type.GetTypeCode(type));
+		}
+
+		static bool IsArithmetic(TypeCode typeCode)
+		{
+			switch (typeCode)
 			{
-				switch (Type.GetTypeCode(type))
-				{
-					case TypeCode.Int16:
-					case TypeCode.Int32:
-					case TypeCode.Int64:
-					case TypeCode.Double:
-					case TypeCode.Single:
-					case TypeCode.UInt16:
-					case TypeCode.UInt32:
-					case TypeCode.UInt64:
-						return true;
-				}
+				case TypeCode.Int16:
+				case TypeCode.Int32:
+				case TypeCode.Int64:
+				case TypeCode.Double:
+				case TypeCode.Single:
+				case TypeCode.UInt16:
+				case TypeCode.UInt32:
+				case TypeCode.UInt64:
+					return true;
 			}
 			return false;
 		}

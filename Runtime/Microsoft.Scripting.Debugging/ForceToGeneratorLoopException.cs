@@ -16,12 +16,14 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Microsoft.Scripting.Debugging {
-#if !SILVERLIGHT
-    [Serializable]
-#endif
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design","CA1032:ImplementStandardExceptionConstructors")]
-    public sealed class ForceToGeneratorLoopException : Exception {
-        public ForceToGeneratorLoopException() : base() { }
-    }
+namespace Microsoft.Scripting.Debugging
+{
+	[Serializable]
+	public sealed class ForceToGeneratorLoopException : Exception
+	{
+		public ForceToGeneratorLoopException() { }
+		public ForceToGeneratorLoopException(string message) : base(message) { }
+		public ForceToGeneratorLoopException(string message, Exception inner) : base(message, inner) { }
+		ForceToGeneratorLoopException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+	}
 }

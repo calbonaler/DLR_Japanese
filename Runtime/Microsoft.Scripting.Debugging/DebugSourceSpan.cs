@@ -14,100 +14,72 @@
  * ***************************************************************************/
 
 using System;
+using System.Linq;
 
-namespace Microsoft.Scripting.Debugging {
-    /// <summary>
-    /// Combines source file and span.  Also provides Contains and Intersects functionality.
-    /// </summary>
-    internal sealed class DebugSourceSpan {
-        private readonly DebugSourceFile _sourceFile;
-        private readonly int _lineStart;
-        private readonly int _columnStart;
-        private readonly int _lineEnd;
-        private readonly int _columnEnd;
+namespace Microsoft.Scripting.Debugging
+{
+	/// <summary>ソースのファイルと範囲を組み合わせます。これはまた Contains および Intersects 機能を提供します。</summary>
+	sealed class DebugSourceSpan
+	{
+		internal DebugSourceSpan(DebugSourceFile sourceFile, int lineStart, int columnStart, int lineEnd, int columnEnd)
+		{
+			SourceFile = sourceFile;
+			LineStart = lineStart;
+			ColumnStart = columnStart;
+			LineEnd = lineEnd;
+			ColumnEnd = columnEnd;
+		}
 
-        internal DebugSourceSpan(DebugSourceFile sourceFile, int lineStart, int columnStart, int lineEnd, int columnEnd) {
-            _sourceFile = sourceFile;
-            _lineStart = lineStart;
-            _columnStart = columnStart;
-            _lineEnd = lineEnd;
-            _columnEnd = columnEnd;
-        }
+		internal DebugSourceSpan(DebugSourceFile sourceFile, SourceSpan dlrSpan) : this(sourceFile, dlrSpan.Start.Line, dlrSpan.Start.Column, dlrSpan.End.Line, dlrSpan.End.Column) { }
 
-        internal DebugSourceSpan(DebugSourceFile sourceFile, SourceSpan dlrSpan)
-            : this(sourceFile, dlrSpan.Start.Line, dlrSpan.Start.Column, dlrSpan.End.Line, dlrSpan.End.Column) {
-        }
+		internal DebugSourceFile SourceFile { get; private set; }
 
-        internal DebugSourceFile SourceFile {
-            get { return _sourceFile; }
-        }
+		internal int LineStart { get; private set; }
 
-        internal int LineStart {
-            get { return _lineStart; }
-        }
+		internal int ColumnStart { get; private set; }
 
-        internal int ColumnStart {
-            get { return _columnStart; }
-        }
+		internal int LineEnd { get; private set; }
 
-        internal int LineEnd {
-            get { return _lineEnd; }
-        }
+		internal int ColumnEnd { get; private set; }
 
-        internal int ColumnEnd {
-            get { return _columnEnd; }
-        } 
+		internal SourceSpan ToDlrSpan()
+		{
+			return new SourceSpan(
+				new SourceLocation(0, LineStart, ColumnStart),
+				new SourceLocation(0, LineEnd, ColumnEnd == -1 ? Int32.MaxValue : ColumnEnd)
+			);
+		}
 
-        internal SourceSpan ToDlrSpan() {
-            return new SourceSpan(
-                new SourceLocation(0, _lineStart, _columnStart),
-                new SourceLocation(0, _lineEnd, _columnEnd == -1 ? Int32.MaxValue : _columnEnd)
-            );
-        }
+		internal bool Contains(DebugSourceSpan candidateSpan)
+		{
+			if (candidateSpan.SourceFile != SourceFile)
+				return false;
+			if (candidateSpan.LineStart < LineStart || candidateSpan.LineEnd > LineEnd)
+				return false;
+			if (candidateSpan.LineStart == LineStart && candidateSpan.ColumnStart < ColumnStart)
+				return false;
+			if (candidateSpan.LineEnd == LineEnd && candidateSpan.ColumnEnd > ColumnEnd)
+				return false;
+			return true;
+		}
 
-        internal bool Contains(DebugSourceSpan candidateSpan) {
-            if (candidateSpan._sourceFile != _sourceFile)
-                return false;
+		internal bool Intersects(DebugSourceSpan candidateSpan)
+		{
+			if (candidateSpan.SourceFile != SourceFile)
+				return false;
+			if (candidateSpan.LineEnd < LineStart || candidateSpan.LineStart > LineEnd)
+				return false;
+			if (candidateSpan.LineStart == LineEnd && candidateSpan.ColumnStart > ColumnEnd)
+				return false;
+			if (candidateSpan.LineEnd == LineStart && ColumnStart > candidateSpan.ColumnEnd)
+				return false;
+			return true;
+		}
 
-            if (candidateSpan._lineStart < _lineStart || candidateSpan._lineEnd > _lineEnd)
-                return false;
-
-            if (candidateSpan._lineStart == _lineStart && candidateSpan._columnStart < _columnStart)
-                return false;
-
-            if (candidateSpan._lineEnd == _lineEnd && candidateSpan._columnEnd > _columnEnd)
-                return false;
-
-            return true;
-        }
-
-        internal bool Intersects(DebugSourceSpan candidateSpan) {
-            if (candidateSpan._sourceFile != _sourceFile)
-                return false;
-
-            if (candidateSpan._lineEnd < _lineStart || candidateSpan._lineStart > _lineEnd)
-                return false;
-
-            if (candidateSpan._lineStart == _lineEnd && candidateSpan._columnStart > _columnEnd)
-                return false;
-
-            if (candidateSpan._lineEnd == _lineStart && _columnStart > candidateSpan._columnEnd)
-                return false;
-
-            return true;
-        }
-
-        internal int GetSequencePointIndex(FunctionInfo funcInfo) {
-            DebugSourceSpan[] sequencePoints = funcInfo.SequencePoints;
-            for (int i = 0; i < sequencePoints.Length; i++) {
-                DebugSourceSpan sequencePoint = sequencePoints[i];
-
-                if (Intersects(sequencePoint)) {
-                    return i;
-                }
-            }
-
-            return Int32.MaxValue;
-        }
-    }
+		internal int GetSequencePointIndex(FunctionInfo funcInfo)
+		{
+			var res = funcInfo.SequencePoints.Select((x, i) => Tuple.Create(x, i)).Where(x => Intersects(x.Item1)).FirstOrDefault();
+			return res == null ? Int32.MaxValue : res.Item2;
+		}
+	}
 }

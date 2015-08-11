@@ -18,46 +18,36 @@ using System.Collections.Generic;
 using System.Threading;
 using Microsoft.Scripting.Debugging.CompilerServices;
 
-namespace Microsoft.Scripting.Debugging {
-    public abstract class DebugThread {
-        private readonly DebugContext _debugContext;
-        private readonly Thread _managedThread;
-        private Exception _leafFrameException;
-        private bool _isInTraceback;
+namespace Microsoft.Scripting.Debugging
+{
+	public abstract class DebugThread
+	{
+		internal DebugThread(DebugContext debugContext)
+		{
+			DebugContext = debugContext;
+			ManagedThread = Thread.CurrentThread;
+		}
 
-        internal DebugThread(DebugContext debugContext) {
-            _debugContext = debugContext;
-            _managedThread = Thread.CurrentThread;
-        }
+		internal DebugContext DebugContext { get; private set; }
 
-        internal DebugContext DebugContext {
-            get { return _debugContext; }
-        }
+		internal Exception ThrownException { get; set; }
 
-        internal Exception ThrownException {
-            get { return _leafFrameException; }
-            set { _leafFrameException = value; }
-        }
+		internal Thread ManagedThread { get; private set; }
 
-        internal Thread ManagedThread {
-            get { return _managedThread; }
-        }
+		internal bool IsInTraceback { get; set; }
 
-        internal bool IsInTraceback {
-            get { return _isInTraceback; }
-            set { _isInTraceback = value; }
-        }
+		internal abstract IEnumerable<DebugFrame> Frames { get; }
 
-        #region Abstract Methods
+		internal abstract DebugFrame GetLeafFrame();
 
-        internal abstract IEnumerable<DebugFrame> Frames { get; }
-        internal abstract DebugFrame GetLeafFrame();
-        internal abstract bool TryGetLeafFrame(ref DebugFrame frame);
-        internal abstract int FrameCount { get; }
-        internal abstract void PushExistingFrame(DebugFrame frame);
-        internal abstract bool PopFrame();
-        internal abstract FunctionInfo GetLeafFrameFunctionInfo(out int stackDepth);
+		internal abstract bool TryGetLeafFrame(ref DebugFrame frame);
 
-        #endregion
-    }
+		internal abstract int FrameCount { get; }
+
+		internal abstract void PushExistingFrame(DebugFrame frame);
+
+		internal abstract bool PopFrame();
+
+		internal abstract FunctionInfo GetLeafFrameFunctionInfo(out int stackDepth);
+	}
 }

@@ -162,7 +162,7 @@ namespace Microsoft.Scripting.Generation
 			if (!_delegateTypes.TryGetValue(delegateType, out newDelegateType))
 			{
 				MethodInfo invoke = delegateType.GetMethod("Invoke");
-				newDelegateType = _typeGen.AssemblyGen.MakeDelegateType(delegateType.Name, invoke.GetParameters().Select(p => p.ParameterType).ToArray(), invoke.ReturnType);
+				newDelegateType = _typeGen.AssemblyGen.DefineDelegateType(delegateType.Name, invoke.GetParameters().Select(p => p.ParameterType).ToArray(), invoke.ReturnType).CreateType();
 				_delegateTypes[delegateType] = newDelegateType;
 			}
 			return true;

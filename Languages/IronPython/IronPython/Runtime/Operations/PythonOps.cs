@@ -66,7 +66,6 @@ namespace IronPython.Runtime.Operations {
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes")]
         public static readonly PythonTuple EmptyTuple = PythonTuple.EMPTY;
-        private static readonly Type[] _DelegateCtorSignature = new Type[] { typeof(object), typeof(IntPtr) };
 
         #endregion
 
@@ -3497,16 +3496,10 @@ namespace IronPython.Runtime.Operations {
         /// Generates a new delegate type.  The last type in the array is the return type.
         /// </summary>
         public static Type/*!*/ MakeNewCustomDelegate(Type/*!*/[]/*!*/ types, CallingConvention? callingConvention) {
-            const MethodAttributes CtorAttributes = MethodAttributes.RTSpecialName | MethodAttributes.HideBySig | MethodAttributes.Public;
-            const MethodImplAttributes ImplAttributes = MethodImplAttributes.Runtime | MethodImplAttributes.Managed;
-            const MethodAttributes InvokeAttributes = MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual;
-
             Type returnType = types[types.Length - 1];
             Type[] parameters = ArrayUtils.RemoveLast(types);
 
-            TypeBuilder builder = Snippets.DefineDelegateType("Delegate" + types.Length);
-            builder.DefineConstructor(CtorAttributes, CallingConventions.Standard, _DelegateCtorSignature).SetImplementationFlags(ImplAttributes);
-            builder.DefineMethod("Invoke", InvokeAttributes, returnType, parameters).SetImplementationFlags(ImplAttributes);
+            TypeBuilder builder = Snippets.DefineDelegateType("Delegate" + types.Length, parameters, returnType);
 
             if (callingConvention != null) {
                 builder.SetCustomAttribute(new CustomAttributeBuilder(

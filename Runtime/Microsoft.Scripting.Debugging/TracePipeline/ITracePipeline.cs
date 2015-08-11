@@ -13,13 +13,13 @@
  *
  * ***************************************************************************/
 
-namespace Microsoft.Scripting.Debugging {
-    public interface ITracePipeline {
-        void Close();
-
-        bool CanSetNextStatement(string sourceFile, SourceSpan sourceSpan);
-        void SetNextStatement(string sourceFile, SourceSpan sourceSpan);
-
-        ITraceCallback TraceCallback { get; set; }
-    }
+namespace Microsoft.Scripting.Debugging
+{
+	public interface ITracePipeline
+	{
+		void Close();
+		bool CanSetNextStatement(string sourceFile, SourceSpan sourceSpan);
+		void SetNextStatement(string sourceFile, SourceSpan sourceSpan);
+		ITraceCallback TraceCallback { get; set; }
+	}
 }

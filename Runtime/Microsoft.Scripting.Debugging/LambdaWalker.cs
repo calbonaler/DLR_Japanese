@@ -1,4 +1,4 @@
-/* ****************************************************************************
+﻿/* ****************************************************************************
  *
  * Copyright (c) Microsoft Corporation. 
  *
@@ -13,56 +13,41 @@
  *
  * ***************************************************************************/
 
-#if !CLR2
-using MSAst = System.Linq.Expressions;
-#else
-using MSAst = Microsoft.Scripting.Ast;
-#endif
-
 using System.Collections.Generic;
+using MSAst = System.Linq.Expressions;
 
-namespace Microsoft.Scripting.Debugging {
-    /// <summary>
-    /// Used to extract locals information from expressions.
-    /// </summary>
-    internal sealed class LambdaWalker : MSAst.ExpressionVisitor {
-        private readonly List<MSAst.ParameterExpression> _locals;
-        private readonly Dictionary<MSAst.ParameterExpression, object> _strongBoxedLocals;
+namespace Microsoft.Scripting.Debugging
+{
+	/// <summary>ローカル変数の情報を式から抽出するために使用されます。</summary>
+	sealed class LambdaWalker : MSAst.ExpressionVisitor
+	{
+		internal LambdaWalker()
+		{
+			Locals = new List<MSAst.ParameterExpression>();
+			StrongBoxedLocals = new HashSet<MSAst.ParameterExpression>();
+		}
 
-        internal LambdaWalker() {
-            _locals = new List<MSAst.ParameterExpression>();
-            _strongBoxedLocals = new Dictionary<MSAst.ParameterExpression, object>();
-        }
+		internal List<MSAst.ParameterExpression> Locals { get; private set; }
 
-        internal List<MSAst.ParameterExpression> Locals {
-            get { return _locals; }
-        }
+		internal HashSet<MSAst.ParameterExpression> StrongBoxedLocals { get; private set; }
 
-        internal Dictionary<MSAst.ParameterExpression, object> StrongBoxedLocals {
-            get { return _strongBoxedLocals; }
-        }
+		protected override MSAst.Expression VisitBlock(MSAst.BlockExpression node)
+		{
+			// ブロックに記録されているすべての変数を記録
+			foreach (var local in node.Variables)
+				Locals.Add(local);
+			return base.VisitBlock(node);
+		}
 
-        protected override MSAst.Expression VisitBlock(MSAst.BlockExpression node) {
-            // Record all variables declared within the block
-            foreach (MSAst.ParameterExpression local in node.Variables) {
-                _locals.Add(local);
-            }
+		protected override MSAst.Expression VisitRuntimeVariables(MSAst.RuntimeVariablesExpression node)
+		{
+			// すべての StrongBox された変数を記録
+			foreach (var local in node.Variables)
+				StrongBoxedLocals.Add(local);
+			return base.VisitRuntimeVariables(node);
+		}
 
-            return base.VisitBlock(node);
-        }
-
-        protected override MSAst.Expression VisitRuntimeVariables(MSAst.RuntimeVariablesExpression node) {
-            // Record all strongbox'ed variables
-            foreach (MSAst.ParameterExpression local in node.Variables) {
-                _strongBoxedLocals.Add(local, null);
-            }
-
-            return base.VisitRuntimeVariables(node);
-        }
-
-        protected override MSAst.Expression VisitLambda<T>(MSAst.Expression<T> node) {
-            // Explicitely don't walk nested lambdas.  They should already have been transformed
-            return node;
-        }
-    }
+		// ネストされたラムダ式は明示的に走査しない。これらはすでに変形されているはず
+		protected override MSAst.Expression VisitLambda<T>(MSAst.Expression<T> node) { return node; }
+	}
 }

@@ -1,4 +1,4 @@
-/* ****************************************************************************
+ï»¿/* ****************************************************************************
  *
  * Copyright (c) Microsoft Corporation. 
  *
@@ -25,21 +25,21 @@ using AstUtils = Microsoft.Scripting.Ast.Utils;
 namespace Microsoft.Scripting.Ast
 {
 	/// <summary>
-	/// yield return ‚Ü‚½‚Í yield break ‚ğŒ©‚Â‚¯‚½ê‡‚ÉA‚±‚ÌƒŠƒ‰ƒCƒ^[‚ÍŠÜ‚ñ‚Å‚¢‚éƒuƒƒbƒNAƒXƒR[ƒvA‚»‚µ‚Ä®‚ğƒXƒ^ƒbƒN‚Ìó‘Ô‚É‚µ‚½‚ª‚Á‚Ä•½’R‰»‚µ‚Ü‚·B
-	/// ‚·‚×‚Ä‚Ì‘˜‹ö‚µ‚½ƒXƒR[ƒv‚ÍƒWƒFƒlƒŒ[ƒ^‚ÌƒNƒ[ƒWƒƒ‚É¸Ši‚³‚ê‚½•Ï”‚ğ‚Â‚½‚ßAyield ‚ğ‰z‚¦‚Ä¶‚«c‚ç‚¹‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B
+	/// yield return ã¾ãŸã¯ yield break ã‚’è¦‹ã¤ã‘ãŸå ´åˆã«ã€ã“ã®ãƒªãƒ©ã‚¤ã‚¿ãƒ¼ã¯å«ã‚“ã§ã„ã‚‹ãƒ–ãƒ­ãƒƒã‚¯ã€ã‚¹ã‚³ãƒ¼ãƒ—ã€ãã—ã¦å¼ã‚’ã‚¹ã‚¿ãƒƒã‚¯ã®çŠ¶æ…‹ã«ã—ãŸãŒã£ã¦å¹³å¦åŒ–ã—ã¾ã™ã€‚
+	/// ã™ã¹ã¦ã®é­é‡ã—ãŸã‚¹ã‚³ãƒ¼ãƒ—ã¯ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã®ã‚¯ãƒ­ãƒ¼ã‚¸ãƒ£ã«æ˜‡æ ¼ã•ã‚ŒãŸå¤‰æ•°ã‚’æŒã¤ãŸã‚ã€yield ã‚’è¶Šãˆã¦ç”Ÿãæ®‹ã‚‰ã›ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚
 	/// </summary>
 	sealed class GeneratorRewriter : ExpressionVisitor
 	{
-		// 2 ‚Â‚Ì’è”‚Í“à•”“I‚Ég—p‚³‚ê‚Ü‚·B‚±‚ê‚ç‚Í—LŒø‚È yield ó‘Ô‚Ìê‡‚Í–µ‚‚µ‚Ü‚¹‚ñB
+		// 2 ã¤ã®å®šæ•°ã¯å†…éƒ¨çš„ã«ä½¿ç”¨ã•ã‚Œã¾ã™ã€‚ã“ã‚Œã‚‰ã¯æœ‰åŠ¹ãª yield çŠ¶æ…‹ã®å ´åˆã¯çŸ›ç›¾ã—ã¾ã›ã‚“ã€‚
 		const int GotoRouterYielding = 0;
 		const int GotoRouterNone = -1;
-		// ŠJn‘O‚¨‚æ‚ÑŠ®—¹‚ÌƒWƒFƒlƒŒ[ƒ^‚Ìó‘Ô‚Å‚·B
+		// é–‹å§‹å‰ãŠã‚ˆã³å®Œäº†æ™‚ã®ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã®çŠ¶æ…‹ã§ã™ã€‚
 		internal const int NotStarted = -1;
 		internal const int Finished = 0;
 
 		sealed class YieldMarker
 		{
-			// ’ß: ƒ‰ƒxƒ‹‚Í try ƒuƒƒbƒN‚ğ¶¬‚·‚é‚²‚Æ‚É•Ï‰»‚µ‚Ü‚·B
+			// æ³¨é‡ˆ: ãƒ©ãƒ™ãƒ«ã¯ try ãƒ–ãƒ­ãƒƒã‚¯ã‚’ç”Ÿæˆã™ã‚‹ã”ã¨ã«å¤‰åŒ–ã—ã¾ã™ã€‚
 			internal LabelTarget Label = Expression.Label();
 			internal readonly int State;
 			internal YieldMarker(int state) { State = state; }
@@ -60,16 +60,16 @@ namespace Microsoft.Scripting.Ast
 		readonly ParameterExpression _current;
 		readonly ParameterExpression _state;
 
-		// finally “à•”‚Ìê‡‚Í 1 ‚ÂˆÈã‚ÌƒŠƒ^[ƒ“ƒ‰ƒxƒ‹‚ğ•\‚µ‚Ü‚·
+		// finally å†…éƒ¨ã®å ´åˆã¯ 1 ã¤ä»¥ä¸Šã®ãƒªã‚¿ãƒ¼ãƒ³ãƒ©ãƒ™ãƒ«ã‚’è¡¨ã—ã¾ã™
 		readonly Stack<LabelTarget> _returnLabels = new Stack<LabelTarget>();
 		ParameterExpression _gotoRouter;
 		bool _inTryWithFinally;
 		readonly List<YieldMarker> _yields = new List<YieldMarker>();
 		List<int> _debugCookies;
 		readonly HashSet<ParameterExpression> _vars = new HashSet<ParameterExpression>();
-		// ‰Â”\‚ÈÅ“K‰»: ˆê•Ï”‚ÌÄg—pB•Ï”‚ğ“KØ‚ÉƒXƒR[ƒv‚µ‚ÄAƒtƒŠ[ƒŠƒXƒg“à‚Ì•Ï”‚ğ‘‚«–ß‚·•K—v‚ª‚ ‚è‚Ü‚·B
+		// å¯èƒ½ãªæœ€é©åŒ–: ä¸€æ™‚å¤‰æ•°ã®å†ä½¿ç”¨ã€‚å¤‰æ•°ã‚’é©åˆ‡ã«ã‚¹ã‚³ãƒ¼ãƒ—ã—ã¦ã€ãƒ•ãƒªãƒ¼ãƒªã‚¹ãƒˆå†…ã®å¤‰æ•°ã‚’æ›¸ãæˆ»ã™å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚
 		readonly List<ParameterExpression> _temps = new List<ParameterExpression>();
-		// ’l‚Ì‚ ‚é goto ‚ğƒTƒ|[ƒg‚·‚é•Ï”B
+		// å€¤ã®ã‚ã‚‹ goto ã‚’ã‚µãƒãƒ¼ãƒˆã™ã‚‹å¤‰æ•°ã€‚
 		Dictionary<LabelTarget, LabelInfo> _labelTemps;
 
 		internal GeneratorRewriter(GeneratorExpression generator)
@@ -83,11 +83,11 @@ namespace Microsoft.Scripting.Ast
 
 		internal Expression Reduce()
 		{
-			// –{‘Ì‚ğ–K–â
+			// æœ¬ä½“ã‚’è¨ªå•
 			var body = Visit(_generator.Body);
 			Debug.Assert(_returnLabels.Count == 1);
-			// GeneratorNext<T> ‚É‘Î‚·‚éƒ‰ƒ€ƒ_‚ğì¬Bƒ‰ƒ€ƒ_ŠO•”‚ÌƒXƒR[ƒv‚É‚ ‚é•Ï”‚ğŠª‚«ã‚°‚Ü‚·B
-			// ƒNƒ[ƒYƒI[ƒo[‚³‚ê‚é•K—v‚ª‚È‚¢ˆê•Ï”‚ğûW
+			// GeneratorNext<T> ã«å¯¾ã™ã‚‹ãƒ©ãƒ ãƒ€ã‚’ä½œæˆã€‚ãƒ©ãƒ ãƒ€å¤–éƒ¨ã®ã‚¹ã‚³ãƒ¼ãƒ—ã«ã‚ã‚‹å¤‰æ•°ã‚’å·»ãä¸Šã’ã¾ã™ã€‚
+			// ã‚¯ãƒ­ãƒ¼ã‚ºã‚ªãƒ¼ãƒãƒ¼ã•ã‚Œã‚‹å¿…è¦ãŒãªã„ä¸€æ™‚å¤‰æ•°ã‚’åé›†
 			body = Expression.Block(_vars.Concat(_temps),
 				Expression.Lambda(typeof(GeneratorNext<>).MakeGenericType(_generator.Target.Type),
 					Expression.Block(
@@ -104,11 +104,11 @@ namespace Microsoft.Scripting.Ast
 					_generator.Name, new[] { _state, _current }
 				)
 			);
-			// —ñ‹“ƒtƒ@ƒNƒgƒŠ‚Í GeneratorNext<T> ‚Ì‘ã‚í‚è‚É Func<GeneratorNext<T>> ‚ğ‚Æ‚éB
+			// åˆ—æŒ™ãƒ•ã‚¡ã‚¯ãƒˆãƒªã¯ GeneratorNext<T> ã®ä»£ã‚ã‚Šã« Func<GeneratorNext<T>> ã‚’ã¨ã‚‹ã€‚
 			if (_generator.IsEnumerable)
 				body = Expression.Lambda(body);
-			// ’è”‚ª‚·‚Å‚ÉƒŠƒ‰ƒCƒg‚³‚ê‚½Œã‚ÅƒcƒŠ[‚ğ’Tõ‚·‚é‚Ì‚ÅA‚±‚±‚Å‚Í _debugCookies ”z—ñ‚Ì ConstantExpression ‚ğì¬‚Å‚«‚Ü‚¹‚ñB
-			// ‘ã‚í‚è‚ÉA”z—ñ‚ğ _debugCookies ‚©‚ç‚Ì“à—e‚Å”z—ñ‚Å‰Šú‰»‚·‚é NewArrayExpression ‚ğì¬‚µ‚Ü‚·B
+			// å®šæ•°ãŒã™ã§ã«ãƒªãƒ©ã‚¤ãƒˆã•ã‚ŒãŸå¾Œã§ãƒ„ãƒªãƒ¼ã‚’æ¢ç´¢ã™ã‚‹ã®ã§ã€ã“ã“ã§ã¯ _debugCookies é…åˆ—ã® ConstantExpression ã‚’ä½œæˆã§ãã¾ã›ã‚“ã€‚
+			// ä»£ã‚ã‚Šã«ã€é…åˆ—ã‚’ _debugCookies ã‹ã‚‰ã®å†…å®¹ã§é…åˆ—ã§åˆæœŸåŒ–ã™ã‚‹ NewArrayExpression ã‚’ä½œæˆã—ã¾ã™ã€‚
 			var targetMethodExample = new Func<GeneratorNext<int>, IEnumerator<int>>(ScriptingRuntimeHelpers.MakeGenerator).Method.GetGenericMethodDefinition();
 			return Expression.Call(targetMethodExample.DeclaringType, targetMethodExample.Name, new[] { _generator.Target.Type },
 				_debugCookies != null ? new[] { body, Expression.NewArrayInit(typeof(int), _debugCookies.Select(x => AstUtils.Constant(x))) } : new[] { body }
@@ -133,12 +133,12 @@ namespace Microsoft.Scripting.Ast
 			return result;
 		}
 
-		/// <summary>•Ï”‚Ö‚Ì’l‚Ì‘ã“ü‚ğì¬‚µ‚Ü‚·B“à•”‚Ö‚ÌƒWƒƒƒ“ƒv‚ğ‰Â”\‚É‚·‚é‚½‚ß‚ÉA‰Â”\‚ÈŒÀ‚è‰E•Ó‚Ì‘ã“ü‚ğƒvƒbƒVƒ…‚µ‚Ü‚·B</summary>
+		/// <summary>å¤‰æ•°ã¸ã®å€¤ã®ä»£å…¥ã‚’ä½œæˆã—ã¾ã™ã€‚å†…éƒ¨ã¸ã®ã‚¸ãƒ£ãƒ³ãƒ—ã‚’å¯èƒ½ã«ã™ã‚‹ãŸã‚ã«ã€å¯èƒ½ãªé™ã‚Šå³è¾ºã®ä»£å…¥ã‚’ãƒ—ãƒƒã‚·ãƒ¥ã—ã¾ã™ã€‚</summary>
 		Expression MakeAssign(ParameterExpression variable, Expression value)
 		{
-			// TODO: ‚±‚ê‚Í•sŠ®‘S‚Å‚·B
-			// ‚±‚ê‚ç‚Ìƒm[ƒh‚ª yield ‚Ü‚½‚Í return (Switch, Loop, Goto, Label) ‚ğŠÜ‚Şê‡A‚±‚ê‚Í³‚µ‚­‚È‚¢ƒcƒŠ[‚ğ¶¬‚µ‚Ä’â~‚·‚é‰Â”\«‚ª‚ ‚è‚Ü‚·B
-			// ‚±‚ê‚ç‚ÍƒTƒ|[ƒg‚³‚ê‚Ü‚¹‚ñ‚ªA(‚±‚êˆÈŠO‚Ì‘¼‚Ì®‚ª yield ‚ğŠÜ‚Şê‡) “KØ‚Èg—p‚ğ”F‚ß‚¸‚ÉŠ®—¹‚·‚é‰Â”\«‚ª‚ ‚é‚½‚ßA‚±‚±‚Å‚Í—áŠO‚ğƒXƒ[‚Å‚«‚Ü‚¹‚ñB
+			// TODO: ã“ã‚Œã¯ä¸å®Œå…¨ã§ã™ã€‚
+			// ã“ã‚Œã‚‰ã®ãƒãƒ¼ãƒ‰ãŒ yield ã¾ãŸã¯ return (Switch, Loop, Goto, Label) ã‚’å«ã‚€å ´åˆã€ã“ã‚Œã¯æ­£ã—ããªã„ãƒ„ãƒªãƒ¼ã‚’ç”Ÿæˆã—ã¦åœæ­¢ã™ã‚‹å¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™ã€‚
+			// ã“ã‚Œã‚‰ã¯ã‚µãƒãƒ¼ãƒˆã•ã‚Œã¾ã›ã‚“ãŒã€(ã“ã‚Œä»¥å¤–ã®ä»–ã®å¼ãŒ yield ã‚’å«ã‚€å ´åˆ) é©åˆ‡ãªä½¿ç”¨ã‚’èªã‚ãšã«å®Œäº†ã™ã‚‹å¯èƒ½æ€§ãŒã‚ã‚‹ãŸã‚ã€ã“ã“ã§ã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã§ãã¾ã›ã‚“ã€‚
 			switch (value.NodeType)
 			{
 				case ExpressionType.Block:
@@ -165,9 +165,9 @@ namespace Microsoft.Scripting.Ast
 			var tryYields = _yields.Count;
 			IList<CatchBlock> handlers = Visit(node.Handlers, VisitCatchBlock);
 			var catchYields = _yields.Count;
-			// finally ƒuƒƒbƒN‚Ì yield ‚Ìê‡‚ÉAV‚µ‚¢ return ƒ‰ƒxƒ‹‚ğƒvƒbƒVƒ…
+			// finally ãƒ–ãƒ­ãƒƒã‚¯ã® yield ã®å ´åˆã«ã€æ–°ã—ã„ return ãƒ©ãƒ™ãƒ«ã‚’ãƒ—ãƒƒã‚·ãƒ¥
 			_returnLabels.Push(Expression.Label());
-			// ‚±‚ê‚ç‚Ì‚¤‚¿‚½‚Á‚½ 1 ‚Â‚Í null ‚É‚È‚ç‚È‚¢
+			// ã“ã‚Œã‚‰ã®ã†ã¡ãŸã£ãŸ 1 ã¤ã¯ null ã«ãªã‚‰ãªã„
 			var @finally = Visit(node.Finally);
 			var fault = Visit(node.Fault);
 			var finallyReturn = _returnLabels.Pop();
@@ -175,21 +175,21 @@ namespace Microsoft.Scripting.Ast
 			_inTryWithFinally = savedInTryWithFinally;
 			if (@try == node.Body && handlers == node.Handlers && @finally == node.Finally && fault == node.Fault)
 				return node;
-			// yield ‚Å‚Í‚È‚­‚½‚¾‚Ì return
+			// yield ã§ã¯ãªããŸã ã® return
 			if (startYields == _yields.Count)
 				return Expression.MakeTry(null, @try, @finally, fault, handlers);
 			if (fault != null && finallyYields != catchYields)
-				throw new NotSupportedException("fault ƒuƒƒbƒN‚É‚¨‚¯‚é yield ‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB"); // ’N‚à‚±‚ê‚ğ•K—v‚Æ‚¹‚¸Afault ‚É–ß‚é•û–@‚ª–¾Šm‚Å‚È‚¢
-			// try ‚É yield ‚ª‚ ‚ê‚ÎAyield ƒ‰ƒxƒ‹‚ğ”­s‚·‚éV‚µ‚¢ try –{‘Ì‚ğ\’z‚·‚é•K—v‚ª‚ ‚é
+				throw new NotSupportedException("fault ãƒ–ãƒ­ãƒƒã‚¯ã«ãŠã‘ã‚‹ yield ã¯ã‚µãƒãƒ¼ãƒˆã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚"); // èª°ã‚‚ã“ã‚Œã‚’å¿…è¦ã¨ã›ãšã€fault ã«æˆ»ã‚‹æ–¹æ³•ãŒæ˜ç¢ºã§ãªã„
+			// try ã« yield ãŒã‚ã‚Œã°ã€yield ãƒ©ãƒ™ãƒ«ã‚’ç™ºè¡Œã™ã‚‹æ–°ã—ã„ try æœ¬ä½“ã‚’æ§‹ç¯‰ã™ã‚‹å¿…è¦ãŒã‚ã‚‹
 			var tryStart = Expression.Label();
 			if (tryYields != startYields)
 				@try = Expression.Block(MakeYieldRouter(startYields, tryYields, tryStart), @try);
-			// yield ‚Ì‚ ‚é catch ‚ğ‰„Šú‚µ‚½ƒnƒ“ƒhƒ‰‚É•ÏŠ·
+			// yield ã®ã‚ã‚‹ catch ã‚’å»¶æœŸã—ãŸãƒãƒ³ãƒ‰ãƒ©ã«å¤‰æ›
 			if (catchYields != tryYields)
 			{
 				var block = new List<Expression>();
 				block.Add(MakeYieldRouter(tryYields, catchYields, tryStart));
-				block.Add(null); // ‚ ‚Æ‚Å–„‚ß‚é‹ó‚ÌƒXƒƒbƒg
+				block.Add(null); // ã‚ã¨ã§åŸ‹ã‚ã‚‹ç©ºã®ã‚¹ãƒ­ãƒƒãƒˆ
 				for (int i = 0, n = handlers.Count; i < n; i++)
 				{
 					var c = handlers[i];
@@ -197,14 +197,14 @@ namespace Microsoft.Scripting.Ast
 						continue;
 					if (handlers.IsReadOnly)
 						handlers = handlers.ToArray();
-					// catch ƒuƒƒbƒN‚ÉƒXƒR[ƒv‚³‚ê‚½•Ï”
+					// catch ãƒ–ãƒ­ãƒƒã‚¯ã«ã‚¹ã‚³ãƒ¼ãƒ—ã•ã‚ŒãŸå¤‰æ•°
 					var exceptionVar = Expression.Variable(c.Test, null);
-					// catch ƒuƒƒbƒN–{‘Ì‚ª—áŠO‚Ö‚ÌƒAƒNƒZƒX‚Ég—p‚·‚é•Ï”
-					// catch ƒuƒƒbƒN‚ÉŒ³‚Ì•Ï”‚ª‚ ‚Á‚½ê‡Äg—p‚µ‚Ü‚·B
-					// catch ‚Í yield ‚ğŠÜ‚ñ‚Å‚¢‚é‰Â”\«‚ª‚ ‚é‚½‚ßA‚±‚ê‚ÍŠª‚«ã‚°‚ç‚ê‚Ü‚·B
+					// catch ãƒ–ãƒ­ãƒƒã‚¯æœ¬ä½“ãŒä¾‹å¤–ã¸ã®ã‚¢ã‚¯ã‚»ã‚¹ã«ä½¿ç”¨ã™ã‚‹å¤‰æ•°
+					// catch ãƒ–ãƒ­ãƒƒã‚¯ã«å…ƒã®å¤‰æ•°ãŒã‚ã£ãŸå ´åˆå†ä½¿ç”¨ã—ã¾ã™ã€‚
+					// catch ã¯ yield ã‚’å«ã‚“ã§ã„ã‚‹å¯èƒ½æ€§ãŒã‚ã‚‹ãŸã‚ã€ã“ã‚Œã¯å·»ãä¸Šã’ã‚‰ã‚Œã¾ã™ã€‚
 					var deferredVar = c.Variable ?? Expression.Variable(c.Test, null);
 					_vars.Add(deferredVar);
-					// ƒtƒBƒ‹ƒ^[‚ª—áŠO•Ï”‚ÉŠmÀ‚ÉƒAƒNƒZƒX‚Å‚«‚é‚æ‚¤‚É‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B
+					// ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ãŒä¾‹å¤–å¤‰æ•°ã«ç¢ºå®Ÿã«ã‚¢ã‚¯ã‚»ã‚¹ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚
 					// catch (ExceptionType exceptionVar) {
 					//     deferredVar = exceptionVar;
 					// }
@@ -212,7 +212,7 @@ namespace Microsoft.Scripting.Ast
 						Utils.Void(Expression.Assign(deferredVar, exceptionVar)),
 						c.Filter != null && c.Variable != null ? Expression.Block(new[] { c.Variable }, Expression.Assign(c.Variable, exceptionVar), c.Filter) : c.Filter
 					);
-					// ÄƒXƒ[‚ğ "throw defferedVar" ‚É‘‚«Š·‚¦‚é•K—v‚ª‚ ‚è‚Ü‚·B
+					// å†ã‚¹ãƒ­ãƒ¼ã‚’ "throw defferedVar" ã«æ›¸ãæ›ãˆã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚
 					// if (deferredVar != null) {
 					//     ... catch body ...
 					// }
@@ -224,8 +224,8 @@ namespace Microsoft.Scripting.Ast
 			}
 			if (finallyYields != catchYields)
 			{
-				// —áŠO‚ğ•Û‘¶‚·‚é catch ƒuƒƒbƒN‚ğ‰Á‚¦‚é•K—v‚ª‚ ‚é‚Ì‚ÅAfinally ‚É yield ‚ª‚ ‚éê‡‚ÍÄƒXƒ[‚Å‚«‚Ü‚·B
-				// ‚³‚ç‚ÉA•Ô‹p‚ÌƒƒWƒbƒN‚à‰Á‚¦‚Ü‚·BŸ‚Ì‚æ‚¤‚É‚È‚è‚Ü‚·:
+				// ä¾‹å¤–ã‚’ä¿å­˜ã™ã‚‹ catch ãƒ–ãƒ­ãƒƒã‚¯ã‚’åŠ ãˆã‚‹å¿…è¦ãŒã‚ã‚‹ã®ã§ã€finally ã« yield ãŒã‚ã‚‹å ´åˆã¯å†ã‚¹ãƒ­ãƒ¼ã§ãã¾ã™ã€‚
+				// ã•ã‚‰ã«ã€è¿”å´ã®ãƒ­ã‚¸ãƒƒã‚¯ã‚‚åŠ ãˆã¾ã™ã€‚æ¬¡ã®ã‚ˆã†ã«ãªã‚Šã¾ã™:
 				//
 				// try { ... } catch (Exception all) { saved = all; }
 				// finally {
@@ -236,14 +236,14 @@ namespace Microsoft.Scripting.Ast
 				// }
 				// if (_finallyReturnVar) goto _return;
 
-				// catch(Exception) ‚ğ‰Á‚¦‚é•K—v‚ª‚ ‚é‚½‚ßAcatch ‚ª‚ ‚éê‡‚ÍAtry ‚Åƒ‰ƒbƒv‚µ‚Ü‚·B
+				// catch(Exception) ã‚’åŠ ãˆã‚‹å¿…è¦ãŒã‚ã‚‹ãŸã‚ã€catch ãŒã‚ã‚‹å ´åˆã¯ã€try ã§ãƒ©ãƒƒãƒ—ã—ã¾ã™ã€‚
 				if (handlers.Count > 0)
 				{
 					@try = Expression.MakeTry(null, @try, null, null, handlers);
 					handlers = new CatchBlock[0];
 				}
-				// ’ß: ‚±‚ê‚ç‚Ìƒ‹[ƒ^[‚Ì‡˜‚Íd—v‚Å‚·B
-				// Å‰‚ÌŒÄ‚Ño‚µ‚Í "tryEnd" ‚ÉˆÊ’u‚·‚é‚·‚×‚Ä‚Ìƒ‰ƒxƒ‹‚ğ•ÏX‚µAŸ‚Ìƒ‹[ƒ^[‚Í "tryEnd" ‚ÖƒWƒƒƒ“ƒv‚µ‚Ü‚·B
+				// æ³¨é‡ˆ: ã“ã‚Œã‚‰ã®ãƒ«ãƒ¼ã‚¿ãƒ¼ã®é †åºã¯é‡è¦ã§ã™ã€‚
+				// æœ€åˆã®å‘¼ã³å‡ºã—ã¯ "tryEnd" ã«ä½ç½®ã™ã‚‹ã™ã¹ã¦ã®ãƒ©ãƒ™ãƒ«ã‚’å¤‰æ›´ã—ã€æ¬¡ã®ãƒ«ãƒ¼ã‚¿ãƒ¼ã¯ "tryEnd" ã¸ã‚¸ãƒ£ãƒ³ãƒ—ã—ã¾ã™ã€‚
 				var tryEnd = Expression.Label();
 				var inFinallyRouter = MakeYieldRouter(catchYields, finallyYields, tryEnd);
 				var inTryRouter = MakeYieldRouter(catchYields, finallyYields, tryStart);
@@ -278,9 +278,9 @@ namespace Microsoft.Scripting.Ast
 				@finally = null;
 			}
 			else if (@finally != null)
-				// try ‚Ü‚½‚Í catch ‚ª yield ‚ğŠÜ‚ñ‚Å‚¢‚ê‚ÎAfinally ‚ğC³‚µAƒXƒLƒbƒv‚Å‚«‚é‚æ‚¤‚É‚µ‚Ü‚·B
+				// try ã¾ãŸã¯ catch ãŒ yield ã‚’å«ã‚“ã§ã„ã‚Œã°ã€finally ã‚’ä¿®æ­£ã—ã€ã‚¹ã‚­ãƒƒãƒ—ã§ãã‚‹ã‚ˆã†ã«ã—ã¾ã™ã€‚
 				@finally = Expression.Block(MakeSkipFinallyBlock(finallyReturn), @finally, Expression.Label(finallyReturn));
-			// •K—v‚Å‚ ‚ê‚ÎŠO‘¤‚Ì try ‚ğì¬
+			// å¿…è¦ã§ã‚ã‚Œã°å¤–å´ã® try ã‚’ä½œæˆ
 			if (handlers.Count > 0 || @finally != null || fault != null)
 				@try = Expression.MakeTry(null, @try, @finally, fault, handlers);
 			return Expression.Block(Expression.Label(tryStart), @try);
@@ -294,12 +294,12 @@ namespace Microsoft.Scripting.Ast
 
 			protected override Expression VisitUnary(UnaryExpression node) { return node.NodeType == ExpressionType.Throw && node.Operand == null ? Expression.Throw(_exception, node.Type) : base.VisitUnary(node); }
 
-			protected override Expression VisitLambda<T>(Expression<T> node) { return node; } // ƒ‰ƒ€ƒ_‚É‚ÍÄ‹A‚µ‚È‚¢
+			protected override Expression VisitLambda<T>(Expression<T> node) { return node; } // ãƒ©ãƒ ãƒ€ã«ã¯å†å¸°ã—ãªã„
 
-			protected override Expression VisitTry(TryExpression node) { return node; } // ‘¼‚Ì try ‚É‚ÍÄ‹A‚µ‚È‚¢
+			protected override Expression VisitTry(TryExpression node) { return node; } // ä»–ã® try ã«ã¯å†å¸°ã—ãªã„
 		}
 
-		// yield ’†‚Å‚ ‚ê‚Î finally ƒuƒƒbƒN‚ğƒXƒLƒbƒv‚µ‚Ü‚·‚ªAyield break ‚ğÀs’†‚ÌÛ‚Ís‚¢‚Ü‚¹‚ñB
+		// yield ä¸­ã§ã‚ã‚Œã° finally ãƒ–ãƒ­ãƒƒã‚¯ã‚’ã‚¹ã‚­ãƒƒãƒ—ã—ã¾ã™ãŒã€yield break ã‚’å®Ÿè¡Œä¸­ã®éš›ã¯è¡Œã„ã¾ã›ã‚“ã€‚
 		Expression MakeSkipFinallyBlock(LabelTarget target)
 		{
 			return Expression.Condition(
@@ -312,15 +312,15 @@ namespace Microsoft.Scripting.Ast
 			);
 		}
 
-		// Šî–{‚ÌÀ‘•‚©‚çƒRƒs[‚³‚ê‚Ü‚µ‚½B
-		// ƒtƒBƒ‹ƒ^[“à‚Ì yield ‚ğœŠO‚·‚é‚½‚ß‚É•K—v‚Å‚·B
+		// åŸºæœ¬ã®å®Ÿè£…ã‹ã‚‰ã‚³ãƒ”ãƒ¼ã•ã‚Œã¾ã—ãŸã€‚
+		// ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼å†…ã® yield ã‚’é™¤å¤–ã™ã‚‹ãŸã‚ã«å¿…è¦ã§ã™ã€‚
 		protected override CatchBlock VisitCatchBlock(CatchBlock node)
 		{
 			var v = VisitAndConvert(node.Variable, "VisitCatchBlock");
 			int yields = _yields.Count;
 			var f = Visit(node.Filter);
 			if (yields != _yields.Count)
-				throw new NotSupportedException("filter ‚É‚¨‚¯‚é yield ‚Í‹–‰Â‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB"); // No one needs this yet, and it's not clear what it should even do
+				throw new NotSupportedException("filter ã«ãŠã‘ã‚‹ yield ã¯è¨±å¯ã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚"); // No one needs this yet, and it's not clear what it should even do
 			var b = Visit(node.Body);
 			if (v == node.Variable && b == node.Body && f == node.Filter)
 				return node;
@@ -336,7 +336,7 @@ namespace Microsoft.Scripting.Ast
 			for (int i = start; i < end; i++)
 			{
 				cases[i - start] = Expression.SwitchCase(Expression.Goto(_yields[i].Label), AstUtils.Constant(_yields[i].State));
-				// ŠO‘¤‚Ì switch ƒXƒe[ƒgƒƒ“ƒg‚©‚ç‚Ì‚ ‚ç‚ä‚éƒWƒƒƒ“ƒv‚Í (“KØ‚ÉƒWƒƒƒ“ƒv‚Å‚«‚È‚¢) Œ³‚Ìƒ‰ƒxƒ‹‚Å‚Í‚È‚­A‚±‚Ìƒ‹[ƒ^[‚É“ü‚é‚×‚«‚Å‚·B
+				// å¤–å´ã® switch ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã‹ã‚‰ã®ã‚ã‚‰ã‚†ã‚‹ã‚¸ãƒ£ãƒ³ãƒ—ã¯ (é©åˆ‡ã«ã‚¸ãƒ£ãƒ³ãƒ—ã§ããªã„) å…ƒã®ãƒ©ãƒ™ãƒ«ã§ã¯ãªãã€ã“ã®ãƒ«ãƒ¼ã‚¿ãƒ¼ã«å…¥ã‚‹ã¹ãã§ã™ã€‚
 				_yields[i].Label = newTarget;
 			}
 			return Expression.Switch(_gotoRouter, cases);
@@ -350,14 +350,14 @@ namespace Microsoft.Scripting.Ast
 			var ffc = node as FinallyFlowControlExpression;
 			if (ffc != null)
 				return Visit(node.ReduceExtensions());
-			// “KØ‚ÈƒXƒ^ƒbƒNƒXƒsƒŠƒ“ƒO‚ğ•ÛØ‚·‚é‚½‚ß‚Ék‘Ş‚µ‚È‚¯‚ê‚Î‚È‚è‚Ü‚¹‚ñB
+			// é©åˆ‡ãªã‚¹ã‚¿ãƒƒã‚¯ã‚¹ãƒ”ãƒªãƒ³ã‚°ã‚’ä¿è¨¼ã™ã‚‹ãŸã‚ã«ç¸®é€€ã—ãªã‘ã‚Œã°ãªã‚Šã¾ã›ã‚“ã€‚
 			return Visit(node.ReduceExtensions());
 		}
 
 		Expression VisitYield(YieldExpression node)
 		{
 			if (node.Target != _generator.Target)
-				throw new InvalidOperationException("yield ‚ÆƒWƒFƒlƒŒ[ƒ^‚Í“¯‚¶ LabelTarget ƒIƒuƒWƒFƒNƒg‚ğ‹¤—L‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚è‚Ü‚·B");
+				throw new InvalidOperationException("yield ã¨ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã¯åŒã˜ LabelTarget ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å…±æœ‰ã—ã¦ã„ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚");
 			var value = Visit(node.Value);
 			var block = new List<Expression>();
 			if (value == null)
@@ -390,20 +390,20 @@ namespace Microsoft.Scripting.Ast
 				return node;
 			if (yields == _yields.Count)
 				return Expression.Block(node.Type, node.Variables, b);
-			// Œã‚Ì‚½‚ß‚É•Ï”‚ğ•Û‘¶ (ƒ‰ƒ€ƒ_‚ÌŠO‘¤‚ÅŠª‚«ã‚°‚ç‚ê‚é)
+			// å¾Œã®ãŸã‚ã«å¤‰æ•°ã‚’ä¿å­˜ (ãƒ©ãƒ ãƒ€ã®å¤–å´ã§å·»ãä¸Šã’ã‚‰ã‚Œã‚‹)
 			_vars.UnionWith(node.Variables);
-			// ‚·‚×‚Ä‚Ì•Ï”‚ªæ‚èœ‚©‚ê‚½ˆÈŠO‚Í‘‚«Š·‚¦‚ç‚ê‚½–{‘Ì‚ÅV‚µ‚¢ƒuƒƒbƒN‚ğ•Ô‚·B
+			// ã™ã¹ã¦ã®å¤‰æ•°ãŒå–ã‚Šé™¤ã‹ã‚ŒãŸä»¥å¤–ã¯æ›¸ãæ›ãˆã‚‰ã‚ŒãŸæœ¬ä½“ã§æ–°ã—ã„ãƒ–ãƒ­ãƒƒã‚¯ã‚’è¿”ã™ã€‚
 			return Expression.Block(node.Type, b);
 		}
 
-		protected override Expression VisitLambda<T>(Expression<T> node) { return node; } // ƒlƒXƒg‚³‚ê‚½ƒ‰ƒ€ƒ_‚É‚ÍÄ‹A‚µ‚È‚¢
+		protected override Expression VisitLambda<T>(Expression<T> node) { return node; } // ãƒã‚¹ãƒˆã•ã‚ŒãŸãƒ©ãƒ ãƒ€ã«ã¯å†å¸°ã—ãªã„
 
-		#region ’l‚Ì‚ ‚é goto ƒTƒ|[ƒg
+		#region å€¤ã®ã‚ã‚‹ goto ã‚µãƒãƒ¼ãƒˆ
 
-		// ƒŠƒ‰ƒCƒ^[‚Í®‚ğˆê•Ï”‚É‘ã“ü‚µ‚Ü‚·B
-		// ®‚ª’l‚Ì‚ ‚éƒ‰ƒxƒ‹‚Å‚ ‚ê‚ÎA•Ô‚³‚ê‚é®‚Í‘ã“ü‚Ì‰E•Ó‚ÉƒWƒƒƒ“ƒv‚Å‚«‚È‚¢‚½‚ßA•s³‚È®ƒcƒŠ[‚Æ‚È‚è‚Ü‚·B
-		// ‚µ‚½‚ª‚Á‚ÄA’l‚Ì‚ ‚éƒ‰ƒxƒ‹‚¨‚æ‚Ñ goto ‚ğæ‚èœ‚­•K—v‚ª‚ ‚è‚Ü‚·B
-		// MakeAssign ‚Åg—p‚³‚ê‚é‚à‚Ì‚ğƒŠƒ‰ƒCƒg‚·‚é•K—v‚Í‚ ‚è‚Ü‚·‚ªA‚·‚×‚ÄƒŠƒ‰ƒCƒg‚·‚é‚æ‚è‚ÍŠÈ’P‚Å‚·B
+		// ãƒªãƒ©ã‚¤ã‚¿ãƒ¼ã¯å¼ã‚’ä¸€æ™‚å¤‰æ•°ã«ä»£å…¥ã—ã¾ã™ã€‚
+		// å¼ãŒå€¤ã®ã‚ã‚‹ãƒ©ãƒ™ãƒ«ã§ã‚ã‚Œã°ã€è¿”ã•ã‚Œã‚‹å¼ã¯ä»£å…¥ã®å³è¾ºã«ã‚¸ãƒ£ãƒ³ãƒ—ã§ããªã„ãŸã‚ã€ä¸æ­£ãªå¼ãƒ„ãƒªãƒ¼ã¨ãªã‚Šã¾ã™ã€‚
+		// ã—ãŸãŒã£ã¦ã€å€¤ã®ã‚ã‚‹ãƒ©ãƒ™ãƒ«ãŠã‚ˆã³ goto ã‚’å–ã‚Šé™¤ãå¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚
+		// MakeAssign ã§ä½¿ç”¨ã•ã‚Œã‚‹ã‚‚ã®ã‚’ãƒªãƒ©ã‚¤ãƒˆã™ã‚‹å¿…è¦ã¯ã‚ã‚Šã¾ã™ãŒã€ã™ã¹ã¦ãƒªãƒ©ã‚¤ãƒˆã™ã‚‹ã‚ˆã‚Šã¯ç°¡å˜ã§ã™ã€‚
 		//
 		// var = label[L](value1)
 		// ...
@@ -441,9 +441,9 @@ namespace Microsoft.Scripting.Ast
 
 		#endregion
 
-		#region (®‚Ì’†ŠÔ‚É‚ ‚é yield ‚ğ‹–‰Â‚·‚é‚½‚ß‚Ì) ƒXƒ^ƒbƒNƒXƒsƒŠƒ“ƒO
+		#region (å¼ã®ä¸­é–“ã«ã‚ã‚‹ yield ã‚’è¨±å¯ã™ã‚‹ãŸã‚ã®) ã‚¹ã‚¿ãƒƒã‚¯ã‚¹ãƒ”ãƒªãƒ³ã‚°
 
-		/// <summary>•]‰¿‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚É‚©‚©‚í‚ç‚¸®‚É’è”‚ªc‚Á‚Ä‚¢‚ê‚Î <c>true</c> ‚ğ•Ô‚µ‚Ü‚·B</summary>
+		/// <summary>è©•ä¾¡ã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã«ã‹ã‹ã‚ã‚‰ãšå¼ã«å®šæ•°ãŒæ®‹ã£ã¦ã„ã‚Œã° <c>true</c> ã‚’è¿”ã—ã¾ã™ã€‚</summary>
 		static bool IsConstant(Expression e) { return e is ConstantExpression; }
 
 		Expression ToTemp(ICollection<Expression> block, Expression e)
@@ -465,7 +465,7 @@ namespace Microsoft.Scripting.Ast
 		{
 			var yields = _yields.Count;
 			var newExpr = expr != null ? Visit(expr) : null;
-			// TODO(opt): yield ‚ğŠÜ‚ñ‚Å‚¢‚éÅŒã‚Ìˆø”‚ğ’ÇÕ‚·‚éê‡‚Å‚àAc‚è‚Ìˆø”‚ğƒ[ƒJƒ‹‚É‘Ş”ğ‚³‚¹‚é•K—v‚ª‚È‚¢‚æ‚¤‚É‚·‚é
+			// TODO(opt): yield ã‚’å«ã‚“ã§ã„ã‚‹æœ€å¾Œã®å¼•æ•°ã‚’è¿½è·¡ã™ã‚‹å ´åˆã§ã‚‚ã€æ®‹ã‚Šã®å¼•æ•°ã‚’ãƒ­ãƒ¼ã‚«ãƒ«ã«é€€é¿ã•ã›ã‚‹å¿…è¦ãŒãªã„ã‚ˆã†ã«ã™ã‚‹
 			var newArgs = Visit(arguments);
 			if (newExpr == expr && newArgs == arguments)
 				return node;
@@ -479,7 +479,7 @@ namespace Microsoft.Scripting.Ast
 			return Expression.Block(block);
 		}
 
-		// ®ƒcƒŠ[‚Í’P€‰‰Z‚Ö‚ÌƒWƒƒƒ“ƒv‚ğƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚ÅA’P€‰‰Z‚à“¯‚¶‚æ‚¤‚ÉƒŠƒ‰ƒCƒg‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B
+		// å¼ãƒ„ãƒªãƒ¼ã¯å˜é …æ¼”ç®—ã¸ã®ã‚¸ãƒ£ãƒ³ãƒ—ã‚’ã‚µãƒãƒ¼ãƒˆã—ãªã„ã®ã§ã€å˜é …æ¼”ç®—ã‚‚åŒã˜ã‚ˆã†ã«ãƒªãƒ©ã‚¤ãƒˆã™ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚
 		Expression Rewrite(Expression node, Expression expr, Func<Expression, Expression> factory)
 		{
 			var yields = _yields.Count;
@@ -526,7 +526,7 @@ namespace Microsoft.Scripting.Ast
 			if (yields == _yields.Count)
 				return Expression.Assign(left, right);
 			var block = new List<Expression>();
-			// ¶•Ó‚ª‰E•Ó‚Ì‘O‚É•]‰¿‚³‚ê‚é‚±‚Æ‚ğ•ÛØ‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B‚½‚Æ‚¦‚ÎA
+			// å·¦è¾ºãŒå³è¾ºã®å‰ã«è©•ä¾¡ã•ã‚Œã‚‹ã“ã¨ã‚’ä¿è¨¼ã™ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚ãŸã¨ãˆã°ã€
 			// {expr0}[{expr1},..,{exprN}] = {rhs} 
 			// ->
 			// { l0 = {expr0}; l1 = {expr1}; ..; lN = {exprN}; r = {rhs}; l0[l1,..,lN] = r } 
@@ -543,16 +543,16 @@ namespace Microsoft.Scripting.Ast
 						left = index.Update(ToTemp(block, index.Object), ToTemp(block, index.Arguments));
 						break;
 					case ExpressionType.Parameter:
-						// ‘€ì‚Í•K—v‚È‚¢
+						// æ“ä½œã¯å¿…è¦ãªã„
 						break;
 					default:
-						// Šg’£®‚Íã‹L‚Ì Visit ‚Åk‘Ş‚³‚ê‚é‚×‚«‚Å‚ ‚Á‚½‚Ì‚ÉAˆÙ‚È‚é’l‚ª•Ô‚³‚ê‚½
+						// æ‹¡å¼µå¼ã¯ä¸Šè¨˜ã® Visit ã§ç¸®é€€ã•ã‚Œã‚‹ã¹ãã§ã‚ã£ãŸã®ã«ã€ç•°ãªã‚‹å€¤ãŒè¿”ã•ã‚ŒãŸ
 						throw Assert.Unreachable;
 				}
 			}
 			else
 			{
-				// ƒŠƒ‰ƒCƒg‚³‚ê‚½¶•Ó‚ÌÅŒã‚Ì®‚ğæ“¾
+				// ãƒªãƒ©ã‚¤ãƒˆã•ã‚ŒãŸå·¦è¾ºã®æœ€å¾Œã®å¼ã‚’å–å¾—
 				var leftBlock = (BlockExpression)left;
 				block.AddRange(leftBlock.Expressions);
 				block.RemoveAt(block.Count - 1);
@@ -582,7 +582,7 @@ namespace Microsoft.Scripting.Ast
 		{
 			if (node.NodeType == ExpressionType.Assign)
 				return VisitAssign(node);
-			// OpAssgin ƒm[ƒh‚É‘Î‚µ‚Ä: yield ‚ª‚ ‚ê‚ÎAk‘Ş‚³‚ê‚½’l‚ÉƒWƒFƒlƒŒ[ƒ^•ÏŠ·‚ğ“K—p‚·‚é•K—v‚ª‚ ‚éB
+			// OpAssgin ãƒãƒ¼ãƒ‰ã«å¯¾ã—ã¦: yield ãŒã‚ã‚Œã°ã€ç¸®é€€ã•ã‚ŒãŸå€¤ã«ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿å¤‰æ›ã‚’é©ç”¨ã™ã‚‹å¿…è¦ãŒã‚ã‚‹ã€‚
 			if (node.CanReduce)
 				return Visit(node.Reduce());
 			return Rewrite(node, node.Left, node.Right, node.Update);
@@ -592,7 +592,7 @@ namespace Microsoft.Scripting.Ast
 
 		protected override Expression VisitUnary(UnaryExpression node)
 		{
-			// OpAssgin ƒm[ƒh‚É‘Î‚µ‚Ä: yield ‚ª‚ ‚ê‚ÎAk‘Ş‚³‚ê‚½’l‚ÉƒWƒFƒlƒŒ[ƒ^•ÏŠ·‚ğ“K—p‚·‚é•K—v‚ª‚ ‚éB
+			// OpAssgin ãƒãƒ¼ãƒ‰ã«å¯¾ã—ã¦: yield ãŒã‚ã‚Œã°ã€ç¸®é€€ã•ã‚ŒãŸå€¤ã«ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿å¤‰æ›ã‚’é©ç”¨ã™ã‚‹å¿…è¦ãŒã‚ã‚‹ã€‚
 			if (node.CanReduce)
 				return Visit(node.Reduce());
 			return Rewrite(node, node.Operand, node.Update);
@@ -600,23 +600,23 @@ namespace Microsoft.Scripting.Ast
 
 		protected override Expression VisitMemberInit(MemberInitExpression node)
 		{
-			// ‰½‚©•ÏX‚³‚ê‚½‚çŒ©‚é
+			// ä½•ã‹å¤‰æ›´ã•ã‚ŒãŸã‚‰è¦‹ã‚‹
 			int yields = _yields.Count;
 			var e = base.VisitMemberInit(node);
 			if (yields == _yields.Count)
 				return e;
-			// yield ‚ª‚ ‚éBŠî–{ƒm[ƒh‚Ék‘Ş‚µ‚ÄƒWƒƒƒ“ƒv‚Å‚«‚é‚æ‚¤‚É‚·‚é
+			// yield ãŒã‚ã‚‹ã€‚åŸºæœ¬ãƒãƒ¼ãƒ‰ã«ç¸®é€€ã—ã¦ã‚¸ãƒ£ãƒ³ãƒ—ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
 			return e.Reduce();
 		}
 
 		protected override Expression VisitListInit(ListInitExpression node)
 		{
-			// ‰½‚©•ÏX‚³‚ê‚½‚çŒ©‚é
+			// ä½•ã‹å¤‰æ›´ã•ã‚ŒãŸã‚‰è¦‹ã‚‹
 			int yields = _yields.Count;
 			var e = base.VisitListInit(node);
 			if (yields == _yields.Count)
 				return e;
-			// yield ‚ª‚ ‚éBŠî–{ƒm[ƒh‚Ék‘Ş‚µ‚ÄƒWƒƒƒ“ƒv‚Å‚«‚é‚æ‚¤‚É‚·‚é
+			// yield ãŒã‚ã‚‹ã€‚åŸºæœ¬ãƒãƒ¼ãƒ‰ã«ç¸®é€€ã—ã¦ã‚¸ãƒ£ãƒ³ãƒ—ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
 			return e.Reduce();
 		}
 

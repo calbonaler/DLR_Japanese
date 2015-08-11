@@ -15,13 +15,12 @@
 
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.Scripting.Debugging {
-    /// <summary>
-    /// IDebugRuntimeVariables is used to wrap IRuntimeVariables and add properties for retrieving
-    /// FunctionInfo and DebugMarker from debuggable labmdas.
-    /// </summary>
-    internal interface IDebugRuntimeVariables : IRuntimeVariables {
-        FunctionInfo FunctionInfo { get; }
-        int DebugMarker { get; }
-    }
+namespace Microsoft.Scripting.Debugging
+{
+	/// <summary><see cref="IRuntimeVariables"/> をラップし、デバッグ可能なラムダ式から FunctionInfo および DebugMarker を取得する機能を追加するために使用されます。</summary>
+	interface IDebugRuntimeVariables : IRuntimeVariables
+	{
+		FunctionInfo FunctionInfo { get; }
+		int DebugMarker { get; }
+	}
 }

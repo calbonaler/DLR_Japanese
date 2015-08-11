@@ -14,159 +14,149 @@
  * ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using Microsoft.Scripting.Debugging.CompilerServices;
-using Microsoft.Scripting.Runtime;
 using Microsoft.Scripting.Utils;
 
-namespace Microsoft.Scripting.Debugging {
-    /// <summary>
-    /// TraceSession
-    /// </summary>
-    public sealed class TracePipeline : ITracePipeline, IDebugCallback {
-        private readonly DebugContext _debugContext;
-        private readonly ThreadLocal<DebugFrame> _traceFrame;
-        private ITraceCallback _traceCallback;
-        private bool _closed;
+namespace Microsoft.Scripting.Debugging
+{
+	/// <summary>トレースセッションを表します。</summary>
+	public sealed class TracePipeline : ITracePipeline, IDebugCallback
+	{
+		readonly DebugContext _debugContext;
+		readonly ThreadLocal<DebugFrame> _traceFrame;
+		ITraceCallback _traceCallback;
+		bool _closed;
 
-        private TracePipeline(DebugContext debugContext) {
-            _debugContext = debugContext;
-            _traceFrame = new ThreadLocal<DebugFrame>();
-            debugContext.DebugCallback = this;
-            debugContext.DebugMode = DebugMode.FullyEnabled;
-        }
+		TracePipeline(DebugContext debugContext)
+		{
+			_debugContext = debugContext;
+			_traceFrame = new ThreadLocal<DebugFrame>();
+			debugContext.DebugCallback = this;
+			debugContext.DebugMode = DebugMode.FullyEnabled;
+		}
 
-        public static ITracePipeline CreateInstance(DebugContext debugContext) {
-            ContractUtils.RequiresNotNull(debugContext, "debugContext");
+		public static ITracePipeline CreateInstance(DebugContext debugContext)
+		{
+			ContractUtils.RequiresNotNull(debugContext, "debugContext");
+			if (debugContext.DebugCallback != null)
+				throw new InvalidOperationException(ErrorStrings.DebugContextAlreadyConnectedToTracePipeline);
+			return new TracePipeline(debugContext);
+		}
 
-            if (debugContext.DebugCallback != null)
-                throw new InvalidOperationException(ErrorStrings.DebugContextAlreadyConnectedToTracePipeline);
+		public void Close()
+		{
+			VerifyNotClosed();
+			_debugContext.DebugCallback = null;
+			_debugContext.DebugMode = DebugMode.Disabled;
+			_closed = true;
+		}
 
-            return new TracePipeline(debugContext);
-        }
+		public bool CanSetNextStatement(string sourceFile, SourceSpan sourceSpan)
+		{
+			VerifyNotClosed();
+			ContractUtils.RequiresNotNull(sourceFile, "sourceFile");
+			ContractUtils.Requires(sourceSpan != SourceSpan.Invalid && sourceSpan != SourceSpan.None, ErrorStrings.InvalidSourceSpan);
+			// スレッドオブジェクトを見つける。現在のスレッドが FrameExit トレースバック内にあるかどうかも調べる。
+			if (_traceFrame.Value == null)
+				return false;
+			return GetSequencePointIndexForSourceSpan(sourceFile, sourceSpan, _traceFrame.Value) != Int32.MaxValue;
+		}
 
-        #region ITraceDebugPipeline
+		public void SetNextStatement(string sourceFile, SourceSpan sourceSpan)
+		{
+			VerifyNotClosed();
+			ContractUtils.RequiresNotNull(sourceFile, "sourceFile");
+			ContractUtils.Requires(sourceSpan != SourceSpan.Invalid && sourceSpan != SourceSpan.None, ErrorStrings.InvalidSourceSpan);
+			// スレッドオブジェクトを見つける
+			if (_traceFrame.Value == null)
+				throw new InvalidOperationException(ErrorStrings.SetNextStatementOnlyAllowedInsideTraceback);
+			int sequencePointIndex = GetSequencePointIndexForSourceSpan(sourceFile, sourceSpan, _traceFrame.Value);
+			if (sequencePointIndex == Int32.MaxValue)
+				throw new InvalidOperationException(ErrorStrings.InvalidSourceSpan);
+			_traceFrame.Value.CurrentSequencePointIndex = sequencePointIndex;
+		}
 
-        public void Close() {
-            VerifyNotClosed();
-            _debugContext.DebugCallback = null;
-            _debugContext.DebugMode = DebugMode.Disabled;
-            _closed = true;
-        }
+		public ITraceCallback TraceCallback
+		{
+			get
+			{
+				VerifyNotClosed();
+				return _traceCallback;
+			}
+			set
+			{
+				VerifyNotClosed();
+				_traceCallback = value;
+			}
+		}
 
-        public bool CanSetNextStatement(string sourceFile, SourceSpan sourceSpan) {
-            VerifyNotClosed();
-            ContractUtils.RequiresNotNull(sourceFile, "sourceFile");
-            ContractUtils.Requires(sourceSpan != SourceSpan.Invalid && sourceSpan != SourceSpan.None, ErrorStrings.InvalidSourceSpan);
+		void IDebugCallback.OnDebugEvent(TraceEventKind kind, DebugThread thread, FunctionInfo functionInfo, int sequencePointIndex, int stackDepth, object payload)
+		{
+			if (_traceCallback == null)
+				return;
+			// TODO: コールバックが例外をスローした場合どうするのか? 握りつぶすべきか?
+			var curThread = _traceFrame.Value;
+			try
+			{
+				if (kind == TraceEventKind.FrameExit || kind == TraceEventKind.ThreadExit)
+				{
+					_traceCallback.OnTraceEvent(
+						kind,
+						kind == TraceEventKind.FrameExit ? functionInfo.Name : null,
+						null,
+						SourceSpan.None,
+						null,
+						payload,
+						functionInfo != null ? functionInfo.CustomPayload : null
+					);
+				}
+				else
+				{
+					var leafFrame = thread.GetLeafFrame();
+					_traceFrame.Value = leafFrame;
+					Debug.Assert(sequencePointIndex >= 0 && sequencePointIndex < functionInfo.SequencePoints.Length);
+					var sourceSpan = functionInfo.SequencePoints[sequencePointIndex];
+					_traceCallback.OnTraceEvent(
+						kind,
+						functionInfo.Name,
+						sourceSpan.SourceFile.Name,
+						sourceSpan.ToDlrSpan(),
+						() => leafFrame.GetLocalsScope(),
+						payload,
+						functionInfo.CustomPayload
+					);
+				}
+			}
+			finally
+			{
+				_traceFrame.Value = curThread;
+			}
+		}
 
-            // Find the thread object.  We also check if the current thread is in FrameExit traceback.
-            DebugFrame traceFrame = _traceFrame.Value;
-            if (traceFrame == null) {
-                return false;
-            }
+		int GetSequencePointIndexForSourceSpan(string sourceFile, SourceSpan sourceSpan, DebugFrame frame)
+		{
+			var debugSourceFile = _debugContext.Lookup(sourceFile);
+			if (debugSourceFile == null)
+				return Int32.MaxValue;
 
-            return GetSequencePointIndexForSourceSpan(sourceFile, sourceSpan, traceFrame) != Int32.MaxValue;
-        }
+			var debugSourceSpan = new DebugSourceSpan(debugSourceFile, sourceSpan);
+			var leafFrameFuncInfo = frame.FunctionInfo;
+			var funcInfo = debugSourceFile.LookupFunctionInfo(debugSourceSpan);
 
-        public void SetNextStatement(string sourceFile, SourceSpan sourceSpan) {
-            VerifyNotClosed();
-            ContractUtils.RequiresNotNull(sourceFile, "sourceFile");
-            ContractUtils.Requires(sourceSpan != SourceSpan.Invalid && sourceSpan != SourceSpan.None, ErrorStrings.InvalidSourceSpan);  
+			// funcInfo が現在のフレームと一致するかを調べる
+			if (funcInfo != leafFrameFuncInfo)
+				return Int32.MaxValue;
 
-            // Find the thread object
-            DebugFrame traceFrame = _traceFrame.Value;
-            if (traceFrame == null) {
-                throw new InvalidOperationException(ErrorStrings.SetNextStatementOnlyAllowedInsideTraceback);
-            }
+			// 対象のシーケンスポイントを得る
+			return debugSourceSpan.GetSequencePointIndex(funcInfo);
+		}
 
-            int sequencePointIndex = GetSequencePointIndexForSourceSpan(sourceFile, sourceSpan, traceFrame);
-            if (sequencePointIndex == Int32.MaxValue) {
-                throw new InvalidOperationException(ErrorStrings.InvalidSourceSpan);
-            }
-
-            traceFrame.CurrentSequencePointIndex = sequencePointIndex;
-        }
-
-        public ITraceCallback TraceCallback {
-            get {
-                VerifyNotClosed();
-                return _traceCallback;
-            }
-            set {
-                VerifyNotClosed();
-                _traceCallback = value;
-            }
-        }
-
-        #endregion
-
-        #region IDebugCallback
-
-        void IDebugCallback.OnDebugEvent(TraceEventKind kind, DebugThread thread, FunctionInfo functionInfo, int sequencePointIndex, int stackDepth, object payload) {
-            ITraceCallback traceCallback = _traceCallback;
-
-            if (traceCallback != null) {
-                // $TODO: what if the callback throws an exception? should we swallow it?
-                var curThread = _traceFrame.Value;
-                try {
-                    if (kind == TraceEventKind.FrameExit || kind == TraceEventKind.ThreadExit) {
-                        traceCallback.OnTraceEvent(
-                            kind,
-                            kind == TraceEventKind.FrameExit ? functionInfo.Name : null,
-                            null, 
-                            SourceSpan.None, 
-                            null,
-                            payload,
-                            functionInfo != null ? functionInfo.CustomPayload : null
-                        );
-                    } else  {
-                        DebugFrame leafFrame = thread.GetLeafFrame();
-                        _traceFrame.Value = leafFrame;
-                        Debug.Assert(sequencePointIndex >= 0 && sequencePointIndex < functionInfo.SequencePoints.Length);
-                        DebugSourceSpan sourceSpan = functionInfo.SequencePoints[sequencePointIndex];
-                        traceCallback.OnTraceEvent(
-                            kind,
-                            functionInfo.Name,
-                            sourceSpan.SourceFile.Name,
-                            sourceSpan.ToDlrSpan(),
-                            () => { return leafFrame.GetLocalsScope(); },
-                            payload,
-                            functionInfo.CustomPayload
-                        );
-                    }
-                } finally {
-                    _traceFrame.Value = curThread;
-                }
-            }
-        }
-
-        #endregion
-
-        private int GetSequencePointIndexForSourceSpan(string sourceFile, SourceSpan sourceSpan, DebugFrame frame) {
-            DebugSourceFile debugSourceFile = _debugContext.Lookup(sourceFile);
-            if (debugSourceFile == null) {
-                return Int32.MaxValue;
-            }
-
-            DebugSourceSpan debugSourceSpan = new DebugSourceSpan(debugSourceFile, sourceSpan);
-            FunctionInfo leafFrameFuncInfo = frame.FunctionInfo;
-            FunctionInfo funcInfo = debugSourceFile.LookupFunctionInfo(debugSourceSpan);
-
-            // Verify that funcInfo matches the current frame
-            if (funcInfo != leafFrameFuncInfo) {
-                return Int32.MaxValue;
-            }
-
-            // Get the target sequence point
-            return debugSourceSpan.GetSequencePointIndex(funcInfo);
-        }
-
-        private void VerifyNotClosed() {
-            if (_closed) {
-                throw new InvalidOperationException(ErrorStrings.ITracePipelineClosed);
-            }
-        }
-    }
+		void VerifyNotClosed()
+		{
+			if (_closed)
+				throw new InvalidOperationException(ErrorStrings.ITracePipelineClosed);
+		}
+	}
 }

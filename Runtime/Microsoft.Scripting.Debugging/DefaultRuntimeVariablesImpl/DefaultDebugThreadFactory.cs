@@ -13,38 +13,29 @@
  *
  * ***************************************************************************/
 
-#if !CLR2
-using MSAst = System.Linq.Expressions;
-#else
-using MSAst = Microsoft.Scripting.Ast;
-#endif
-
 using System.Collections.Generic;
+using System.Linq;
+using MSAst = System.Linq.Expressions;
 
-namespace Microsoft.Scripting.Debugging {
-    using Ast = MSAst.Expression;
+namespace Microsoft.Scripting.Debugging
+{
+	using Ast = MSAst.Expression;
 
-    /// <summary>
-    /// Default implementation of IDebugThreadFactory, which uses DLR's RuntimeVariablesExpression for lifting locals.
-    /// </summary>
-    internal sealed class DefaultDebugThreadFactory : IDebugThreadFactory {
-        public DebugThread CreateDebugThread(Microsoft.Scripting.Debugging.CompilerServices.DebugContext debugContext) {
-            return new DefaultDebugThread(debugContext);
-        }
+	/// <summary>
+	/// <see cref="IDebugThreadFactory"/> の既定の実装を表します。
+	/// これは DLR のローカル変数のリフトのために <see cref="System.Linq.Expressions.RuntimeVariablesExpression"/> を使用します。
+	/// </summary>
+	sealed class DefaultDebugThreadFactory : IDebugThreadFactory
+	{
+		public DebugThread CreateDebugThread(CompilerServices.DebugContext debugContext) { return new DefaultDebugThread(debugContext); }
 
-        public MSAst.Expression CreatePushFrameExpression(MSAst.ParameterExpression functionInfo, MSAst.ParameterExpression debugMarker, IList<MSAst.ParameterExpression> locals, IList<VariableInfo> varInfos, MSAst.Expression runtimeThread) {
-            MSAst.ParameterExpression[] args = new MSAst.ParameterExpression[2 + locals.Count];
-            args[0] = functionInfo;
-            args[1] = debugMarker;
-            for (int i = 0; i < locals.Count; i++) {
-                args[i + 2] = locals[i];
-            }
-
-            return Ast.Call(
-                typeof(RuntimeOps).GetMethod("LiftVariables"),
-                runtimeThread,
-                Ast.RuntimeVariables(args)
-            );
-        }
-    }
+		public MSAst.Expression CreatePushFrameExpression(MSAst.ParameterExpression functionInfo, MSAst.ParameterExpression debugMarker, IEnumerable<MSAst.ParameterExpression> locals, IEnumerable<VariableInfo> varInfos, Ast runtimeThread)
+		{
+			return Ast.Call(
+				new System.Action<DebugThread, System.Runtime.CompilerServices.IRuntimeVariables>(RuntimeOps.LiftVariables).Method,
+				runtimeThread,
+				Ast.RuntimeVariables(Enumerable.Repeat(functionInfo, 1).Concat(Enumerable.Repeat(debugMarker, 1)).Concat(locals))
+			);
+		}
+	}
 }

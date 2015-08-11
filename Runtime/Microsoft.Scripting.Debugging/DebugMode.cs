@@ -13,11 +13,13 @@
  *
  * ***************************************************************************/
 
-namespace Microsoft.Scripting.Debugging {
-    internal enum DebugMode {
-        Disabled,
-        ExceptionsOnly,
-        TracePoints,
-        FullyEnabled
-    }
+namespace Microsoft.Scripting.Debugging
+{
+	enum DebugMode
+	{
+		Disabled,
+		ExceptionsOnly,
+		TracePoints,
+		FullyEnabled
+	}
 }

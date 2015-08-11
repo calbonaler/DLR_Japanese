@@ -267,63 +267,35 @@ namespace Microsoft.Scripting.ComInterop
 
 		void EnsureScanDefinedEvents()
 		{
-			// まだイベントに対するオブジェクトをスキャンしていなければ、_comTypeDesc.Events は null になる
-			if (_comTypeDesc != null && _comTypeDesc.Events != null)
-				return;
-			// 記述キャッシュから型情報を調べる
-			var typeInfo = ComRuntimeHelpers.GetITypeInfoFromIDispatch(DispatchObject, true);
-			if (typeInfo == null)
-			{
-				_comTypeDesc = ComTypeDesc.CreateEmptyTypeDesc();
-				return;
-			}
-			var typeAttr = ComRuntimeHelpers.GetTypeAttrForTypeInfo(typeInfo);
-			if (_comTypeDesc == null)
-			{
-				lock (_CacheComTypeDesc)
+			TypeDescScanHelper(
+				x => x.Events,
+				(typeInfo, typeAttr, typeDesc) =>
 				{
-					if (_CacheComTypeDesc.TryGetValue(typeAttr.guid, out _comTypeDesc) == true && _comTypeDesc.Events != null)
-						return;
-				}
-			}
-			var typeDesc = ComTypeDesc.FromITypeInfo(typeInfo, typeAttr);
-			ComTypes.ITypeInfo classTypeInfo = null;
-			Dictionary<string, ComEventDesc> events = null;
-			var cpc = RuntimeCallableWrapper as ComTypes.IConnectionPointContainer;
-			if (cpc == null)
-				events = ComTypeDesc.EmptyEvents; // IConnectionPointContainer はない。つまり、このオブジェクトはイベントをサポートしていない。
-			else if ((classTypeInfo = GetCoClassTypeInfo(this.RuntimeCallableWrapper, typeInfo)) == null)
-				events = ComTypeDesc.EmptyEvents; // クラス情報が見つからない。このオブジェクトはイベントをサポートしているかもしれないが、見つけることはできない。
-			else
-			{
-				events = new Dictionary<string, ComEventDesc>();
-				var classTypeAttr = ComRuntimeHelpers.GetTypeAttrForTypeInfo(classTypeInfo);
-				for (int i = 0; i < classTypeAttr.cImplTypes; i++)
-				{
-					int hRefType;
-					classTypeInfo.GetRefTypeOfImplType(i, out hRefType);
-					ComTypes.ITypeInfo interfaceTypeInfo;
-					classTypeInfo.GetRefTypeInfo(hRefType, out interfaceTypeInfo);
-					ComTypes.IMPLTYPEFLAGS flags;
-					classTypeInfo.GetImplTypeFlags(i, out flags);
-					if ((flags & ComTypes.IMPLTYPEFLAGS.IMPLTYPEFLAG_FSOURCE) != 0)
-						ScanSourceInterface(interfaceTypeInfo, ref events);
-				}
-				if (events.Count == 0)
-					events = ComTypeDesc.EmptyEvents;
-			}
-			lock (_CacheComTypeDesc)
-			{
-				ComTypeDesc cachedTypeDesc;
-				if (_CacheComTypeDesc.TryGetValue(typeAttr.guid, out cachedTypeDesc))
-					_comTypeDesc = cachedTypeDesc;
-				else
-				{
-					_comTypeDesc = typeDesc;
-					_CacheComTypeDesc.Add(typeAttr.guid, _comTypeDesc);
-				}
-				_comTypeDesc.Events = events;
-			}
+					ComTypes.ITypeInfo classTypeInfo = null;
+					var cpc = RuntimeCallableWrapper as ComTypes.IConnectionPointContainer;
+					if (cpc == null)
+						return ComTypeDesc.EmptyEvents; // IConnectionPointContainer はない。つまり、このオブジェクトはイベントをサポートしていない。
+					if ((classTypeInfo = GetCoClassTypeInfo(this.RuntimeCallableWrapper, typeInfo)) == null)
+						return ComTypeDesc.EmptyEvents; // クラス情報が見つからない。このオブジェクトはイベントをサポートしているかもしれないが、見つけることはできない。
+					var events = new Dictionary<string, ComEventDesc>();
+					var classTypeAttr = ComRuntimeHelpers.GetTypeAttrForTypeInfo(classTypeInfo);
+					for (int i = 0; i < classTypeAttr.cImplTypes; i++)
+					{
+						int hRefType;
+						classTypeInfo.GetRefTypeOfImplType(i, out hRefType);
+						ComTypes.ITypeInfo interfaceTypeInfo;
+						classTypeInfo.GetRefTypeInfo(hRefType, out interfaceTypeInfo);
+						ComTypes.IMPLTYPEFLAGS flags;
+						classTypeInfo.GetImplTypeFlags(i, out flags);
+						if ((flags & ComTypes.IMPLTYPEFLAGS.IMPLTYPEFLAG_FSOURCE) != 0)
+							ScanSourceInterface(interfaceTypeInfo, ref events);
+					}
+					if (events.Count == 0)
+						events = ComTypeDesc.EmptyEvents;
+					return events;
+				},
+				(actualDesc, events) => actualDesc.Events = events
+			);
 		}
 
 		static void ScanSourceInterface(ComTypes.ITypeInfo sourceTypeInfo, ref Dictionary<string, ComEventDesc> events)
@@ -393,8 +365,76 @@ namespace Microsoft.Scripting.ComInterop
 
 		void EnsureScanDefinedMethods()
 		{
-			if (_comTypeDesc != null && _comTypeDesc.Funcs != null)
+			TypeDescScanHelper(
+				x => x.Funcs,
+				(typeInfo, typeAttr, typeDesc) =>
+				{
+					ComMethodDesc getItem = null;
+					ComMethodDesc setItem = null;
+					Dictionary<string, ComMethodDesc> funcs = new Dictionary<string, ComMethodDesc>(typeAttr.cFuncs);
+					Dictionary<string, ComMethodDesc> puts = new Dictionary<string, ComMethodDesc>();
+					Dictionary<string, ComMethodDesc> putrefs = new Dictionary<string, ComMethodDesc>();
+					for (int definedFuncIndex = 0; definedFuncIndex < typeAttr.cFuncs; definedFuncIndex++)
+					{
+						var funcDescHandleToRelease = IntPtr.Zero;
+						try
+						{
+							ComTypes.FUNCDESC funcDesc;
+							GetFuncDescForDescIndex(typeInfo, definedFuncIndex, out funcDesc, out funcDescHandleToRelease);
+							if ((funcDesc.wFuncFlags & (int)ComTypes.FUNCFLAGS.FUNCFLAG_FRESTRICTED) != 0)
+								continue; // この関数はスクリプトユーザーが使用することを意図していない
+							var method = new ComMethodDesc(typeInfo, funcDesc);
+							var name = method.Name.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+							if ((funcDesc.invkind & ComTypes.INVOKEKIND.INVOKE_PROPERTYPUT) != 0)
+							{
+								puts.Add(name, method);
+								// dispId == 0 は特別で、Do(SetItem) バインダーに対するメソッド記述子を格納する必要がある。
+								if (method.DispId == ComDispIds.DISPID_VALUE && setItem == null)
+									setItem = method;
+								continue;
+							}
+							if ((funcDesc.invkind & ComTypes.INVOKEKIND.INVOKE_PROPERTYPUTREF) != 0)
+							{
+								putrefs.Add(name, method);
+								// dispId == 0 は特別で、Do(SetItem) バインダーに対するメソッド記述子を格納する必要がある。
+								if (method.DispId == ComDispIds.DISPID_VALUE && setItem == null)
+									setItem = method;
+								continue;
+							}
+							if (funcDesc.memid == ComDispIds.DISPID_NEWENUM)
+							{
+								funcs.Add("GETENUMERATOR", method);
+								continue;
+							}
+							funcs.Add(name, method);
+							// dispId == 0 は特別で、Do(GetItem) バインダーに対するメソッド記述子を格納する必要がある。
+							if (funcDesc.memid == ComDispIds.DISPID_VALUE)
+								getItem = method;
+						}
+						finally
+						{
+							if (funcDescHandleToRelease != IntPtr.Zero)
+								typeInfo.ReleaseFuncDesc(funcDescHandleToRelease);
+						}
+					}
+					return new { getItem, setItem, funcs, puts, putrefs };
+				},
+				(actualDesc, res) =>
+				{
+					actualDesc.Funcs = res.funcs;
+					actualDesc.Puts = res.puts;
+					actualDesc.PutRefs = res.putrefs;
+					actualDesc.EnsureGetItem(res.getItem);
+					actualDesc.EnsureSetItem(res.setItem);
+				}
+			);
+		}
+
+		void TypeDescScanHelper<TDesc, TResult>(Func<ComTypeDesc, TDesc> descGetter, Func<ComTypes.ITypeInfo, ComTypes.TYPEATTR, ComTypeDesc, TResult> body, Action<ComTypeDesc, TResult> @finally) where TDesc : class
+		{
+			if (_comTypeDesc != null && descGetter(_comTypeDesc) != null)
 				return;
+
 			var typeInfo = ComRuntimeHelpers.GetITypeInfoFromIDispatch(DispatchObject, true);
 			if (typeInfo == null)
 			{
@@ -406,59 +446,14 @@ namespace Microsoft.Scripting.ComInterop
 			{
 				lock (_CacheComTypeDesc)
 				{
-					if (_CacheComTypeDesc.TryGetValue(typeAttr.guid, out _comTypeDesc) == true && _comTypeDesc.Funcs != null)
+					if (_CacheComTypeDesc.TryGetValue(typeAttr.guid, out _comTypeDesc) && descGetter(_comTypeDesc) != null)
 						return;
 				}
 			}
 			var typeDesc = ComTypeDesc.FromITypeInfo(typeInfo, typeAttr);
-			ComMethodDesc getItem = null;
-			ComMethodDesc setItem = null;
-			Dictionary<string, ComMethodDesc> funcs = new Dictionary<string, ComMethodDesc>(typeAttr.cFuncs);
-			Dictionary<string, ComMethodDesc> puts = new Dictionary<string, ComMethodDesc>();
-			Dictionary<string, ComMethodDesc> putrefs = new Dictionary<string, ComMethodDesc>();
-			for (int definedFuncIndex = 0; definedFuncIndex < typeAttr.cFuncs; definedFuncIndex++)
-			{
-				var funcDescHandleToRelease = IntPtr.Zero;
-				try
-				{
-					ComTypes.FUNCDESC funcDesc;
-					GetFuncDescForDescIndex(typeInfo, definedFuncIndex, out funcDesc, out funcDescHandleToRelease);
-					if ((funcDesc.wFuncFlags & (int)ComTypes.FUNCFLAGS.FUNCFLAG_FRESTRICTED) != 0)
-						continue; // この関数はスクリプトユーザーが使用することを意図していない
-					var method = new ComMethodDesc(typeInfo, funcDesc);
-					var name = method.Name.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
-					if ((funcDesc.invkind & ComTypes.INVOKEKIND.INVOKE_PROPERTYPUT) != 0)
-					{
-						puts.Add(name, method);
-						// dispId == 0 は特別で、Do(SetItem) バインダーに対するメソッド記述子を格納する必要がある。
-						if (method.DispId == ComDispIds.DISPID_VALUE && setItem == null)
-							setItem = method;
-						continue;
-					}
-					if ((funcDesc.invkind & ComTypes.INVOKEKIND.INVOKE_PROPERTYPUTREF) != 0)
-					{
-						putrefs.Add(name, method);
-						// dispId == 0 は特別で、Do(SetItem) バインダーに対するメソッド記述子を格納する必要がある。
-						if (method.DispId == ComDispIds.DISPID_VALUE && setItem == null)
-							setItem = method;
-						continue;
-					}
-					if (funcDesc.memid == ComDispIds.DISPID_NEWENUM)
-					{
-						funcs.Add("GETENUMERATOR", method);
-						continue;
-					}
-					funcs.Add(name, method);
-					// dispId == 0 は特別で、Do(GetItem) バインダーに対するメソッド記述子を格納する必要がある。
-					if (funcDesc.memid == ComDispIds.DISPID_VALUE)
-						getItem = method;
-				}
-				finally
-				{
-					if (funcDescHandleToRelease != IntPtr.Zero)
-						typeInfo.ReleaseFuncDesc(funcDescHandleToRelease);
-				}
-			}
+
+			var result = body(typeInfo, typeAttr, typeDesc);
+
 			lock (_CacheComTypeDesc)
 			{
 				ComTypeDesc cachedTypeDesc;
@@ -469,11 +464,7 @@ namespace Microsoft.Scripting.ComInterop
 					_comTypeDesc = typeDesc;
 					_CacheComTypeDesc.Add(typeAttr.guid, _comTypeDesc);
 				}
-				_comTypeDesc.Funcs = funcs;
-				_comTypeDesc.Puts = puts;
-				_comTypeDesc.PutRefs = putrefs;
-				_comTypeDesc.EnsureGetItem(getItem);
-				_comTypeDesc.EnsureSetItem(setItem);
+				@finally(_comTypeDesc, result);
 			}
 		}
 

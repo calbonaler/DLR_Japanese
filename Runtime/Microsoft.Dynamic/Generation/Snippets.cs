@@ -167,10 +167,12 @@ namespace Microsoft.Scripting.Generation
 		/// <returns>定義された型を構築する <see cref="TypeBuilder"/>。</returns>
 		public static TypeBuilder DefinePublicType(string name, Type parent, bool preserveName, bool emitDebugSymbols) { return GetAssembly(emitDebugSymbols).DefinePublicType(name, parent, preserveName); }
 
-		/// <summary>指定された名前を持つデリゲート型を定義して、型を構築する <see cref="TypeBuilder"/> を返します。</summary>
-		/// <param name="name">デリゲート型の名前を指定します。</param>
-		/// <returns>定義された型を構築する <see cref="TypeBuilder"/>。</returns>
-		public static TypeBuilder DefineDelegateType(string name) { return GetAssembly(false).DefineType(name, typeof(MulticastDelegate), TypeAttributes.Class | TypeAttributes.Public | TypeAttributes.Sealed | TypeAttributes.AnsiClass | TypeAttributes.AutoClass, false); }
+		/// <summary>指定された名前、パラメータ型、戻り値の型をもつ新しいデリゲート型を定義して、型を構築をする <see cref="TypeBuilder"/> を返します。</summary>
+		/// <param name="name">アセンブリに定義する型の名前を指定します。</param>
+		/// <param name="parameters">作成するデリゲート型のパラメータ型を指定します。</param>
+		/// <param name="returnType">作成するデリゲート型の戻り値の型を指定します。</param>
+		/// <returns>定義された型を構築する <see cref="Type"/>。</returns>
+		public static TypeBuilder DefineDelegateType(string name, Type[] parameters, Type returnType) { return GetAssembly(false).DefineDelegateType(name, parameters, returnType); }
 
 		/// <summary>指定されたアセンブリがこのスニペットで構築しているアセンブリかどうかを判断します。</summary>
 		/// <param name="asm">調べるアセンブリを指定します。</param>

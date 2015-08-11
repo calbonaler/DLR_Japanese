@@ -16,77 +16,55 @@
 using System;
 using System.Diagnostics;
 
-namespace Microsoft.Scripting.Debugging {
-    /// <summary>
-    /// Used to provide information about locals/parameters at debug time.
-    /// </summary>
-    internal sealed class VariableInfo {
-        private SymbolId _symbol;
-        private Type _type;
-        private bool _parameter;    // Indicates whether the symbol represents a local variable or parameter
-        private bool _hidden;       // Indicates whether the symbol should be hidden during inspection
-        private bool _strongBoxed;  // Indicates whether the lifted value of the variable is exposed through byref or strongbox
-        private int _localIndex;    // Index within byref variables list or within strongbox variables list
-        private int _globalIndex;   // Index within the combined list
+namespace Microsoft.Scripting.Debugging
+{
+	/// <summary>ローカル変数またはパラメータに関するデバッグ時の情報を提供するために使用されます。</summary>
+	sealed class VariableInfo
+	{
+		int _localIndex;
+		int _globalIndex;
 
-        internal VariableInfo(SymbolId symbol, Type type, bool parameter, bool hidden, bool strongBoxed, int localIndex, int globalIndex) {
-            _symbol = symbol;
-            _type = type;
-            _parameter = parameter;
-            _hidden = hidden;
-            _strongBoxed = strongBoxed;
-            _localIndex = localIndex;
-            _globalIndex = globalIndex;
-        }
+		internal VariableInfo(SymbolId symbol, Type type, bool parameter, bool hidden, bool strongBoxed, int localIndex, int globalIndex)
+		{
+			Symbol = symbol;
+			VariableType = type;
+			IsParameter = parameter;
+			IsHidden = hidden;
+			IsStrongBoxed = strongBoxed;
+			_localIndex = localIndex;
+			_globalIndex = globalIndex;
+		}
 
-        internal VariableInfo(SymbolId symbol, Type type, bool parameter, bool hidden, bool strongBoxed)
-            : this(symbol, type, parameter, hidden, strongBoxed, Int32.MaxValue, Int32.MaxValue) {
-            _symbol = symbol;
-            _type = type;
-            _parameter = parameter;
-            _hidden = hidden;
-            _strongBoxed = strongBoxed;
-        }
+		internal VariableInfo(SymbolId symbol, Type type, bool parameter, bool hidden, bool strongBoxed) : this(symbol, type, parameter, hidden, strongBoxed, Int32.MaxValue, Int32.MaxValue)
+		{
+			Symbol = symbol;
+			VariableType = type;
+			IsParameter = parameter;
+			IsHidden = hidden;
+			IsStrongBoxed = strongBoxed;
+		}
 
-        internal SymbolId Symbol {
-            get { return _symbol; }
-        }
+		internal SymbolId Symbol { get; private set; }
 
-        internal bool Hidden {
-            get { return _hidden; }
-        }
+		/// <summary>このシンボルが調査中に隠されている必要があるかどうかを示す値を取得します。</summary>
+		internal bool IsHidden { get; private set; }
 
-        internal bool IsStrongBoxed {
-            get { return _strongBoxed; }
-        }
+		/// <summary>この変数のリフトされた値が参照渡しまたは <see cref="System.Runtime.CompilerServices.StrongBox&lt;T&gt;"/> を通して公開されているかどうかを示す値を取得します。</summary>
+		internal bool IsStrongBoxed { get; private set; }
 
-        internal int LocalIndex {
-            get { Debug.Assert(_localIndex != Int32.MaxValue); return _localIndex; }
-        }
+		/// <summary>参照渡し変数リストまたは StrongBox 変数リスト内のインデックスを取得します。</summary>
+		internal int LocalIndex { get { Debug.Assert(_localIndex != Int32.MaxValue); return _localIndex; } }
 
-        internal int GlobalIndex {
-            get { Debug.Assert(_globalIndex != Int32.MaxValue); return _globalIndex; }
-        }
+		/// <summary>結合されたリスト内のインデックスを取得します。</summary>
+		internal int GlobalIndex { get { Debug.Assert(_globalIndex != Int32.MaxValue); return _globalIndex; } }
 
-        /// <summary>
-        /// Type
-        /// </summary>
-        internal Type VariableType {
-            get { return _type; }
-        }
+		/// <summary>この変数の型を取得します。</summary>
+		internal Type VariableType { get; private set; }
 
-        /// <summary>
-        /// Name
-        /// </summary>
-        internal string Name {
-            get { return SymbolTable.IdToString(_symbol); }
-        }
+		/// <summary>この変数の名前を取得します。</summary>
+		internal string Name { get { return SymbolTable.IdToString(Symbol); } }
 
-        /// <summary>
-        /// Parameter
-        /// </summary>
-        internal bool IsParameter {
-            get { return _parameter; }
-        }
-    }
+		/// <summary>このシンボルがローカル変数または引数を表しているかどうかを示す値を取得します。</summary>
+		internal bool IsParameter { get; private set; }
+	}
 }

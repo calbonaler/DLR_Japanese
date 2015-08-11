@@ -1,4 +1,4 @@
-/* ****************************************************************************
+ï»¿/* ****************************************************************************
  *
  * Copyright (c) Microsoft Corporation. 
  *
@@ -22,10 +22,10 @@ namespace Microsoft.Scripting.Runtime
 	[GeneratedCode("DLR", "2.0")]
 	public static partial class Cast
 	{
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğƒu[ƒ‹’l‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãƒ–ãƒ¼ãƒ«å€¤ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		public static bool ExplicitCastToBoolean(object o)
 		{
 			if (o != null)
@@ -39,10 +39,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(bool).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ 8 ƒrƒbƒg•„†‚È‚µ®”‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ 8 ãƒ“ãƒƒãƒˆç¬¦å·ãªã—æ•´æ•°ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		public static byte ExplicitCastToByte(object o)
 		{
 			if (o != null)
@@ -102,10 +102,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(byte).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ <see cref="System.Char"/> ‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ <see cref="System.Char"/> ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		public static char ExplicitCastToChar(object o)
 		{
 			if (o != null)
@@ -165,10 +165,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(char).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ 10 i”’l‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ 10 é€²æ•°å€¤ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		public static decimal ExplicitCastToDecimal(object o)
 		{
 			if (o != null)
@@ -228,10 +228,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(decimal).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ”{¸“x•‚“®¬”“_”‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å€ç²¾åº¦æµ®å‹•å°æ•°ç‚¹æ•°ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		public static double ExplicitCastToDouble(object o)
 		{
 			if (o != null)
@@ -291,10 +291,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(double).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ 16 ƒrƒbƒg•„†•t‚«®”‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ 16 ãƒ“ãƒƒãƒˆç¬¦å·ä»˜ãæ•´æ•°ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		public static short ExplicitCastToInt16(object o)
 		{
 			if (o != null)
@@ -354,10 +354,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(short).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ 32 ƒrƒbƒg•„†•t‚«®”‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ 32 ãƒ“ãƒƒãƒˆç¬¦å·ä»˜ãæ•´æ•°ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		public static int ExplicitCastToInt32(object o)
 		{
 			if (o != null)
@@ -417,10 +417,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(int).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ 64 ƒrƒbƒg•„†•t‚«®”‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ 64 ãƒ“ãƒƒãƒˆç¬¦å·ä»˜ãæ•´æ•°ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		public static long ExplicitCastToInt64(object o)
 		{
 			if (o != null)
@@ -480,10 +480,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(long).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ 8 ƒrƒbƒg•„†•t‚«®”‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ 8 ãƒ“ãƒƒãƒˆç¬¦å·ä»˜ãæ•´æ•°ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		[CLSCompliant(false)]
 		public static sbyte ExplicitCastToSByte(object o)
 		{
@@ -544,10 +544,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(sbyte).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ’P¸“x•‚“®¬”“_”‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å˜ç²¾åº¦æµ®å‹•å°æ•°ç‚¹æ•°ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		public static float ExplicitCastToSingle(object o)
 		{
 			if (o != null)
@@ -607,10 +607,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(float).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ 16 ƒrƒbƒg•„†‚È‚µ®”‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ 16 ãƒ“ãƒƒãƒˆç¬¦å·ãªã—æ•´æ•°ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		[CLSCompliant(false)]
 		public static ushort ExplicitCastToUInt16(object o)
 		{
@@ -671,10 +671,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(ushort).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ 32 ƒrƒbƒg•„†‚È‚µ®”‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ 32 ãƒ“ãƒƒãƒˆç¬¦å·ãªã—æ•´æ•°ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		[CLSCompliant(false)]
 		public static uint ExplicitCastToUInt32(object o)
 		{
@@ -735,10 +735,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(uint).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ 64 ƒrƒbƒg•„†‚È‚µ®”‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ 64 ãƒ“ãƒƒãƒˆç¬¦å·ãªã—æ•´æ•°ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		[CLSCompliant(false)]
 		public static ulong ExplicitCastToUInt64(object o)
 		{
@@ -799,10 +799,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(ulong).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ <see cref="T:System.Nullable&lt;System.Boolean&gt;"/> ‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ <see cref="T:System.Nullable&lt;System.Boolean&gt;"/> ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		public static Nullable<bool> ExplicitCastToNullableBoolean(object o)
 		{
 			if (o == null)
@@ -815,10 +815,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(bool).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ <see cref="T:System.Nullable&lt;System.Byte&gt;"/> ‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ <see cref="T:System.Nullable&lt;System.Byte&gt;"/> ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		public static Nullable<byte> ExplicitCastToNullableByte(object o)
 		{
 			if (o == null)
@@ -877,10 +877,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(byte).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ <see cref="T:System.Nullable&lt;System.Char&gt;"/> ‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ <see cref="T:System.Nullable&lt;System.Char&gt;"/> ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		public static Nullable<char> ExplicitCastToNullableChar(object o)
 		{
 			if (o == null)
@@ -939,10 +939,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(char).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ <see cref="T:System.Nullable&lt;System.Decimal&gt;"/> ‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ <see cref="T:System.Nullable&lt;System.Decimal&gt;"/> ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		public static Nullable<decimal> ExplicitCastToNullableDecimal(object o)
 		{
 			if (o == null)
@@ -1001,10 +1001,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(decimal).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ <see cref="T:System.Nullable&lt;System.Double&gt;"/> ‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ <see cref="T:System.Nullable&lt;System.Double&gt;"/> ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		public static Nullable<double> ExplicitCastToNullableDouble(object o)
 		{
 			if (o == null)
@@ -1063,10 +1063,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(double).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ <see cref="T:System.Nullable&lt;System.Int16&gt;"/> ‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ <see cref="T:System.Nullable&lt;System.Int16&gt;"/> ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		public static Nullable<short> ExplicitCastToNullableInt16(object o)
 		{
 			if (o == null)
@@ -1125,10 +1125,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(short).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ <see cref="T:System.Nullable&lt;System.Int32&gt;"/> ‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ <see cref="T:System.Nullable&lt;System.Int32&gt;"/> ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		public static Nullable<int> ExplicitCastToNullableInt32(object o)
 		{
 			if (o == null)
@@ -1187,10 +1187,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(int).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ <see cref="T:System.Nullable&lt;System.Int64&gt;"/> ‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ <see cref="T:System.Nullable&lt;System.Int64&gt;"/> ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		public static Nullable<long> ExplicitCastToNullableInt64(object o)
 		{
 			if (o == null)
@@ -1249,10 +1249,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(long).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ <see cref="T:System.Nullable&lt;System.SByte&gt;"/> ‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ <see cref="T:System.Nullable&lt;System.SByte&gt;"/> ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		[CLSCompliant(false)]
 		public static Nullable<sbyte> ExplicitCastToNullableSByte(object o)
 		{
@@ -1312,10 +1312,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(sbyte).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ <see cref="T:System.Nullable&lt;System.Single&gt;"/> ‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ <see cref="T:System.Nullable&lt;System.Single&gt;"/> ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		public static Nullable<float> ExplicitCastToNullableSingle(object o)
 		{
 			if (o == null)
@@ -1374,10 +1374,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(float).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ <see cref="T:System.Nullable&lt;System.UInt16&gt;"/> ‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ <see cref="T:System.Nullable&lt;System.UInt16&gt;"/> ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		[CLSCompliant(false)]
 		public static Nullable<ushort> ExplicitCastToNullableUInt16(object o)
 		{
@@ -1437,10 +1437,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(ushort).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ <see cref="T:System.Nullable&lt;System.UInt32&gt;"/> ‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ <see cref="T:System.Nullable&lt;System.UInt32&gt;"/> ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		[CLSCompliant(false)]
 		public static Nullable<uint> ExplicitCastToNullableUInt32(object o)
 		{
@@ -1500,10 +1500,10 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(uint).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ <see cref="T:System.Nullable&lt;System.UInt64&gt;"/> ‚É•ÏŠ·‚µ‚Ü‚·B</summary>
-		/// <param name="o">•ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>•ÏŠ·‚³‚ê‚½ƒIƒuƒWƒFƒNƒgB</returns>
-		/// <exception cref="InvalidCastException">w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğŒ^•ÏŠ·‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B</exception>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ <see cref="T:System.Nullable&lt;System.UInt64&gt;"/> ã«å¤‰æ›ã—ã¾ã™ã€‚</summary>
+		/// <param name="o">å¤‰æ›ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å¤‰æ›ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</returns>
+		/// <exception cref="InvalidCastException">æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‹å¤‰æ›ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚</exception>
 		[CLSCompliant(false)]
 		public static Nullable<ulong> ExplicitCastToNullableUInt64(object o)
 		{
@@ -1563,9 +1563,9 @@ namespace Microsoft.Scripting.Runtime
 			throw InvalidCast(o, typeof(ulong).Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½Œ^‚ğŠî‚É‚·‚é <see cref="System.Nullable&lt;T&gt;"/> ‚ğì¬‚µ‚Ü‚·B</summary>
-		/// <param name="type">Šî‚É‚È‚éŒ^‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>Œ^‚ğŠî‚É‚·‚é <see cref="System.Nullable&lt;T&gt;"/> ‚ÌƒCƒ“ƒXƒ^ƒ“ƒXB</returns>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸå‹ã‚’åŸºã«ã™ã‚‹ <see cref="System.Nullable&lt;T&gt;"/> ã‚’ä½œæˆã—ã¾ã™ã€‚</summary>
+		/// <param name="type">åŸºã«ãªã‚‹å‹ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>å‹ã‚’åŸºã«ã™ã‚‹ <see cref="System.Nullable&lt;T&gt;"/> ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚</returns>
 		public static object NewNullableInstance(Type type)
 		{
 			if (type == Int32Type)
@@ -1612,7 +1612,7 @@ namespace Microsoft.Scripting.Runtime
 				case TypeCode.Int64: return (byte)(long)o;
 				case TypeCode.UInt64: return (byte)(ulong)o;
 			}
-			throw new InvalidOperationException("–³Œø‚È—ñ‹“‘ÌŒ^‚Å‚·B");
+			throw new InvalidOperationException("ç„¡åŠ¹ãªåˆ—æŒ™ä½“å‹ã§ã™ã€‚");
 		}
 
 		static sbyte ExplicitCastEnumToSByte(object o)
@@ -1629,7 +1629,7 @@ namespace Microsoft.Scripting.Runtime
 				case TypeCode.Int64: return (sbyte)(long)o;
 				case TypeCode.UInt64: return (sbyte)(ulong)o;
 			}
-			throw new InvalidOperationException("–³Œø‚È—ñ‹“‘ÌŒ^‚Å‚·B");
+			throw new InvalidOperationException("ç„¡åŠ¹ãªåˆ—æŒ™ä½“å‹ã§ã™ã€‚");
 		}
 
 		static short ExplicitCastEnumToInt16(object o)
@@ -1646,7 +1646,7 @@ namespace Microsoft.Scripting.Runtime
 				case TypeCode.Int64: return (short)(long)o;
 				case TypeCode.UInt64: return (short)(ulong)o;
 			}
-			throw new InvalidOperationException("–³Œø‚È—ñ‹“‘ÌŒ^‚Å‚·B");
+			throw new InvalidOperationException("ç„¡åŠ¹ãªåˆ—æŒ™ä½“å‹ã§ã™ã€‚");
 		}
 
 		static ushort ExplicitCastEnumToUInt16(object o)
@@ -1663,7 +1663,7 @@ namespace Microsoft.Scripting.Runtime
 				case TypeCode.Int64: return (ushort)(long)o;
 				case TypeCode.UInt64: return (ushort)(ulong)o;
 			}
-			throw new InvalidOperationException("–³Œø‚È—ñ‹“‘ÌŒ^‚Å‚·B");
+			throw new InvalidOperationException("ç„¡åŠ¹ãªåˆ—æŒ™ä½“å‹ã§ã™ã€‚");
 		}
 
 		static int ExplicitCastEnumToInt32(object o)
@@ -1680,7 +1680,7 @@ namespace Microsoft.Scripting.Runtime
 				case TypeCode.Int64: return (int)(long)o;
 				case TypeCode.UInt64: return (int)(ulong)o;
 			}
-			throw new InvalidOperationException("–³Œø‚È—ñ‹“‘ÌŒ^‚Å‚·B");
+			throw new InvalidOperationException("ç„¡åŠ¹ãªåˆ—æŒ™ä½“å‹ã§ã™ã€‚");
 		}
 
 		static uint ExplicitCastEnumToUInt32(object o)
@@ -1697,7 +1697,7 @@ namespace Microsoft.Scripting.Runtime
 				case TypeCode.Int64: return (uint)(long)o;
 				case TypeCode.UInt64: return (uint)(ulong)o;
 			}
-			throw new InvalidOperationException("–³Œø‚È—ñ‹“‘ÌŒ^‚Å‚·B");
+			throw new InvalidOperationException("ç„¡åŠ¹ãªåˆ—æŒ™ä½“å‹ã§ã™ã€‚");
 		}
 
 		static long ExplicitCastEnumToInt64(object o)
@@ -1714,7 +1714,7 @@ namespace Microsoft.Scripting.Runtime
 				case TypeCode.Int64: return (long)o;
 				case TypeCode.UInt64: return (long)(ulong)o;
 			}
-			throw new InvalidOperationException("–³Œø‚È—ñ‹“‘ÌŒ^‚Å‚·B");
+			throw new InvalidOperationException("ç„¡åŠ¹ãªåˆ—æŒ™ä½“å‹ã§ã™ã€‚");
 		}
 
 		static ulong ExplicitCastEnumToUInt64(object o)
@@ -1731,7 +1731,7 @@ namespace Microsoft.Scripting.Runtime
 				case TypeCode.Int64: return (ulong)(long)o;
 				case TypeCode.UInt64: return (ulong)o;
 			}
-			throw new InvalidOperationException("–³Œø‚È—ñ‹“‘ÌŒ^‚Å‚·B");
+			throw new InvalidOperationException("ç„¡åŠ¹ãªåˆ—æŒ™ä½“å‹ã§ã™ã€‚");
 		}
 
 		static readonly Type BooleanType = typeof(bool);

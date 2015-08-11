@@ -13,19 +13,15 @@
  *
  * ***************************************************************************/
 
-#if !CLR2
 using MSAst = System.Linq.Expressions;
-#else
-using MSAst = Microsoft.Scripting.Ast;
-#endif
 
-namespace Microsoft.Scripting.Debugging.CompilerServices {
-    /// <summary>
-    /// Implemented by compilers to allow the traceback engine to get additional information.
-    /// </summary>
-    public interface IDebugCompilerSupport {
-        bool DoesExpressionNeedReduction(MSAst.Expression expression);
-        MSAst.Expression QueueExpressionForReduction(MSAst.Expression expression);
-        bool IsCallToDebuggableLambda(MSAst.Expression expression);
-    }
+namespace Microsoft.Scripting.Debugging.CompilerServices
+{
+	/// <summary>トレースバック エンジンが追加の情報を取得できるようにするためにコンパイラによって実装されるインターフェイスを表します。</summary>
+	public interface IDebugCompilerSupport
+	{
+		bool DoesExpressionNeedReduction(MSAst.Expression expression);
+		MSAst.Expression QueueExpressionForReduction(MSAst.Expression expression);
+		bool IsCallToDebuggableLambda(MSAst.Expression expression);
+	}
 }

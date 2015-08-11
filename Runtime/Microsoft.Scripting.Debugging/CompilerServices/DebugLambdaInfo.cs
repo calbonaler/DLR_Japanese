@@ -16,55 +16,31 @@
 using MSAst = System.Linq.Expressions;
 using System.Collections.Generic;
 
-namespace Microsoft.Scripting.Debugging.CompilerServices {
-    /// <summary>
-    /// Used by compilers to provide additional debug information about LambdaExpression to DebugContext
-    /// </summary>
-    public sealed class DebugLambdaInfo {
-        private IDebugCompilerSupport _langSupport;
-        private string _lambdaAlias;
-        private IList<MSAst.ParameterExpression> _hiddenVariables;
-        private IDictionary<MSAst.ParameterExpression, string> _variableAliases;
-        private object _customPayload;
-        private bool _optimizeForLeafFrames;
-        
-        public DebugLambdaInfo(
-            IDebugCompilerSupport compilerSupport,
-            string lambdaAlias,
-            bool optimizeForLeafFrames,
-            IList<MSAst.ParameterExpression> hiddenVariables,
-            IDictionary<MSAst.ParameterExpression, string> variableAliases,
-            object customPayload) {
-            _langSupport = compilerSupport;
-            _lambdaAlias = lambdaAlias;
-            _hiddenVariables = hiddenVariables;
-            _variableAliases = variableAliases;
-            _customPayload = customPayload;
-            _optimizeForLeafFrames = optimizeForLeafFrames;
-        }
+namespace Microsoft.Scripting.Debugging.CompilerServices
+{
+	/// <summary><see cref="DebugContext"/> への <see cref="System.Linq.Expressions.LambdaExpression"/> に関する追加のデバッグ情報を提供するためにコンパイラによって使用されるクラスを表します。</summary>
+	public sealed class DebugLambdaInfo
+	{
+		public DebugLambdaInfo(IDebugCompilerSupport compilerSupport, string lambdaAlias, bool optimizeForLeafFrames, IList<MSAst.ParameterExpression> hiddenVariables, IDictionary<MSAst.ParameterExpression, string> variableAliases, object customPayload)
+		{
+			CompilerSupport = compilerSupport;
+			LambdaAlias = lambdaAlias;
+			HiddenVariables = hiddenVariables;
+			VariableAliases = variableAliases;
+			CustomPayload = customPayload;
+			OptimizeForLeafFrames = optimizeForLeafFrames;
+		}
 
-        public IDebugCompilerSupport CompilerSupport {
-            get { return _langSupport; }
-        }
+		public IDebugCompilerSupport CompilerSupport { get; private set; }
 
-        public string LambdaAlias {
-            get { return _lambdaAlias; }
-        }
+		public string LambdaAlias { get; private set; }
 
-        public IList<MSAst.ParameterExpression> HiddenVariables {
-            get { return _hiddenVariables; }
-        }
+		public IList<MSAst.ParameterExpression> HiddenVariables { get; private set; }
 
-        public IDictionary<MSAst.ParameterExpression, string> VariableAliases {
-            get { return _variableAliases; }
-        }
+		public IDictionary<MSAst.ParameterExpression, string> VariableAliases { get; private set; }
 
-        public object CustomPayload {
-            get { return _customPayload; }
-        }
+		public object CustomPayload { get; private set; }
 
-        public bool OptimizeForLeafFrames {
-            get { return _optimizeForLeafFrames; }
-        }
-    }
+		public bool OptimizeForLeafFrames { get; private set; }
+	}
 }

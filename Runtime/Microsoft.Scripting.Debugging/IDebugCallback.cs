@@ -1,4 +1,4 @@
-/* ****************************************************************************
+﻿/* ****************************************************************************
  *
  * Copyright (c) Microsoft Corporation. 
  *
@@ -13,17 +13,11 @@
  *
  * ***************************************************************************/
 
-namespace Microsoft.Scripting.Debugging {
-    internal interface IDebugCallback {
-        /// <summary>
-        /// Callback that is fired by the traceback engine
-        /// </summary>
-        void OnDebugEvent(
-            TraceEventKind kind, 
-            DebugThread thread, 
-            FunctionInfo functionInfo, 
-            int sequencePointIndex,
-            int stackDepth, 
-            object payload);
-    }
+namespace Microsoft.Scripting.Debugging
+{
+	interface IDebugCallback
+	{
+		/// <summary>トレースバックエンジンによって発行されるコールバック メソッドです。</summary>
+		void OnDebugEvent(TraceEventKind kind, DebugThread thread, FunctionInfo functionInfo, int sequencePointIndex, int stackDepth, object payload);
+	}
 }

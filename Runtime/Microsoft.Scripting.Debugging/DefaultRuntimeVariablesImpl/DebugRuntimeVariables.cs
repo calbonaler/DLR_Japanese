@@ -15,40 +15,28 @@
 
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.Scripting.Debugging {
-    /// <summary>
-    /// Implementation of IDebugRuntimeVariables, which wraps IRuntimeVariables + FunctionInfo/DebugMarker
-    /// </summary>
-    internal class DebugRuntimeVariables : IDebugRuntimeVariables {
-        private readonly IRuntimeVariables _runtimeVariables;
+namespace Microsoft.Scripting.Debugging
+{
+	/// <summary>
+	/// <see cref="IDebugRuntimeVariables"/> の実装を表します。
+	/// これは <see cref="IRuntimeVariables"/> と FunctionInfo および DebugMarker をラップします。
+	/// </summary>
+	class DebugRuntimeVariables : IDebugRuntimeVariables
+	{
+		readonly IRuntimeVariables _runtimeVariables;
 
-        internal DebugRuntimeVariables(IRuntimeVariables runtimeVariables) {
-            _runtimeVariables = runtimeVariables;
-        }
+		internal DebugRuntimeVariables(IRuntimeVariables runtimeVariables) { _runtimeVariables = runtimeVariables; }
 
-        #region IRuntimeVariables
+		public int Count { get { return _runtimeVariables.Count - 2; } }
 
-        public int Count {
-            get { return _runtimeVariables.Count - 2; }
-        }
+		public object this[int index]
+		{
+			get { return _runtimeVariables[2 + index]; }
+			set { _runtimeVariables[2 + index] = value; }
+		}
 
-        public object this[int index] {
-            get { return _runtimeVariables[2 + index]; }
-            set { _runtimeVariables[2 + index] = value; }
-        }
+		public FunctionInfo FunctionInfo { get { return (FunctionInfo)_runtimeVariables[0]; } }
 
-        #endregion
-
-        #region IDebugRuntimeVariables
-
-        public FunctionInfo FunctionInfo {
-            get { return (FunctionInfo)_runtimeVariables[0]; }
-        }
-
-        public int DebugMarker {
-            get { return (int)_runtimeVariables[1]; }
-        }
-
-        #endregion
-    }
+		public int DebugMarker { get { return (int)_runtimeVariables[1]; } }
+	}
 }

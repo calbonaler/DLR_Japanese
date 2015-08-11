@@ -69,32 +69,25 @@
     <Compile Include="TracePipeline\ITraceCallback.cs" />
     <Compile Include="TracePipeline\ITracePipeline.cs" />
     <Compile Include="DebugSourceSpan.cs" />
-    <Compile Include="CollectionUtils.cs" />
     <Compile Include="DebuggableLambdaBuilder.cs" />
     <Compile Include="CompilerServices\DebugLambdaInfo.cs" />
     <Compile Include="DebugGenerator.cs" />
     <Compile Include="DebugMode.cs" />
     <Compile Include="DebugSourceFile.cs" />
-    <Compile Include="DelegateHelpers.cs" />
     <Compile Include="CompilerServices\IDebugCompilerSupport.cs" />
     <Compile Include="LambdaWalker.cs" />
     <Compile Include="ScopedRuntimeVariables.cs" />
-    <Compile Include="ThreadLocal.cs" />
     <Compile Include="TraceEventKind.cs" />
     <Compile Include="VariableInfo.cs" />
     <Compile Include="TracePipeline\TracePipeline.cs" />
     <Compile Include="IDebugCallback.cs" />
-    <Compile Include="InvokeTargets.cs" />
     <Compile Include="DebugInfoRewriter.cs" />
     <Compile Include="DebugFrame.cs" />
     <Compile Include="FunctionInfo.cs" />
     <Compile Include="ForceToGeneratorLoopException.cs" />
     <Compile Include="RuntimeOps.cs" />
-    <Compile Include="DebugContext.cs" />
-    <Compile Include="DebugContext.GeneratorLoopProc.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Microsoft.Scripting.Debugging.txt" />
+    <Compile Include="CompilerServices\DebugContext.cs" />
+    <Compile Include="CompilerServices\DebugContext.GeneratorLoopProc.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

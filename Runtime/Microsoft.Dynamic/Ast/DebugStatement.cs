@@ -53,7 +53,7 @@ namespace Microsoft.Scripting.Ast
 		}
 
 #if DEBUG
-		static MethodCallExpression CallDebugWriteLine(string marker) { return Expression.Call(new Action<string>(Debug.WriteLine).Method, AstUtils.Constant(marker)); }
+		static MethodCallExpression CallDebugWriteLine(string marker) { return Expression.Call(typeof(Debug).GetMethod("WriteLine", new[] { typeof(string) }), AstUtils.Constant(marker)); }
 #endif
 
 		/// <summary>指定された <see cref="Expression"/> に対してデバッグ情報を追加します。</summary>

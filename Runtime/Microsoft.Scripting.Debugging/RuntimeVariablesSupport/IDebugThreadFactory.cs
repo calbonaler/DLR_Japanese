@@ -13,27 +13,16 @@
  *
  * ***************************************************************************/
 
-#if !CLR2
-using MSAst = System.Linq.Expressions;
-#else
-using MSAst = Microsoft.Scripting.Ast;
-#endif
-
 using System.Collections.Generic;
 using Microsoft.Scripting.Debugging.CompilerServices;
+using MSAst = System.Linq.Expressions;
 
-namespace Microsoft.Scripting.Debugging {
-    /// <summary>
-    /// IDebugThreadFactory is used to abstract how frames and local variables are maintained at run/debug time.
-    /// </summary>
-    internal interface IDebugThreadFactory {
-        DebugThread CreateDebugThread(DebugContext debugContext);
-
-        MSAst.Expression CreatePushFrameExpression(
-            MSAst.ParameterExpression functionInfo,
-            MSAst.ParameterExpression debugMarker,
-            IList<MSAst.ParameterExpression> locals,
-            IList<VariableInfo> varInfos,
-            MSAst.Expression runtimeThread);
-    }
+namespace Microsoft.Scripting.Debugging
+{
+	/// <summary>フレームやローカル変数の実行時またはデバッグ時における維持の方法を抽象化するために使用されます。</summary>
+	interface IDebugThreadFactory
+	{
+		DebugThread CreateDebugThread(DebugContext debugContext);
+		MSAst.Expression CreatePushFrameExpression(MSAst.ParameterExpression functionInfo, MSAst.ParameterExpression debugMarker, IEnumerable<MSAst.ParameterExpression> locals, IEnumerable<VariableInfo> varInfos, MSAst.Expression runtimeThread);
+	}
 }

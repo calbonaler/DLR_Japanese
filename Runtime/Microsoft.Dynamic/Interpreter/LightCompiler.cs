@@ -1,4 +1,4 @@
-/* ****************************************************************************
+ï»¿/* ****************************************************************************
  *
  * Copyright (c) Microsoft Corporation. 
  *
@@ -26,33 +26,33 @@ using AstUtils = Microsoft.Scripting.Ast.Utils;
 
 namespace Microsoft.Scripting.Interpreter
 {
-	/// <summary>—áŠO‚ğ•ß‘¨‚·‚éƒnƒ“ƒhƒ‰‚ğ•\‚µ‚Ü‚·B</summary>
+	/// <summary>ä¾‹å¤–ã‚’æ•æ‰ã™ã‚‹ãƒãƒ³ãƒ‰ãƒ©ã‚’è¡¨ã—ã¾ã™ã€‚</summary>
 	public sealed class ExceptionHandler
 	{
-		/// <summary>•ß‘¨‚Å‚«‚é—áŠO‚ÌŒ^‚ğæ“¾‚µ‚Ü‚·B</summary>
+		/// <summary>æ•æ‰ã§ãã‚‹ä¾‹å¤–ã®å‹ã‚’å–å¾—ã—ã¾ã™ã€‚</summary>
 		public Type ExceptionType { get; private set; }
 
-		/// <summary>—áŠO‚ğ•ß‘¨‚Å‚«‚éÅ‰‚Ì–½—ß‚ğ¦‚·ƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚µ‚Ü‚·B</summary>
+		/// <summary>ä¾‹å¤–ã‚’æ•æ‰ã§ãã‚‹æœ€åˆã®å‘½ä»¤ã‚’ç¤ºã™ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚</summary>
 		public int StartIndex { get; private set; }
 
-		/// <summary>—áŠO‚ğ•ß‘¨‚Å‚«‚éÅŒã‚Ì–½—ß‚ÌŸ‚Ì–½—ß‚ğ¦‚·ƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚µ‚Ü‚·B</summary>
+		/// <summary>ä¾‹å¤–ã‚’æ•æ‰ã§ãã‚‹æœ€å¾Œã®å‘½ä»¤ã®æ¬¡ã®å‘½ä»¤ã‚’ç¤ºã™ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚</summary>
 		public int EndIndex { get; private set; }
 
-		/// <summary>—áŠOƒnƒ“ƒhƒ‰‚ÌŠJn“_‚ğ¦‚·ƒ‰ƒxƒ‹‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚µ‚Ü‚·B</summary>
+		/// <summary>ä¾‹å¤–ãƒãƒ³ãƒ‰ãƒ©ã®é–‹å§‹ç‚¹ã‚’ç¤ºã™ãƒ©ãƒ™ãƒ«ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚</summary>
 		public int LabelIndex { get; private set; }
 
-		/// <summary>—áŠOƒnƒ“ƒhƒ‰ŠJnŒã‚ÌÅ‰‚Ì–½—ß‚ğ¦‚·ƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚µ‚Ü‚·B</summary>
+		/// <summary>ä¾‹å¤–ãƒãƒ³ãƒ‰ãƒ©é–‹å§‹å¾Œã®æœ€åˆã®å‘½ä»¤ã‚’ç¤ºã™ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚</summary>
 		public int HandlerStartIndex { get; private set; }
 
-		/// <summary>‚±‚Ì—áŠOƒnƒ“ƒhƒ‰‚ª fault ß‚ğ•\‚·‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚µ‚Ü‚·B</summary>
+		/// <summary>ã“ã®ä¾‹å¤–ãƒãƒ³ãƒ‰ãƒ©ãŒ fault ç¯€ã‚’è¡¨ã™ã‹ã©ã†ã‹ã‚’ç¤ºã™å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚</summary>
 		public bool IsFault { get { return ExceptionType == null; } }
 
-		/// <summary>w’è‚³‚ê‚½ˆø”‚ğg—p‚µ‚ÄA<see cref="Microsoft.Scripting.Interpreter.ExceptionHandler"/> ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‰Šú‰»‚µ‚Ü‚·B</summary>
-		/// <param name="start">—áŠO‚ğ•ß‘¨‚Å‚«‚éÅ‰‚Ì–½—ß‚ğ¦‚·ƒCƒ“ƒfƒbƒNƒX‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="end">—áŠO‚ğ•ß‘¨‚Å‚«‚éÅŒã‚Ì–½—ß‚ÌŸ‚Ì–½—ß‚ğ¦‚·ƒCƒ“ƒfƒbƒNƒX‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="labelIndex">—áŠOƒnƒ“ƒhƒ‰‚ÌŠJn“_‚ğ¦‚·ƒ‰ƒxƒ‹‚ÌƒCƒ“ƒfƒbƒNƒX‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="handlerStartIndex">—áŠOƒnƒ“ƒhƒ‰ŠJnŒã‚ÌÅ‰‚Ì–½—ß‚ğ¦‚·ƒCƒ“ƒfƒbƒNƒX‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="exceptionType">•ß‘¨‚Å‚«‚é—áŠO‚ÌŒ^‚ğw’è‚µ‚Ü‚·Bfault ß‚Ìê‡‚Í null ‚ğw’è‚µ‚Ü‚·B</param>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸå¼•æ•°ã‚’ä½¿ç”¨ã—ã¦ã€<see cref="Microsoft.Scripting.Interpreter.ExceptionHandler"/> ã‚¯ãƒ©ã‚¹ã®æ–°ã—ã„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚</summary>
+		/// <param name="start">ä¾‹å¤–ã‚’æ•æ‰ã§ãã‚‹æœ€åˆã®å‘½ä»¤ã‚’ç¤ºã™ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="end">ä¾‹å¤–ã‚’æ•æ‰ã§ãã‚‹æœ€å¾Œã®å‘½ä»¤ã®æ¬¡ã®å‘½ä»¤ã‚’ç¤ºã™ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="labelIndex">ä¾‹å¤–ãƒãƒ³ãƒ‰ãƒ©ã®é–‹å§‹ç‚¹ã‚’ç¤ºã™ãƒ©ãƒ™ãƒ«ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="handlerStartIndex">ä¾‹å¤–ãƒãƒ³ãƒ‰ãƒ©é–‹å§‹å¾Œã®æœ€åˆã®å‘½ä»¤ã‚’ç¤ºã™ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="exceptionType">æ•æ‰ã§ãã‚‹ä¾‹å¤–ã®å‹ã‚’æŒ‡å®šã—ã¾ã™ã€‚fault ç¯€ã®å ´åˆã¯ null ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
 		internal ExceptionHandler(int start, int end, int labelIndex, int handlerStartIndex, Type exceptionType)
 		{
 			StartIndex = start;
@@ -62,54 +62,54 @@ namespace Microsoft.Scripting.Interpreter
 			HandlerStartIndex = handlerStartIndex;
 		}
 
-		/// <summary>‚±‚Ì—áŠOƒnƒ“ƒhƒ‰‚ªw’è‚³‚ê‚½êŠ‚Å”­¶‚µ‚½w’è‚³‚ê‚½Œ^‚Ì—áŠO‚ğ•ß‘¨‚Å‚«‚é‚©‚Ç‚¤‚©‚ğ”»’f‚µ‚Ü‚·B</summary>
-		/// <param name="exceptionType">”­¶‚µ‚½—áŠO‚ÌŒ^‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="index">—áŠO‚ª”­¶‚µ‚½–½—ß‚ğ¦‚·ƒCƒ“ƒfƒbƒNƒX‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>w’è‚³‚ê‚½—áŠO‚ğ‚±‚Ìƒnƒ“ƒhƒ‰‚ª•ß‘¨‚Å‚«‚éê‡‚Í <c>true</c>B‚»‚êˆÈŠO‚Ìê‡‚Í <c>false</c>B</returns>
+		/// <summary>ã“ã®ä¾‹å¤–ãƒãƒ³ãƒ‰ãƒ©ãŒæŒ‡å®šã•ã‚ŒãŸå ´æ‰€ã§ç™ºç”Ÿã—ãŸæŒ‡å®šã•ã‚ŒãŸå‹ã®ä¾‹å¤–ã‚’æ•æ‰ã§ãã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤æ–­ã—ã¾ã™ã€‚</summary>
+		/// <param name="exceptionType">ç™ºç”Ÿã—ãŸä¾‹å¤–ã®å‹ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="index">ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå‘½ä»¤ã‚’ç¤ºã™ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>æŒ‡å®šã•ã‚ŒãŸä¾‹å¤–ã‚’ã“ã®ãƒãƒ³ãƒ‰ãƒ©ãŒæ•æ‰ã§ãã‚‹å ´åˆã¯ <c>true</c>ã€‚ãã‚Œä»¥å¤–ã®å ´åˆã¯ <c>false</c>ã€‚</returns>
 		public bool Matches(Type exceptionType, int index) { return IsInside(index) && (ExceptionType == null || ExceptionType.IsAssignableFrom(exceptionType)); }
 
-		/// <summary>‚±‚Ì—áŠOƒnƒ“ƒhƒ‰‚ªw’è‚³‚ê‚½—áŠOƒnƒ“ƒhƒ‰‚æ‚è‚à•ß‘¨‚É“K‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ”»’f‚µ‚Ü‚·B</summary>
-		/// <param name="other">”äŠr‚·‚é—áŠOƒnƒ“ƒhƒ‰‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>‚±‚Ì—áŠOƒnƒ“ƒhƒ‰‚ªw’è‚³‚ê‚½—áŠOƒnƒ“ƒhƒ‰‚æ‚è‚à•ß‘¨‚É“K‚µ‚Ä‚¢‚éê‡‚Í <c>true</c>B‚»‚êˆÈŠO‚Ìê‡‚Í <c>false</c>B</returns>
+		/// <summary>ã“ã®ä¾‹å¤–ãƒãƒ³ãƒ‰ãƒ©ãŒæŒ‡å®šã•ã‚ŒãŸä¾‹å¤–ãƒãƒ³ãƒ‰ãƒ©ã‚ˆã‚Šã‚‚æ•æ‰ã«é©ã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤æ–­ã—ã¾ã™ã€‚</summary>
+		/// <param name="other">æ¯”è¼ƒã™ã‚‹ä¾‹å¤–ãƒãƒ³ãƒ‰ãƒ©ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>ã“ã®ä¾‹å¤–ãƒãƒ³ãƒ‰ãƒ©ãŒæŒ‡å®šã•ã‚ŒãŸä¾‹å¤–ãƒãƒ³ãƒ‰ãƒ©ã‚ˆã‚Šã‚‚æ•æ‰ã«é©ã—ã¦ã„ã‚‹å ´åˆã¯ <c>true</c>ã€‚ãã‚Œä»¥å¤–ã®å ´åˆã¯ <c>false</c>ã€‚</returns>
 		public bool IsBetterThan(ExceptionHandler other) { return other == null || (StartIndex == other.StartIndex && EndIndex == other.EndIndex ? HandlerStartIndex < other.HandlerStartIndex : StartIndex > other.StartIndex || EndIndex < other.EndIndex); }
 
-		/// <summary>w’è‚³‚ê‚½–½—ßƒCƒ“ƒfƒbƒNƒX‚ª‚±‚Ì—áŠOƒnƒ“ƒhƒ‰‚ª—áŠO‚ğ•ß‘¨‚Å‚«‚éêŠ‚©‚Ç‚¤‚©‚ğ”»’f‚µ‚Ü‚·B</summary>
-		/// <param name="index">’²‚×‚é–½—ßƒCƒ“ƒfƒbƒNƒX‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>w’è‚³‚ê‚½–½—ßƒCƒ“ƒfƒbƒNƒX‚ª‚±‚Ì—áŠOƒnƒ“ƒhƒ‰‚ª—áŠO‚ğ•ß‘¨‚Å‚«‚éêŠ‚Ìê‡‚Í <c>true</c>B‚»‚êˆÈŠO‚Ìê‡‚Í <c>false</c>B</returns>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸå‘½ä»¤ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãŒã“ã®ä¾‹å¤–ãƒãƒ³ãƒ‰ãƒ©ãŒä¾‹å¤–ã‚’æ•æ‰ã§ãã‚‹å ´æ‰€ã‹ã©ã†ã‹ã‚’åˆ¤æ–­ã—ã¾ã™ã€‚</summary>
+		/// <param name="index">èª¿ã¹ã‚‹å‘½ä»¤ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>æŒ‡å®šã•ã‚ŒãŸå‘½ä»¤ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãŒã“ã®ä¾‹å¤–ãƒãƒ³ãƒ‰ãƒ©ãŒä¾‹å¤–ã‚’æ•æ‰ã§ãã‚‹å ´æ‰€ã®å ´åˆã¯ <c>true</c>ã€‚ãã‚Œä»¥å¤–ã®å ´åˆã¯ <c>false</c>ã€‚</returns>
 		internal bool IsInside(int index) { return index >= StartIndex && index < EndIndex; }
 
-		/// <summary>‚±‚ÌƒIƒuƒWƒFƒNƒg‚Ì•¶š—ñ•\Œ»‚ğ•Ô‚µ‚Ü‚·B</summary>
-		/// <returns>ƒIƒuƒWƒFƒNƒg‚Ì•¶š—ñ•\Œ»B</returns>
+		/// <summary>ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ–‡å­—åˆ—è¡¨ç¾ã‚’è¿”ã—ã¾ã™ã€‚</summary>
+		/// <returns>ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ–‡å­—åˆ—è¡¨ç¾ã€‚</returns>
 		public override string ToString() { return string.Format("{0} [{1}-{2}] [{3}->]", IsFault ? "fault" : "catch(" + ExceptionType.Name + ")", StartIndex, EndIndex, HandlerStartIndex); }
 	}
 
-	/// <summary>ƒR[ƒh‚É•t‰Á‚³‚ê‚½ƒfƒoƒbƒOî•ñ‚ğ•\‚µ‚Ü‚·B</summary>
+	/// <summary>ã‚³ãƒ¼ãƒ‰ã«ä»˜åŠ ã•ã‚ŒãŸãƒ‡ãƒãƒƒã‚°æƒ…å ±ã‚’è¡¨ã—ã¾ã™ã€‚</summary>
 	[Serializable]
 	public class DebugInfo
 	{
-		/// <summary>ƒ\[ƒXƒR[ƒh“à‚ÌŠJns‚ğæ“¾‚µ‚Ü‚·B</summary>
+		/// <summary>ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰å†…ã®é–‹å§‹è¡Œã‚’å–å¾—ã—ã¾ã™ã€‚</summary>
 		public int StartLine { get; private set; }
 
-		/// <summary>ƒ\[ƒXƒR[ƒh“à‚ÌI—¹s‚ğæ“¾‚µ‚Ü‚·B</summary>
+		/// <summary>ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰å†…ã®çµ‚äº†è¡Œã‚’å–å¾—ã—ã¾ã™ã€‚</summary>
 		public int EndLine { get; private set; }
 
-		/// <summary>ƒfƒoƒbƒOî•ñ‚ª•t‰Á‚³‚ê‚½Ÿ‚Ì–½—ß‚ğ¦‚·ƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚µ‚Ü‚·B</summary>
+		/// <summary>ãƒ‡ãƒãƒƒã‚°æƒ…å ±ãŒä»˜åŠ ã•ã‚ŒãŸæ¬¡ã®å‘½ä»¤ã‚’ç¤ºã™ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚</summary>
 		public int Index { get; private set; }
 
-		/// <summary>ƒfƒoƒbƒOî•ñ‚ª¦‚·ƒ\[ƒXƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚µ‚Ü‚·B</summary>
+		/// <summary>ãƒ‡ãƒãƒƒã‚°æƒ…å ±ãŒç¤ºã™ã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å–å¾—ã—ã¾ã™ã€‚</summary>
 		public string FileName { get; private set; }
 
-		/// <summary>ƒfƒoƒbƒOî•ñ‚ªƒV[ƒPƒ“ƒXƒ|ƒCƒ“ƒg‚ğƒNƒŠƒA‚·‚é‚½‚ß‚Ég—p‚³‚ê‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚µ‚Ü‚·B</summary>
+		/// <summary>ãƒ‡ãƒãƒƒã‚°æƒ…å ±ãŒã‚·ãƒ¼ã‚±ãƒ³ã‚¹ãƒã‚¤ãƒ³ãƒˆã‚’ã‚¯ãƒªã‚¢ã™ã‚‹ãŸã‚ã«ä½¿ç”¨ã•ã‚Œã‚‹ã‹ã©ã†ã‹ã‚’ç¤ºã™å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚</summary>
 		public bool IsClear { get; private set; }
 
 		static readonly Comparer<DebugInfo> _debugComparer = Comparer<DebugInfo>.Create((x, y) => x.Index.CompareTo(y.Index));
 
-		/// <summary>w’è‚³‚ê‚½î•ñ‚ğg—p‚µ‚ÄA<see cref="Microsoft.Scripting.Interpreter.DebugInfo"/> ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‰Šú‰»‚µ‚Ü‚·B</summary>
-		/// <param name="startLine">ƒ\[ƒXƒR[ƒh“à‚ÌŠJns‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="endLine">ƒ\[ƒXƒR[ƒh“à‚ÌI—¹s‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="index">ƒfƒoƒbƒOî•ñ‚ª•t‰Á‚³‚ê‚½Ÿ‚Ì–½—ß‚ğ¦‚·ƒCƒ“ƒfƒbƒNƒX‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="fileName">ƒfƒoƒbƒOî•ñ‚ª¦‚·ƒ\[ƒXƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹–¼‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="clear">ƒfƒoƒbƒOî•ñ‚ªƒV[ƒPƒ“ƒXƒ|ƒCƒ“ƒg‚ğƒNƒŠƒA‚·‚é‚½‚ß‚Ég—p‚³‚ê‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğw’è‚µ‚Ü‚·B</param>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸæƒ…å ±ã‚’ä½¿ç”¨ã—ã¦ã€<see cref="Microsoft.Scripting.Interpreter.DebugInfo"/> ã‚¯ãƒ©ã‚¹ã®æ–°ã—ã„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚</summary>
+		/// <param name="startLine">ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰å†…ã®é–‹å§‹è¡Œã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="endLine">ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰å†…ã®çµ‚äº†è¡Œã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="index">ãƒ‡ãƒãƒƒã‚°æƒ…å ±ãŒä»˜åŠ ã•ã‚ŒãŸæ¬¡ã®å‘½ä»¤ã‚’ç¤ºã™ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="fileName">ãƒ‡ãƒãƒƒã‚°æƒ…å ±ãŒç¤ºã™ã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«åã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="clear">ãƒ‡ãƒãƒƒã‚°æƒ…å ±ãŒã‚·ãƒ¼ã‚±ãƒ³ã‚¹ãƒã‚¤ãƒ³ãƒˆã‚’ã‚¯ãƒªã‚¢ã™ã‚‹ãŸã‚ã«ä½¿ç”¨ã•ã‚Œã‚‹ã‹ã©ã†ã‹ã‚’ç¤ºã™å€¤ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
 		public DebugInfo(int startLine, int endLine, int index, string fileName, bool clear)
 		{
 			StartLine = startLine;
@@ -119,45 +119,45 @@ namespace Microsoft.Scripting.Interpreter
 			IsClear = clear;
 		}
 
-		/// <summary>w’è‚³‚ê‚½ <see cref="DebugInfo"/> ‚Ì”z—ñ‚Ì’†‚©‚çw’è‚³‚ê‚½–½—ßƒCƒ“ƒfƒbƒNƒXˆÈ‰º‚Ì–½—ßƒCƒ“ƒfƒbƒNƒX‚ğ‚à‚ÂÅŒã‚Ì—v‘f‚ğ•Ô‚µ‚Ü‚·B</summary>
-		/// <param name="debugInfos">w’è‚³‚ê‚½–½—ßƒCƒ“ƒfƒbƒNƒXˆÈ‰º‚ÌÅŒã‚Ì—v‘f‚ğŒŸõ‚·‚é <see cref="DebugInfo"/> ‚Ì”z—ñ‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="index">ŒŸõ‚·‚é–½—ßƒCƒ“ƒfƒbƒNƒX‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>w’è‚³‚ê‚½–½—ßƒCƒ“ƒfƒbƒNƒXˆÈ‰º‚Ì–½—ßƒCƒ“ƒfƒbƒNƒX‚ğ‚à‚ÂÅŒã‚Ì—v‘fB‚»‚Ì‚æ‚¤‚È—v‘f‚ª‘¶İ‚µ‚È‚¢ê‡‚Í <c>null</c> ‚ğ•Ô‚µ‚Ü‚·B</returns>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸ <see cref="DebugInfo"/> ã®é…åˆ—ã®ä¸­ã‹ã‚‰æŒ‡å®šã•ã‚ŒãŸå‘½ä»¤ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ä»¥ä¸‹ã®å‘½ä»¤ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ã‚‚ã¤æœ€å¾Œã®è¦ç´ ã‚’è¿”ã—ã¾ã™ã€‚</summary>
+		/// <param name="debugInfos">æŒ‡å®šã•ã‚ŒãŸå‘½ä»¤ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ä»¥ä¸‹ã®æœ€å¾Œã®è¦ç´ ã‚’æ¤œç´¢ã™ã‚‹ <see cref="DebugInfo"/> ã®é…åˆ—ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="index">æ¤œç´¢ã™ã‚‹å‘½ä»¤ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>æŒ‡å®šã•ã‚ŒãŸå‘½ä»¤ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ä»¥ä¸‹ã®å‘½ä»¤ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ã‚‚ã¤æœ€å¾Œã®è¦ç´ ã€‚ãã®ã‚ˆã†ãªè¦ç´ ãŒå­˜åœ¨ã—ãªã„å ´åˆã¯ <c>null</c> ã‚’è¿”ã—ã¾ã™ã€‚</returns>
 		public static DebugInfo GetMatchingDebugInfo(DebugInfo[] debugInfos, int index)
 		{
-			// ŒŸõ‚Ég—p‚·‚é‚½‚ß‚Ì DebugInfo ‚ğì¬‚µAŒ»İ‚ÌƒCƒ“ƒfƒbƒNƒX‚Ì‘O‚ÌÅ‚à‹ß‚¢ DebugInfo ‚ğŒŸõ
+			// æ¤œç´¢ã«ä½¿ç”¨ã™ã‚‹ãŸã‚ã® DebugInfo ã‚’ä½œæˆã—ã€ç¾åœ¨ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®å‰ã®æœ€ã‚‚è¿‘ã„ DebugInfo ã‚’æ¤œç´¢
 			int i = Array.BinarySearch(debugInfos, new DebugInfo(0, 0, index, null, false), _debugComparer);
 			if (i < 0)
 			{
-				// ~i ‚ÍÅ‰‚Ì‘å‚«‚È—v‘f‚É‘Î‚·‚éƒCƒ“ƒfƒbƒNƒX‚ÅA‘å‚«‚È—v‘f‚ª‘¶İ‚µ‚È‚¢ê‡A~i ‚Í”z—ñ‚Ì’·‚³
+				// ~i ã¯æœ€åˆã®å¤§ããªè¦ç´ ã«å¯¾ã™ã‚‹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã§ã€å¤§ããªè¦ç´ ãŒå­˜åœ¨ã—ãªã„å ´åˆã€~i ã¯é…åˆ—ã®é•·ã•
 				i = ~i;
 				if (i == 0)
 					return null;
-				// ¬‚³‚ÈÅŒã‚Ì—v‘f‚ğ•Ô‚·
+				// å°ã•ãªæœ€å¾Œã®è¦ç´ ã‚’è¿”ã™
 				i = i - 1;
 			}
 			return debugInfos[i];
 		}
 
-		/// <summary>‚±‚ÌƒIƒuƒWƒFƒNƒg‚Ì•¶š—ñ•\Œ»‚ğ•Ô‚µ‚Ü‚·B</summary>
-		/// <returns>ƒIƒuƒWƒFƒNƒg‚Ì•¶š—ñ•\Œ»B</returns>
+		/// <summary>ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ–‡å­—åˆ—è¡¨ç¾ã‚’è¿”ã—ã¾ã™ã€‚</summary>
+		/// <returns>ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ–‡å­—åˆ—è¡¨ç¾ã€‚</returns>
 		public override string ToString() { return IsClear ? string.Format("{0}: clear", Index) : string.Format("{0}: [{1}-{2}] '{3}'", Index, StartLine, EndLine, FileName); }
 	}
 
-	/// <summary>ƒCƒ“ƒ^ƒvƒŠƒ^‚ÌƒXƒ^ƒbƒNƒtƒŒ[ƒ€‚ÉŠÖ‚·‚éî•ñ‚ğ•\‚µ‚Ü‚·B</summary>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1815:OverrideEqualsAndOperatorEqualsOnValueTypes")]@// TODO:
+	/// <summary>ã‚¤ãƒ³ã‚¿ãƒ—ãƒªã‚¿ã®ã‚¹ã‚¿ãƒƒã‚¯ãƒ•ãƒ¬ãƒ¼ãƒ ã«é–¢ã™ã‚‹æƒ…å ±ã‚’è¡¨ã—ã¾ã™ã€‚</summary>
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1815:OverrideEqualsAndOperatorEqualsOnValueTypes")]ã€€// TODO:
 	[Serializable]
 	public struct InterpretedFrameInfo
 	{
-		/// <summary>‘ÎÛ‚ÌƒXƒ^ƒbƒNƒtƒŒ[ƒ€‚ªÀs‚µ‚Ä‚éƒƒ\ƒbƒh‚Ì–¼‘O‚ğæ“¾‚µ‚Ü‚·B</summary>
+		/// <summary>å¯¾è±¡ã®ã‚¹ã‚¿ãƒƒã‚¯ãƒ•ãƒ¬ãƒ¼ãƒ ãŒå®Ÿè¡Œã—ã¦ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã®åå‰ã‚’å–å¾—ã—ã¾ã™ã€‚</summary>
 		public string MethodName { get; private set; }
 
-		/// <summary>‘ÎÛ‚ÌƒXƒ^ƒbƒNƒtƒŒ[ƒ€‚ÅŒ»İÀs‚µ‚Ä‚¢‚é–½—ß‚Ì‹ß‚­‚É‚ ‚éƒfƒoƒbƒOî•ñ‚ğæ“¾‚µ‚Ü‚·B</summary>
+		/// <summary>å¯¾è±¡ã®ã‚¹ã‚¿ãƒƒã‚¯ãƒ•ãƒ¬ãƒ¼ãƒ ã§ç¾åœ¨å®Ÿè¡Œã—ã¦ã„ã‚‹å‘½ä»¤ã®è¿‘ãã«ã‚ã‚‹ãƒ‡ãƒãƒƒã‚°æƒ…å ±ã‚’å–å¾—ã—ã¾ã™ã€‚</summary>
 		public DebugInfo DebugInfo { get; private set; }
 
-		/// <summary>Às‚µ‚Ä‚¢‚éƒƒ\ƒbƒh–¼‚ÆÀs‚µ‚Ä‚¢‚é–½—ß‚Ì‹ß‚­‚É‚ ‚éƒfƒoƒbƒOî•ñ‚ğg—p‚µ‚ÄA<see cref="Microsoft.Scripting.Interpreter.InterpretedFrameInfo"/> \‘¢‘Ì‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‰Šú‰»‚µ‚Ü‚·B</summary>
-		/// <param name="methodName">‘ÎÛ‚ÌƒXƒ^ƒbƒNƒtƒŒ[ƒ€‚ªŒ»İÀs‚µ‚Ä‚¢‚éƒƒ\ƒbƒh‚Ì–¼‘O‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="info">‘ÎÛ‚ÌƒXƒ^ƒbƒNƒtƒŒ[ƒ€‚ÅŒ»İÀs‚µ‚Ä‚¢‚é–½—ß‚Ì‹ß‚­‚É‚ ‚éƒfƒoƒbƒOî•ñ‚ğw’è‚µ‚Ü‚·B</param>
+		/// <summary>å®Ÿè¡Œã—ã¦ã„ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰åã¨å®Ÿè¡Œã—ã¦ã„ã‚‹å‘½ä»¤ã®è¿‘ãã«ã‚ã‚‹ãƒ‡ãƒãƒƒã‚°æƒ…å ±ã‚’ä½¿ç”¨ã—ã¦ã€<see cref="Microsoft.Scripting.Interpreter.InterpretedFrameInfo"/> æ§‹é€ ä½“ã®æ–°ã—ã„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚</summary>
+		/// <param name="methodName">å¯¾è±¡ã®ã‚¹ã‚¿ãƒƒã‚¯ãƒ•ãƒ¬ãƒ¼ãƒ ãŒç¾åœ¨å®Ÿè¡Œã—ã¦ã„ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã®åå‰ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="info">å¯¾è±¡ã®ã‚¹ã‚¿ãƒƒã‚¯ãƒ•ãƒ¬ãƒ¼ãƒ ã§ç¾åœ¨å®Ÿè¡Œã—ã¦ã„ã‚‹å‘½ä»¤ã®è¿‘ãã«ã‚ã‚‹ãƒ‡ãƒãƒƒã‚°æƒ…å ±ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
 		public InterpretedFrameInfo(string methodName, DebugInfo info)
 			: this()
 		{
@@ -165,12 +165,12 @@ namespace Microsoft.Scripting.Interpreter
 			DebugInfo = info;
 		}
 
-		/// <summary>‚±‚ÌƒIƒuƒWƒFƒNƒg‚Ì•¶š—ñ•\Œ»‚ğ•Ô‚µ‚Ü‚·B</summary>
-		/// <returns>ƒIƒuƒWƒFƒNƒg‚Ì•¶š—ñ•\Œ»B</returns>
+		/// <summary>ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ–‡å­—åˆ—è¡¨ç¾ã‚’è¿”ã—ã¾ã™ã€‚</summary>
+		/// <returns>ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ–‡å­—åˆ—è¡¨ç¾ã€‚</returns>
 		public override string ToString() { return MethodName + (DebugInfo != null ? ": " + DebugInfo.ToString() : null); }
 	}
 
-	/// <summary>®ƒcƒŠ[‚ğƒCƒ“ƒ^ƒvƒŠƒ^‚ÅÀs‰Â”\‚È–½—ß—ñ‚ÉƒRƒ“ƒpƒCƒ‹‚·‚éŒy—ÊƒRƒ“ƒpƒCƒ‰‚ğ•\‚µ‚Ü‚·B</summary>
+	/// <summary>å¼ãƒ„ãƒªãƒ¼ã‚’ã‚¤ãƒ³ã‚¿ãƒ—ãƒªã‚¿ã§å®Ÿè¡Œå¯èƒ½ãªå‘½ä»¤åˆ—ã«ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã™ã‚‹è»½é‡ã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ã‚’è¡¨ã—ã¾ã™ã€‚</summary>
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling")]
 	public sealed class LightCompiler
 	{
@@ -195,8 +195,8 @@ namespace Microsoft.Scripting.Interpreter
 
 		readonly LightCompiler _parent;
 
-		/// <summary>ƒRƒ“ƒpƒCƒ‹‚É•K—v‚ÈƒR[ƒhÀs‰ñ”‚ğw’è‚µ‚ÄA<see cref="Microsoft.Scripting.Interpreter.LightCompiler"/> ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒXƒ^ƒ“ƒX‚ğ‰Šú‰»‚µ‚Ü‚·B</summary>
-		/// <param name="compilationThreshold">JIT ƒR[ƒh‚Ö‚ÌƒRƒ“ƒpƒCƒ‹‚Ü‚Å‚ÉÀs‚³‚ê‚é‚×‚«Às‰ñ”‚ğw’è‚µ‚Ü‚·B</param>
+		/// <summary>ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã«å¿…è¦ãªã‚³ãƒ¼ãƒ‰å®Ÿè¡Œå›æ•°ã‚’æŒ‡å®šã—ã¦ã€<see cref="Microsoft.Scripting.Interpreter.LightCompiler"/> ã‚¯ãƒ©ã‚¹ã®æ–°ã—ã„ã‚¹ã‚¿ãƒ³ã‚¹ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚</summary>
+		/// <param name="compilationThreshold">JIT ã‚³ãƒ¼ãƒ‰ã¸ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã¾ã§ã«å®Ÿè¡Œã•ã‚Œã‚‹ã¹ãå®Ÿè¡Œå›æ•°ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
 		internal LightCompiler(int compilationThreshold)
 		{
 			Instructions = new InstructionList();
@@ -206,20 +206,20 @@ namespace Microsoft.Scripting.Interpreter
 
 		LightCompiler(LightCompiler parent) : this(parent._compilationThreshold) { _parent = parent; }
 
-		/// <summary>ƒRƒ“ƒpƒCƒ‰‚ª¶¬‚·‚é‹^—–½—ß‚ÌƒŠƒXƒg‚ğæ“¾‚µ‚Ü‚·B</summary>
+		/// <summary>ã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ãŒç”Ÿæˆã™ã‚‹ç–‘ä¼¼å‘½ä»¤ã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚</summary>
 		public InstructionList Instructions { get; private set; }
 
-		/// <summary>ƒRƒ“ƒpƒCƒ‰‚ª¶¬‚·‚éƒ[ƒJƒ‹•Ï”‚ÌƒŠƒXƒg‚ğæ“¾‚µ‚Ü‚·B</summary>
+		/// <summary>ã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ãŒç”Ÿæˆã™ã‚‹ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚</summary>
 		public LocalVariables Locals { get; private set; }
 
-		/// <summary>w’è‚³‚ê‚½ <see cref="StrongBox&lt;Object&gt;"/> ‚ğ•\‚·®‚©‚çQÆ‚·‚é’l‚ğæ“¾‚·‚é®‚ğ•Ô‚µ‚Ü‚·B</summary>
-		/// <param name="strongBoxExpression">QÆ‚·‚é’l‚ğæ“¾‚·‚é <see cref="StrongBox&lt;Object&gt;"/> ‚ğ•\‚·®‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>w’è‚³‚ê‚½®‚©‚çæ“¾‚³‚ê‚½’l‚ğ•\‚·®B</returns>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸ <see cref="StrongBox&lt;Object&gt;"/> ã‚’è¡¨ã™å¼ã‹ã‚‰å‚ç…§ã™ã‚‹å€¤ã‚’å–å¾—ã™ã‚‹å¼ã‚’è¿”ã—ã¾ã™ã€‚</summary>
+		/// <param name="strongBoxExpression">å‚ç…§ã™ã‚‹å€¤ã‚’å–å¾—ã™ã‚‹ <see cref="StrongBox&lt;Object&gt;"/> ã‚’è¡¨ã™å¼ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>æŒ‡å®šã•ã‚ŒãŸå¼ã‹ã‚‰å–å¾—ã•ã‚ŒãŸå€¤ã‚’è¡¨ã™å¼ã€‚</returns>
 		internal static Expression Unbox(Expression strongBoxExpression) { return Expression.Field(strongBoxExpression, typeof(StrongBox<object>).GetField("Value")); }
 
-		/// <summary>w’è‚³‚ê‚½ƒ‰ƒ€ƒ_®‚ğƒRƒ“ƒpƒCƒ‹‚·‚é‚±‚Æ‚ÅAƒCƒ“ƒ^ƒvƒŠƒ^‚ğ—p‚¢‚éƒfƒŠƒQ[ƒg‚ğì¬‚Å‚«‚é <see cref="LightDelegateCreator"/> ‚ğ•Ô‚µ‚Ü‚·B</summary>
-		/// <param name="node">ƒRƒ“ƒpƒCƒ‹‚·‚éƒ‰ƒ€ƒ_®‚ğw’è‚µ‚Ü‚·B</param>
-		/// <returns>ƒCƒ“ƒ^ƒvƒŠƒ^‚ğ—p‚¢‚éƒfƒŠƒQ[ƒg‚ğì¬‚Å‚«‚é <see cref="LightDelegateCreator"/>B</returns>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸãƒ©ãƒ ãƒ€å¼ã‚’ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã™ã‚‹ã“ã¨ã§ã€ã‚¤ãƒ³ã‚¿ãƒ—ãƒªã‚¿ã‚’ç”¨ã„ã‚‹ãƒ‡ãƒªã‚²ãƒ¼ãƒˆã‚’ä½œæˆã§ãã‚‹ <see cref="LightDelegateCreator"/> ã‚’è¿”ã—ã¾ã™ã€‚</summary>
+		/// <param name="node">ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã™ã‚‹ãƒ©ãƒ ãƒ€å¼ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <returns>ã‚¤ãƒ³ã‚¿ãƒ—ãƒªã‚¿ã‚’ç”¨ã„ã‚‹ãƒ‡ãƒªã‚²ãƒ¼ãƒˆã‚’ä½œæˆã§ãã‚‹ <see cref="LightDelegateCreator"/>ã€‚</returns>
 		internal LightDelegateCreator CompileTop(LambdaExpression node)
 		{
 			foreach (var p in node.Parameters)
@@ -286,7 +286,7 @@ namespace Microsoft.Scripting.Interpreter
 				return Locals.AddClosureVariable(expr);
 			}
 			else
-				throw new InvalidOperationException("‘©”›‚³‚ê‚Ä‚¢‚È‚¢•Ï”: " + expr);
+				throw new InvalidOperationException("æŸç¸›ã•ã‚Œã¦ã„ãªã„å¤‰æ•°: " + expr);
 		}
 
 		void EnsureVariable(ParameterExpression variable)
@@ -303,8 +303,8 @@ namespace Microsoft.Scripting.Interpreter
 			return local;
 		}
 
-		/// <summary>w’è‚³‚ê‚½ <see cref="ParameterExpression"/> ‚É‘Î‚·‚éƒ[ƒJƒ‹•Ï”‚Ì’l‚ğæ“¾‚·‚é–½—ß‚ğ–½—ßƒŠƒXƒg‚É’Ç‰Á‚µ‚Ü‚·B</summary>
-		/// <param name="variable">æ“¾‚³‚ê‚é’l‚ğŠi”[‚·‚éƒ[ƒJƒ‹•Ï”‚É‘Î‰‚·‚é <see cref="ParameterExpression"/> ‚ğw’è‚µ‚Ü‚·B</param>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸ <see cref="ParameterExpression"/> ã«å¯¾ã™ã‚‹ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã®å€¤ã‚’å–å¾—ã™ã‚‹å‘½ä»¤ã‚’å‘½ä»¤ãƒªã‚¹ãƒˆã«è¿½åŠ ã—ã¾ã™ã€‚</summary>
+		/// <param name="variable">å–å¾—ã•ã‚Œã‚‹å€¤ã‚’æ ¼ç´ã™ã‚‹ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã«å¯¾å¿œã™ã‚‹ <see cref="ParameterExpression"/> ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
 		public void CompileGetVariable(ParameterExpression variable)
 		{
 			var local = ResolveLocal(variable);
@@ -317,8 +317,8 @@ namespace Microsoft.Scripting.Interpreter
 			Instructions.SetDebugCookie(variable.Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ƒ{ƒbƒNƒX‰»‚³‚ê‚½ <see cref="ParameterExpression"/> ‚É‘Î‚·‚éƒ[ƒJƒ‹•Ï”‚Ì’l‚ğæ“¾‚·‚é–½—ßƒŠƒXƒg‚É’Ç‰Á‚µ‚Ü‚·B</summary>
-		/// <param name="variable">æ“¾‚³‚ê‚é’l‚ğŠi”[‚·‚éƒ[ƒJƒ‹•Ï”‚É‘Î‰‚·‚é <see cref="ParameterExpression"/> ‚ğw’è‚µ‚Ü‚·B</param>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸãƒœãƒƒã‚¯ã‚¹åŒ–ã•ã‚ŒãŸ <see cref="ParameterExpression"/> ã«å¯¾ã™ã‚‹ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã®å€¤ã‚’å–å¾—ã™ã‚‹å‘½ä»¤ãƒªã‚¹ãƒˆã«è¿½åŠ ã—ã¾ã™ã€‚</summary>
+		/// <param name="variable">å–å¾—ã•ã‚Œã‚‹å€¤ã‚’æ ¼ç´ã™ã‚‹ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã«å¯¾å¿œã™ã‚‹ <see cref="ParameterExpression"/> ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
 		public void CompileGetBoxedVariable(ParameterExpression variable)
 		{
 			var local = ResolveLocal(variable);
@@ -332,9 +332,9 @@ namespace Microsoft.Scripting.Interpreter
 			Instructions.SetDebugCookie(variable.Name);
 		}
 
-		/// <summary>w’è‚³‚ê‚½ <see cref="ParameterExpression"/> ‚É‘Î‚·‚éƒ[ƒJƒ‹•Ï”‚É’l‚ğŠi”[‚·‚é–½—ß‚ğƒŠƒXƒg‚É’Ç‰Á‚µ‚Ü‚·B</summary>
-		/// <param name="variable">’l‚ğŠi”[‚·‚éƒ[ƒJƒ‹•Ï”‚É‘Î‰‚·‚é <see cref="ParameterExpression"/> ‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="isVoid">Ši”[‚³‚ê‚½’l‚ğ•]‰¿ƒXƒ^ƒbƒN‚©‚çƒ|ƒbƒv‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğw’è‚µ‚Ü‚·B</param>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸ <see cref="ParameterExpression"/> ã«å¯¾ã™ã‚‹ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã«å€¤ã‚’æ ¼ç´ã™ã‚‹å‘½ä»¤ã‚’ãƒªã‚¹ãƒˆã«è¿½åŠ ã—ã¾ã™ã€‚</summary>
+		/// <param name="variable">å€¤ã‚’æ ¼ç´ã™ã‚‹ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã«å¯¾å¿œã™ã‚‹ <see cref="ParameterExpression"/> ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="isVoid">æ ¼ç´ã•ã‚ŒãŸå€¤ã‚’è©•ä¾¡ã‚¹ã‚¿ãƒƒã‚¯ã‹ã‚‰ãƒãƒƒãƒ—ã™ã‚‹ã‹ã©ã†ã‹ã‚’ç¤ºã™å€¤ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
 		public void CompileSetVariable(ParameterExpression variable, bool isVoid)
 		{
 			LocalVariable local = ResolveLocal(variable);
@@ -496,7 +496,7 @@ namespace Microsoft.Scripting.Interpreter
 					CompileVariableAssignment(expr, asVoid);
 					break;
 				default:
-					throw new InvalidOperationException("‘ã“ü‚Ì–³Œø‚È¶•Ó’l: " + expr.Left.NodeType);
+					throw new InvalidOperationException("ä»£å…¥ã®ç„¡åŠ¹ãªå·¦è¾ºå€¤: " + expr.Left.NodeType);
 			}
 		}
 
@@ -1234,8 +1234,8 @@ namespace Microsoft.Scripting.Interpreter
 			Debug.Assert(Instructions.CurrentStackDepth == startingStackDepth);
 		}
 
-		/// <summary>w’è‚³‚ê‚½®‚ğƒRƒ“ƒpƒCƒ‹‚µ‚ÄA–½—ßƒŠƒXƒg‚É‘Î‰‚·‚é–½—ß‚ğ’Ç‰Á‚µ‚Ü‚·B</summary>
-		/// <param name="expr">ƒRƒ“ƒpƒCƒ‹‚·‚é®‚ğw’è‚µ‚Ü‚·B</param>
+		/// <summary>æŒ‡å®šã•ã‚ŒãŸå¼ã‚’ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã—ã¦ã€å‘½ä»¤ãƒªã‚¹ãƒˆã«å¯¾å¿œã™ã‚‹å‘½ä»¤ã‚’è¿½åŠ ã—ã¾ã™ã€‚</summary>
+		/// <param name="expr">ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã™ã‚‹å¼ã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
 		public void Compile(Expression expr)
 		{
@@ -1309,26 +1309,14 @@ namespace Microsoft.Scripting.Interpreter
 				case ExpressionType.Try: CompileTryExpression((TryExpression)expr); break;
 				case ExpressionType.Unbox: CompileUnboxUnaryExpression((UnaryExpression)expr); break;
 				case ExpressionType.TypeEqual: CompileTypeEqualExpression((TypeBinaryExpression)expr); break;
-				case ExpressionType.AddAssign:
-				case ExpressionType.AndAssign:
-				case ExpressionType.DivideAssign:
-				case ExpressionType.ExclusiveOrAssign:
-				case ExpressionType.LeftShiftAssign:
-				case ExpressionType.ModuloAssign:
-				case ExpressionType.MultiplyAssign:
-				case ExpressionType.OrAssign:
-				case ExpressionType.PowerAssign:
-				case ExpressionType.RightShiftAssign:
-				case ExpressionType.SubtractAssign:
-				case ExpressionType.AddAssignChecked:
-				case ExpressionType.MultiplyAssignChecked:
-				case ExpressionType.SubtractAssignChecked:
-				case ExpressionType.PreIncrementAssign:
-				case ExpressionType.PreDecrementAssign:
-				case ExpressionType.PostIncrementAssign:
-				case ExpressionType.PostDecrementAssign: CompileReducibleExpression(expr); break;
-				default: throw Assert.Unreachable;
-			};
+				default:
+					if (Ast.Utils.IsReadWriteAssignment(expr.NodeType))
+					{
+						CompileReducibleExpression(expr);
+						break;
+					}
+					throw Assert.Unreachable;
+			}
 			Debug.Assert(Instructions.CurrentStackDepth == startingStackDepth + (expr.Type == typeof(void) ? 0 : 1));
 		}
 	}

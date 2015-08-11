@@ -21,6 +21,7 @@ using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Permissions;
+using Microsoft.Scripting.Generation;
 using Microsoft.Scripting.Utils;
 using ComTypes = System.Runtime.InteropServices.ComTypes;
 
@@ -353,32 +354,6 @@ namespace Microsoft.Scripting.ComInterop
 
 		#region non-public members
 
-		static void EmitLoadArg(ILGenerator il, int index)
-		{
-			ContractUtils.Requires(index >= 0, "index");
-			switch (index)
-			{
-				case 0:
-					il.Emit(OpCodes.Ldarg_0);
-					break;
-				case 1:
-					il.Emit(OpCodes.Ldarg_1);
-					break;
-				case 2:
-					il.Emit(OpCodes.Ldarg_2);
-					break;
-				case 3:
-					il.Emit(OpCodes.Ldarg_3);
-					break;
-				default:
-					if (index <= byte.MaxValue)
-						il.Emit(OpCodes.Ldarg_S, (byte)index);
-					else
-						il.Emit(OpCodes.Ldarg, index);
-					break;
-			}
-		}
-
 		/// <summary>
 		/// "value" がいくつかの呼び出し元のフレームでローカル変数であることを確認します。
 		/// そのため、byref から IntPtr への変換は安全な操作です。
@@ -492,58 +467,59 @@ namespace Microsoft.Scripting.ComInterop
 			}
 		}
 
-		static IDispatchInvokeDelegate Create_IDispatchInvoke(bool returnResult) {
-            const int dispatchPointerIndex = 0;
-            const int memberDispIdIndex = 1;
-            const int flagsIndex = 2;
-            const int dispParamsIndex = 3;
-            const int resultIndex = 4;
-            const int exceptInfoIndex = 5;
-            const int argErrIndex = 6;
-            Debug.Assert(argErrIndex + 1 == typeof(IDispatchInvokeDelegate).GetMethod("Invoke").GetParameters().Length);
-            var paramTypes = new Type[argErrIndex + 1];
-            paramTypes[dispatchPointerIndex] = typeof(IntPtr);
-            paramTypes[memberDispIdIndex] = typeof(int);
-            paramTypes[flagsIndex] = typeof(ComTypes.INVOKEKIND);
-            paramTypes[dispParamsIndex] = typeof(ComTypes.DISPPARAMS).MakeByRefType();
-            paramTypes[resultIndex] = typeof(Variant).MakeByRefType();
-            paramTypes[exceptInfoIndex] = typeof(ExcepInfo).MakeByRefType();
-            paramTypes[argErrIndex] = typeof(uint).MakeByRefType();
+		static IDispatchInvokeDelegate Create_IDispatchInvoke(bool returnResult)
+		{
+			const int dispatchPointerIndex = 0;
+			const int memberDispIdIndex = 1;
+			const int flagsIndex = 2;
+			const int dispParamsIndex = 3;
+			const int resultIndex = 4;
+			const int exceptInfoIndex = 5;
+			const int argErrIndex = 6;
+			Debug.Assert(argErrIndex + 1 == typeof(IDispatchInvokeDelegate).GetMethod("Invoke").GetParameters().Length);
+			var paramTypes = new Type[argErrIndex + 1];
+			paramTypes[dispatchPointerIndex] = typeof(IntPtr);
+			paramTypes[memberDispIdIndex] = typeof(int);
+			paramTypes[flagsIndex] = typeof(ComTypes.INVOKEKIND);
+			paramTypes[dispParamsIndex] = typeof(ComTypes.DISPPARAMS).MakeByRefType();
+			paramTypes[resultIndex] = typeof(Variant).MakeByRefType();
+			paramTypes[exceptInfoIndex] = typeof(ExcepInfo).MakeByRefType();
+			paramTypes[argErrIndex] = typeof(uint).MakeByRefType();
 			// 検証をスキップするために、動的メソッドをこのアセンブリに定義する
-            var dm = new DynamicMethod("IDispatchInvoke", typeof(int), paramTypes, DynamicModule);
-            var method = dm.GetILGenerator();
-            // return functionPtr(...)
-            EmitLoadArg(method, dispatchPointerIndex);
-            EmitLoadArg(method, memberDispIdIndex);
+			var dm = new DynamicMethod("IDispatchInvoke", typeof(int), paramTypes, DynamicModule);
+			var method = dm.GetILGenerator();
+			// return functionPtr(...)
+			method.EmitLoadArg(dispatchPointerIndex);
+			method.EmitLoadArg(memberDispIdIndex);
 			// 空の IID のアドレスを直接発行
 			// これは解放されることも再確保されることもない
 			// これを直接 Guid を発行するようにすると、IDispatch 呼び出しに 30% のパフォーマンスヒットがあるので、直接 IntPtr を渡す
-            if (IntPtr.Size == 4)
-                method.Emit(OpCodes.Ldc_I4, UnsafeMethods.NullInterfaceId.ToInt32()); // riid
-            else
-                method.Emit(OpCodes.Ldc_I8, UnsafeMethods.NullInterfaceId.ToInt64()); // riid
-            method.Emit(OpCodes.Conv_I);
-            method.Emit(OpCodes.Ldc_I4_0); // lcid
-            EmitLoadArg(method, flagsIndex);
-            EmitLoadArg(method, dispParamsIndex);
-            if (returnResult)
-                EmitLoadArg(method, resultIndex);
-            else
-                method.Emit(OpCodes.Ldsfld, typeof(IntPtr).GetField("Zero"));
-            EmitLoadArg(method, exceptInfoIndex);
-            EmitLoadArg(method, argErrIndex);
-            // functionPtr = *(IntPtr*)(*(dispatchPointer) + VTABLE_OFFSET)
-            EmitLoadArg(method, dispatchPointerIndex);
-            method.Emit(OpCodes.Ldind_I);
-            method.Emit(OpCodes.Ldc_I4, ((int)IDispatchMethodIndices.IDispatch_Invoke) * Marshal.SizeOf(typeof(IntPtr)));
-            method.Emit(OpCodes.Add);
-            method.Emit(OpCodes.Ldind_I);
-            var signature = SignatureHelper.GetMethodSigHelper(CallingConvention.Winapi, typeof(int));
-            signature.AddArguments(new[] { typeof(IntPtr), typeof(int), typeof(IntPtr), typeof(int), typeof(ushort), typeof(IntPtr), typeof(IntPtr), typeof(IntPtr), typeof(IntPtr) }, null, null);
-            method.Emit(OpCodes.Calli, signature);
-            method.Emit(OpCodes.Ret);
-            return (IDispatchInvokeDelegate)dm.CreateDelegate(typeof(IDispatchInvokeDelegate));
-        }
+			if (IntPtr.Size == 4)
+				method.Emit(OpCodes.Ldc_I4, UnsafeMethods.NullInterfaceId.ToInt32()); // riid
+			else
+				method.Emit(OpCodes.Ldc_I8, UnsafeMethods.NullInterfaceId.ToInt64()); // riid
+			method.Emit(OpCodes.Conv_I);
+			method.Emit(OpCodes.Ldc_I4_0); // lcid
+			method.EmitLoadArg(flagsIndex);
+			method.EmitLoadArg(dispParamsIndex);
+			if (returnResult)
+				method.EmitLoadArg(resultIndex);
+			else
+				method.Emit(OpCodes.Ldsfld, typeof(IntPtr).GetField("Zero"));
+			method.EmitLoadArg(exceptInfoIndex);
+			method.EmitLoadArg(argErrIndex);
+			// functionPtr = *(IntPtr*)(*(dispatchPointer) + VTABLE_OFFSET)
+			method.EmitLoadArg(dispatchPointerIndex);
+			method.Emit(OpCodes.Ldind_I);
+			method.Emit(OpCodes.Ldc_I4, ((int)IDispatchMethodIndices.IDispatch_Invoke) * Marshal.SizeOf(typeof(IntPtr)));
+			method.Emit(OpCodes.Add);
+			method.Emit(OpCodes.Ldind_I);
+			var signature = SignatureHelper.GetMethodSigHelper(CallingConvention.Winapi, typeof(int));
+			signature.AddArguments(new[] { typeof(IntPtr), typeof(int), typeof(IntPtr), typeof(int), typeof(ushort), typeof(IntPtr), typeof(IntPtr), typeof(IntPtr), typeof(IntPtr) }, null, null);
+			method.Emit(OpCodes.Calli, signature);
+			method.Emit(OpCodes.Ret);
+			return (IDispatchInvokeDelegate)dm.CreateDelegate(typeof(IDispatchInvokeDelegate));
+		}
 
 		#endregion
 	}

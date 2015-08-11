@@ -13,47 +13,44 @@
  *
  * ***************************************************************************/
 
-using System;
-using System.Collections.Generic;
-using System.Text;
+namespace Microsoft.Scripting.Debugging
+{
+	public enum TraceEventKind
+	{
+		/// <summary>
+		/// 実行が新しいフレームに入るときに発生します。
+		/// Payload: なし
+		/// </summary>
+		FrameEnter,
 
-namespace Microsoft.Scripting.Debugging {
-    public enum TraceEventKind {
-        // Fired when the execution enters a new frame
-        //
-        // Payload:
-        //   none
-        FrameEnter,
+		/// <summary>
+		/// 実行がフレームから出るときに発生します。
+		/// Payload: 関数からの戻り値
+		/// </summary>
+		FrameExit,
 
-        // Fired when the execution leaves a frame
-        //
-        // Payload:
-        //   return value from the function
-        FrameExit,
+		/// <summary>
+		/// 実行がデバッグ スレッドから出るときに発生します。
+		/// Payload: なし
+		/// </summary>
+		ThreadExit,
 
-        // Fired when the execution leaves a frame
-        //
-        // Payload:
-        //   none
-        ThreadExit,
+		/// <summary>
+		/// 実行がトレース ポイントに到達したときに発生します。
+		/// Payload: なし
+		/// </summary>
+		TracePoint,
 
-        // Fired when the execution encounters a trace point
-        //
-        // Payload:
-        //   none
-        TracePoint,
+		/// <summary>
+		/// 実行中に例外が発生したときに発生します。
+		/// Payload: スローされた例外オブジェクト
+		/// </summary>
+		Exception,
 
-        // Fired when an exception is thrown during the execution
-        // 
-        // Payload:
-        //   the exception object that was thrown
-        Exception,
-
-        // Fired when an exception is thrown and is not handled by 
-        // the current method.
-        //
-        // Payload:
-        //   the exception object that was thrown
-        ExceptionUnwind,
-    }
+		/// <summary>
+		/// 例外がスローされ現在のメソッドによってハンドルされなかったときに発生します。
+		/// Payload: スローされた例外オブジェクト
+		/// </summary>
+		ExceptionUnwind,
+	}
 }

@@ -373,9 +373,8 @@ namespace Microsoft.Scripting
 		{
 			switch (index)
 			{
-				case 0: return Item000;
 				case 1: return Item001;
-				default: throw new ArgumentOutOfRangeException("index");
+				default: return base.GetValue(index);
 			}
 		}
 
@@ -386,9 +385,8 @@ namespace Microsoft.Scripting
 		{
 			switch (index)
 			{
-				case 0: Item000 = (T0)value; break;
 				case 1: Item001 = (T1)value; break;
-				default: throw new ArgumentOutOfRangeException("index");
+				default: base.SetValue(index, value); break;
 			}
 		}
 
@@ -430,11 +428,9 @@ namespace Microsoft.Scripting
 		{
 			switch (index)
 			{
-				case 0: return Item000;
-				case 1: return Item001;
 				case 2: return Item002;
 				case 3: return Item003;
-				default: throw new ArgumentOutOfRangeException("index");
+				default: return base.GetValue(index);
 			}
 		}
 
@@ -445,11 +441,9 @@ namespace Microsoft.Scripting
 		{
 			switch (index)
 			{
-				case 0: Item000 = (T0)value; break;
-				case 1: Item001 = (T1)value; break;
 				case 2: Item002 = (T2)value; break;
 				case 3: Item003 = (T3)value; break;
-				default: throw new ArgumentOutOfRangeException("index");
+				default: base.SetValue(index, value); break;
 			}
 		}
 
@@ -505,15 +499,11 @@ namespace Microsoft.Scripting
 		{
 			switch (index)
 			{
-				case 0: return Item000;
-				case 1: return Item001;
-				case 2: return Item002;
-				case 3: return Item003;
 				case 4: return Item004;
 				case 5: return Item005;
 				case 6: return Item006;
 				case 7: return Item007;
-				default: throw new ArgumentOutOfRangeException("index");
+				default: return base.GetValue(index);
 			}
 		}
 
@@ -524,15 +514,11 @@ namespace Microsoft.Scripting
 		{
 			switch (index)
 			{
-				case 0: Item000 = (T0)value; break;
-				case 1: Item001 = (T1)value; break;
-				case 2: Item002 = (T2)value; break;
-				case 3: Item003 = (T3)value; break;
 				case 4: Item004 = (T4)value; break;
 				case 5: Item005 = (T5)value; break;
 				case 6: Item006 = (T6)value; break;
 				case 7: Item007 = (T7)value; break;
-				default: throw new ArgumentOutOfRangeException("index");
+				default: base.SetValue(index, value); break;
 			}
 		}
 
@@ -616,14 +602,6 @@ namespace Microsoft.Scripting
 		{
 			switch (index)
 			{
-				case 0: return Item000;
-				case 1: return Item001;
-				case 2: return Item002;
-				case 3: return Item003;
-				case 4: return Item004;
-				case 5: return Item005;
-				case 6: return Item006;
-				case 7: return Item007;
 				case 8: return Item008;
 				case 9: return Item009;
 				case 10: return Item010;
@@ -632,7 +610,7 @@ namespace Microsoft.Scripting
 				case 13: return Item013;
 				case 14: return Item014;
 				case 15: return Item015;
-				default: throw new ArgumentOutOfRangeException("index");
+				default: return base.GetValue(index);
 			}
 		}
 
@@ -643,14 +621,6 @@ namespace Microsoft.Scripting
 		{
 			switch (index)
 			{
-				case 0: Item000 = (T0)value; break;
-				case 1: Item001 = (T1)value; break;
-				case 2: Item002 = (T2)value; break;
-				case 3: Item003 = (T3)value; break;
-				case 4: Item004 = (T4)value; break;
-				case 5: Item005 = (T5)value; break;
-				case 6: Item006 = (T6)value; break;
-				case 7: Item007 = (T7)value; break;
 				case 8: Item008 = (T8)value; break;
 				case 9: Item009 = (T9)value; break;
 				case 10: Item010 = (T10)value; break;
@@ -659,7 +629,7 @@ namespace Microsoft.Scripting
 				case 13: Item013 = (T13)value; break;
 				case 14: Item014 = (T14)value; break;
 				case 15: Item015 = (T15)value; break;
-				default: throw new ArgumentOutOfRangeException("index");
+				default: base.SetValue(index, value); break;
 			}
 		}
 
@@ -800,22 +770,6 @@ namespace Microsoft.Scripting
 		{
 			switch (index)
 			{
-				case 0: return Item000;
-				case 1: return Item001;
-				case 2: return Item002;
-				case 3: return Item003;
-				case 4: return Item004;
-				case 5: return Item005;
-				case 6: return Item006;
-				case 7: return Item007;
-				case 8: return Item008;
-				case 9: return Item009;
-				case 10: return Item010;
-				case 11: return Item011;
-				case 12: return Item012;
-				case 13: return Item013;
-				case 14: return Item014;
-				case 15: return Item015;
 				case 16: return Item016;
 				case 17: return Item017;
 				case 18: return Item018;
@@ -832,7 +786,7 @@ namespace Microsoft.Scripting
 				case 29: return Item029;
 				case 30: return Item030;
 				case 31: return Item031;
-				default: throw new ArgumentOutOfRangeException("index");
+				default: return base.GetValue(index);
 			}
 		}
 
@@ -843,22 +797,6 @@ namespace Microsoft.Scripting
 		{
 			switch (index)
 			{
-				case 0: Item000 = (T0)value; break;
-				case 1: Item001 = (T1)value; break;
-				case 2: Item002 = (T2)value; break;
-				case 3: Item003 = (T3)value; break;
-				case 4: Item004 = (T4)value; break;
-				case 5: Item005 = (T5)value; break;
-				case 6: Item006 = (T6)value; break;
-				case 7: Item007 = (T7)value; break;
-				case 8: Item008 = (T8)value; break;
-				case 9: Item009 = (T9)value; break;
-				case 10: Item010 = (T10)value; break;
-				case 11: Item011 = (T11)value; break;
-				case 12: Item012 = (T12)value; break;
-				case 13: Item013 = (T13)value; break;
-				case 14: Item014 = (T14)value; break;
-				case 15: Item015 = (T15)value; break;
 				case 16: Item016 = (T16)value; break;
 				case 17: Item017 = (T17)value; break;
 				case 18: Item018 = (T18)value; break;
@@ -875,7 +813,7 @@ namespace Microsoft.Scripting
 				case 29: Item029 = (T29)value; break;
 				case 30: Item030 = (T30)value; break;
 				case 31: Item031 = (T31)value; break;
-				default: throw new ArgumentOutOfRangeException("index");
+				default: base.SetValue(index, value); break;
 			}
 		}
 
@@ -1128,38 +1066,6 @@ namespace Microsoft.Scripting
 		{
 			switch (index)
 			{
-				case 0: return Item000;
-				case 1: return Item001;
-				case 2: return Item002;
-				case 3: return Item003;
-				case 4: return Item004;
-				case 5: return Item005;
-				case 6: return Item006;
-				case 7: return Item007;
-				case 8: return Item008;
-				case 9: return Item009;
-				case 10: return Item010;
-				case 11: return Item011;
-				case 12: return Item012;
-				case 13: return Item013;
-				case 14: return Item014;
-				case 15: return Item015;
-				case 16: return Item016;
-				case 17: return Item017;
-				case 18: return Item018;
-				case 19: return Item019;
-				case 20: return Item020;
-				case 21: return Item021;
-				case 22: return Item022;
-				case 23: return Item023;
-				case 24: return Item024;
-				case 25: return Item025;
-				case 26: return Item026;
-				case 27: return Item027;
-				case 28: return Item028;
-				case 29: return Item029;
-				case 30: return Item030;
-				case 31: return Item031;
 				case 32: return Item032;
 				case 33: return Item033;
 				case 34: return Item034;
@@ -1192,7 +1098,7 @@ namespace Microsoft.Scripting
 				case 61: return Item061;
 				case 62: return Item062;
 				case 63: return Item063;
-				default: throw new ArgumentOutOfRangeException("index");
+				default: return base.GetValue(index);
 			}
 		}
 
@@ -1203,38 +1109,6 @@ namespace Microsoft.Scripting
 		{
 			switch (index)
 			{
-				case 0: Item000 = (T0)value; break;
-				case 1: Item001 = (T1)value; break;
-				case 2: Item002 = (T2)value; break;
-				case 3: Item003 = (T3)value; break;
-				case 4: Item004 = (T4)value; break;
-				case 5: Item005 = (T5)value; break;
-				case 6: Item006 = (T6)value; break;
-				case 7: Item007 = (T7)value; break;
-				case 8: Item008 = (T8)value; break;
-				case 9: Item009 = (T9)value; break;
-				case 10: Item010 = (T10)value; break;
-				case 11: Item011 = (T11)value; break;
-				case 12: Item012 = (T12)value; break;
-				case 13: Item013 = (T13)value; break;
-				case 14: Item014 = (T14)value; break;
-				case 15: Item015 = (T15)value; break;
-				case 16: Item016 = (T16)value; break;
-				case 17: Item017 = (T17)value; break;
-				case 18: Item018 = (T18)value; break;
-				case 19: Item019 = (T19)value; break;
-				case 20: Item020 = (T20)value; break;
-				case 21: Item021 = (T21)value; break;
-				case 22: Item022 = (T22)value; break;
-				case 23: Item023 = (T23)value; break;
-				case 24: Item024 = (T24)value; break;
-				case 25: Item025 = (T25)value; break;
-				case 26: Item026 = (T26)value; break;
-				case 27: Item027 = (T27)value; break;
-				case 28: Item028 = (T28)value; break;
-				case 29: Item029 = (T29)value; break;
-				case 30: Item030 = (T30)value; break;
-				case 31: Item031 = (T31)value; break;
 				case 32: Item032 = (T32)value; break;
 				case 33: Item033 = (T33)value; break;
 				case 34: Item034 = (T34)value; break;
@@ -1267,7 +1141,7 @@ namespace Microsoft.Scripting
 				case 61: Item061 = (T61)value; break;
 				case 62: Item062 = (T62)value; break;
 				case 63: Item063 = (T63)value; break;
-				default: throw new ArgumentOutOfRangeException("index");
+				default: base.SetValue(index, value); break;
 			}
 		}
 
@@ -1744,70 +1618,6 @@ namespace Microsoft.Scripting
 		{
 			switch (index)
 			{
-				case 0: return Item000;
-				case 1: return Item001;
-				case 2: return Item002;
-				case 3: return Item003;
-				case 4: return Item004;
-				case 5: return Item005;
-				case 6: return Item006;
-				case 7: return Item007;
-				case 8: return Item008;
-				case 9: return Item009;
-				case 10: return Item010;
-				case 11: return Item011;
-				case 12: return Item012;
-				case 13: return Item013;
-				case 14: return Item014;
-				case 15: return Item015;
-				case 16: return Item016;
-				case 17: return Item017;
-				case 18: return Item018;
-				case 19: return Item019;
-				case 20: return Item020;
-				case 21: return Item021;
-				case 22: return Item022;
-				case 23: return Item023;
-				case 24: return Item024;
-				case 25: return Item025;
-				case 26: return Item026;
-				case 27: return Item027;
-				case 28: return Item028;
-				case 29: return Item029;
-				case 30: return Item030;
-				case 31: return Item031;
-				case 32: return Item032;
-				case 33: return Item033;
-				case 34: return Item034;
-				case 35: return Item035;
-				case 36: return Item036;
-				case 37: return Item037;
-				case 38: return Item038;
-				case 39: return Item039;
-				case 40: return Item040;
-				case 41: return Item041;
-				case 42: return Item042;
-				case 43: return Item043;
-				case 44: return Item044;
-				case 45: return Item045;
-				case 46: return Item046;
-				case 47: return Item047;
-				case 48: return Item048;
-				case 49: return Item049;
-				case 50: return Item050;
-				case 51: return Item051;
-				case 52: return Item052;
-				case 53: return Item053;
-				case 54: return Item054;
-				case 55: return Item055;
-				case 56: return Item056;
-				case 57: return Item057;
-				case 58: return Item058;
-				case 59: return Item059;
-				case 60: return Item060;
-				case 61: return Item061;
-				case 62: return Item062;
-				case 63: return Item063;
 				case 64: return Item064;
 				case 65: return Item065;
 				case 66: return Item066;
@@ -1872,7 +1682,7 @@ namespace Microsoft.Scripting
 				case 125: return Item125;
 				case 126: return Item126;
 				case 127: return Item127;
-				default: throw new ArgumentOutOfRangeException("index");
+				default: return base.GetValue(index);
 			}
 		}
 
@@ -1883,70 +1693,6 @@ namespace Microsoft.Scripting
 		{
 			switch (index)
 			{
-				case 0: Item000 = (T0)value; break;
-				case 1: Item001 = (T1)value; break;
-				case 2: Item002 = (T2)value; break;
-				case 3: Item003 = (T3)value; break;
-				case 4: Item004 = (T4)value; break;
-				case 5: Item005 = (T5)value; break;
-				case 6: Item006 = (T6)value; break;
-				case 7: Item007 = (T7)value; break;
-				case 8: Item008 = (T8)value; break;
-				case 9: Item009 = (T9)value; break;
-				case 10: Item010 = (T10)value; break;
-				case 11: Item011 = (T11)value; break;
-				case 12: Item012 = (T12)value; break;
-				case 13: Item013 = (T13)value; break;
-				case 14: Item014 = (T14)value; break;
-				case 15: Item015 = (T15)value; break;
-				case 16: Item016 = (T16)value; break;
-				case 17: Item017 = (T17)value; break;
-				case 18: Item018 = (T18)value; break;
-				case 19: Item019 = (T19)value; break;
-				case 20: Item020 = (T20)value; break;
-				case 21: Item021 = (T21)value; break;
-				case 22: Item022 = (T22)value; break;
-				case 23: Item023 = (T23)value; break;
-				case 24: Item024 = (T24)value; break;
-				case 25: Item025 = (T25)value; break;
-				case 26: Item026 = (T26)value; break;
-				case 27: Item027 = (T27)value; break;
-				case 28: Item028 = (T28)value; break;
-				case 29: Item029 = (T29)value; break;
-				case 30: Item030 = (T30)value; break;
-				case 31: Item031 = (T31)value; break;
-				case 32: Item032 = (T32)value; break;
-				case 33: Item033 = (T33)value; break;
-				case 34: Item034 = (T34)value; break;
-				case 35: Item035 = (T35)value; break;
-				case 36: Item036 = (T36)value; break;
-				case 37: Item037 = (T37)value; break;
-				case 38: Item038 = (T38)value; break;
-				case 39: Item039 = (T39)value; break;
-				case 40: Item040 = (T40)value; break;
-				case 41: Item041 = (T41)value; break;
-				case 42: Item042 = (T42)value; break;
-				case 43: Item043 = (T43)value; break;
-				case 44: Item044 = (T44)value; break;
-				case 45: Item045 = (T45)value; break;
-				case 46: Item046 = (T46)value; break;
-				case 47: Item047 = (T47)value; break;
-				case 48: Item048 = (T48)value; break;
-				case 49: Item049 = (T49)value; break;
-				case 50: Item050 = (T50)value; break;
-				case 51: Item051 = (T51)value; break;
-				case 52: Item052 = (T52)value; break;
-				case 53: Item053 = (T53)value; break;
-				case 54: Item054 = (T54)value; break;
-				case 55: Item055 = (T55)value; break;
-				case 56: Item056 = (T56)value; break;
-				case 57: Item057 = (T57)value; break;
-				case 58: Item058 = (T58)value; break;
-				case 59: Item059 = (T59)value; break;
-				case 60: Item060 = (T60)value; break;
-				case 61: Item061 = (T61)value; break;
-				case 62: Item062 = (T62)value; break;
-				case 63: Item063 = (T63)value; break;
 				case 64: Item064 = (T64)value; break;
 				case 65: Item065 = (T65)value; break;
 				case 66: Item066 = (T66)value; break;
@@ -2011,7 +1757,7 @@ namespace Microsoft.Scripting
 				case 125: Item125 = (T125)value; break;
 				case 126: Item126 = (T126)value; break;
 				case 127: Item127 = (T127)value; break;
-				default: throw new ArgumentOutOfRangeException("index");
+				default: base.SetValue(index, value); break;
 			}
 		}
 

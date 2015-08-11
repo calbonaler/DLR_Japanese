@@ -32,7 +32,7 @@ namespace Microsoft.Scripting.Runtime
 		/// <summary>指定されたランタイム変数と名前を使用して、<see cref="Microsoft.Scripting.Runtime.LocalsDictionary"/> クラスの新しいインスタンスを初期化します。</summary>
 		/// <param name="locals">ローカル変数の値を格納するランタイム変数を指定します。</param>
 		/// <param name="symbols">ローカル変数の名前を表す <see cref="SymbolId"/> の配列を指定します。</param>
-		public LocalsDictionary(IRuntimeVariables locals, SymbolId[] symbols)
+		public LocalsDictionary(IRuntimeVariables locals, IEnumerable<SymbolId> symbols)
 		{
 			Assert.NotNull(locals, symbols);
 			_locals = locals;

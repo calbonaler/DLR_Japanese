@@ -17,36 +17,34 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.Scripting.Debugging {
-    /// <summary>
-    /// Implements IRuntimeVariables in a way that preserves scoping within the lambda.
-    /// </summary>
-    internal class ScopedRuntimeVariables : IRuntimeVariables {
-        private readonly IList<VariableInfo> _variableInfos;
-        private readonly IRuntimeVariables _variables;
+namespace Microsoft.Scripting.Debugging
+{
+	/// <summary>ラムダ内のスコープ化を保存する方法で <see cref="IRuntimeVariables"/> を実装します。</summary>
+	class ScopedRuntimeVariables : IRuntimeVariables
+	{
+		readonly IList<VariableInfo> _variableInfos;
+		readonly IRuntimeVariables _variables;
 
-        internal ScopedRuntimeVariables(IList<VariableInfo> variableInfos, IRuntimeVariables variables) {
-            _variableInfos = variableInfos;
-            _variables = variables;
-        }
+		internal ScopedRuntimeVariables(IList<VariableInfo> variableInfos, IRuntimeVariables variables)
+		{
+			_variableInfos = variableInfos;
+			_variables = variables;
+		}
 
-        #region IRuntimeVariables
+		public int Count { get { return _variableInfos.Count; } }
 
-        public int Count {
-            get { return _variableInfos.Count; }
-        }
-
-        public object this[int index] {
-            get {
-                Debug.Assert(index < _variableInfos.Count);
-                return _variables[_variableInfos[index].GlobalIndex];
-            }
-            set {
-                Debug.Assert(index < _variableInfos.Count);
-                _variables[_variableInfos[index].GlobalIndex] = value;
-            }
-        }
-
-        #endregion
-    }
+		public object this[int index]
+		{
+			get
+			{
+				Debug.Assert(index < _variableInfos.Count);
+				return _variables[_variableInfos[index].GlobalIndex];
+			}
+			set
+			{
+				Debug.Assert(index < _variableInfos.Count);
+				_variables[_variableInfos[index].GlobalIndex] = value;
+			}
+		}
+	}
 }

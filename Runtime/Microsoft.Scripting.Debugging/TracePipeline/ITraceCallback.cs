@@ -14,19 +14,11 @@
  * ***************************************************************************/
 
 using System;
-using Microsoft.Scripting.Runtime;
-using Microsoft.Scripting.Utils;
 
-namespace Microsoft.Scripting.Debugging {
-    public interface ITraceCallback {
-        void OnTraceEvent(
-            TraceEventKind kind,
-            string name,
-            string sourceFileName,
-            SourceSpan sourceSpan,
-            Func<IAttributesCollection> scopeCallback,
-            object payload,
-            object customPayload
-        );
-    }
+namespace Microsoft.Scripting.Debugging
+{
+	public interface ITraceCallback
+	{
+		void OnTraceEvent(TraceEventKind kind, string name, string sourceFileName, SourceSpan sourceSpan, Func<IAttributesCollection> scopeCallback, object payload, object customPayload);
+	}
 }
